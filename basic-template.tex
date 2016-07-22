@@ -1,11 +1,14 @@
 \documentclass[12pt,a4paper]{article}
 \usepackage[margin=1.25in]{geometry}
-\usepackage{tipa}
-\usepackage[round]{natbib}
-\usepackage{graphicx}
-\usepackage{fancyhdr}
-\pagestyle{fancy}
-\usepackage{enumitem}
+\usepackage{fancyhdr} % fancy header
+\pagestyle{fancy} % so fancy
+\usepackage[russian,english]{babel} % for russian letters
+\usepackage{tipa} % for IPA symbols
+\usepackage[round]{natbib} % bibliography
+\usepackage{graphicx} % for importing graphics / figures
+\usepackage{booktabs} % publication-worthy tables
+\usepackage{adjustbox} % makes tables fit nicely on the page
+
 
 \lhead{Your NAME}
 \rhead{Basic \LaTeX Template}
@@ -22,6 +25,22 @@ This is a great template for basic simple things!
 \begin{verbatim}
 This is Verbatim Text
 \end{verbatim}
+
+\begin{table}[htbp]
+    \caption{What a Table!}
+  \centering
+  \begin{adjustbox}{width=.5\textwidth}
+    \begin{tabular}{lc}
+      \toprule
+      \textbf{Source} & \textbf{Word Count}\\
+      \midrule
+      Wikipedia & 6,074,668 \\
+      Electronic Book & 6,858 \\
+      \bottomrule
+    \end{tabular}
+    \label{table:cool_table}
+  \end{adjustbox}
+\end{table}
 
 \begin{itemize}
 
