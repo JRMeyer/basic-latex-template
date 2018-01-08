@@ -1,0 +1,116 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage[margin=1.25in]{geometry}
+\usepackage{fancyhdr} % fancy header
+\pagestyle{fancy} % so fancy
+\usepackage[russian,english]{babel} % for russian letters
+\usepackage{tipa} % for IPA symbols
+\usepackage[round]{natbib} % bibliography
+\usepackage{graphicx} % for importing graphics / figures
+\usepackage{booktabs} % publication-worthy tables
+\usepackage{adjustbox} % makes tables fit nicely on the page
+\usepackage{tikz}
+
+\def\checkmark{\tikz\fill[scale=0.5](0,.35)--(.25,0)--(1,.7)--(.25,.15)--cycle;}
+
+\lhead{Joshua MEYER}
+\rhead{Survey of Language Technologies in Central Asia}
+\cfoot{} %% make empty to get rid of the page number %% \cfoot{Page \thepage}
+\renewcommand{\footrulewidth}{0.4pt} %% this puts a fancy line at the footer
+
+
+\begin{document}
+
+
+\section{Introduction}
+
+There exist two main kinds of language technology: tools for (1) text processing and (2) audio processing.
+
+There are many applications of either of these, and most audio processing requires text processing as well.
+
+\begin{enumerate}
+\item Text Processing
+  \begin{enumerate}
+  \item Spell-check (Microsoft Word)
+  \item Word prediction (Smartphones)
+  \item Part of Speech tagging
+  \end{enumerate}
+
+\item Audio Processing
+  \begin{enumerate}
+  \item Speech Recognition
+    \begin{enumerate}
+    \item Automatic subtitle generation (Youtube)
+    \item Telephone call transcription
+    \item Personal Assistant interaction (Siri, Ok Google)
+    \end{enumerate}
+
+  \item Speech Synthesis
+    \begin{enumerate}
+    \item Screen Readers (NVDA)
+    \item Automated phonecalls
+    \item Personal Assistant interaction (Siri, Ok Google)
+    \end{enumerate}
+    
+  \end{enumerate}
+
+\end{enumerate}
+
+
+\section{Existing Technologies}
+
+Given the millions of speakers of Central Asian languages, the current lack of language technologies is noticable.
+
+\begin{table}[htbp]
+    \caption{Current open-source language technologies}
+  \centering
+  \begin{adjustbox}{width=.95\textwidth}
+    \begin{tabular}{lccccc}
+      \toprule
+      \textbf & \multicolumn{2}{c}{\textbf{Speech Synthesis}} & \multicolumn{2}{c}{\textbf{Speech Recognition}} \\
+      \toprule
+      \textbf{Language} &  \textsc{eSpeak} &  \textsc{Merlin} & \textsc{CMU Sphinx} & \textsc{Kaldi}\\
+      \midrule
+      \textsc{Kyrgyz} & \checkmark & \checkmark & & \checkmark   \\
+      \textsc{Kazakh} & \checkmark & & \checkmark  \\
+      \textsc{Tajik} &  &  &  \\
+      \textsc{Tatar} & \checkmark &  & \\
+      \textsc{Turkmen} &  &  &  \\
+      \textsc{Uzbek} &  &  &  \\
+      \bottomrule
+    \end{tabular}
+    \label{table:cool_table}
+  \end{adjustbox}
+\end{table}
+
+
+
+\section{Missing Data}
+
+One of the main reasons for the lack of these speech technologies is that they require large collections of speech to be created, and those databases currently don't exist.
+
+Namely, there are three main kinds of speech which need to be collected and transcribed:
+
+\begin{enumerate}
+\item Television / Film data
+\item Telephone conversations
+\item Audiobooks
+\end{enumerate}
+
+For speech synthesis, the audiobooks are usually more easy to find (example for Kyrgyz: bizdin.kg). Here, even with 2 hours of speech we get decent results.
+
+However, the other two sources for speech recognition are more difficult to find and require more hours of audio. The standard models used in production for English use $2,000$ hours of audio.
+
+\section{Future Directions}
+
+To create any kind of decent speech technology, we need to collect those resources.
+
+Governments and universities have traditionally been helpful in this, but businesses have much to gain and can invest.
+
+
+
+
+\end{document}
+
+
+
+ 
