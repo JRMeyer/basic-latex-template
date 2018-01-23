@@ -100,10 +100,6 @@ The differences between the training and testing data will be (1) the recording 
 
 \subsection{Model Training Procedure}
 
-I investigate methods of neural net training with Multi-Task Learning (MTL).
-
-Typically, the tasks used in MTL are assumed to exist and be useful in some other application (e.g. POS tagging as an additional task to learn dependency parsing). However, a less common approach to MTL training is to create completely new tasks.
-
 This dissertation investigates the creation of new tasks for MTL, either using (1) linguist-expert knowledge, (2) ASR Engineer-expert knowledge, or (3) general Machine Learning knowledge.
 
 The latter two knowledge sources are useful for buidling acoustic models, but not much else. On the other hand, the final knowledge source (general machine learning concepts) can be applied to \textit{any} classification problem.
@@ -146,9 +142,6 @@ Each of these tasks will be added to a Baseline model. More specifically, the Ba
 
 When these experiments will be applied to each of the three audio conditions, we get the following 30 experiments:
 
-  
-
-
 \begin{table}[htbp]
   \centering
   \begin{adjustbox}{width=.95\textwidth}
@@ -179,6 +172,95 @@ When these experiments will be applied to each of the three audio conditions, we
   \caption{Experimental Setup}
   
 \end{table}
+
+
+\newpage
+
+\subsection{Task Creation Specifics}
+
+\begin{enumerate}
+\item \textsc{Ling}
+
+  All of the linguistic knowledge tasks view the phoneme as a bundle of features.
+
+  Using standard features from articulatory phonetics (voicing, place, and manner), the following tasks generate labels for each data point by collapsing the given phoneme labels along one of these three dimensions.
+
+  All information from one dimension is removed from the labeled data. This forces the classifier to rely on audio signal features which do not relate to that dimension. The DNN must project the input data into a new space for classification, using only information from the other two dimensions. 
+
+  
+  \begin{enumerate}
+  \item \textsc{voicing}
+
+    Voicing information is removed from the data labels.
+
+  \item \textsc{place}
+
+    All place information is removed from the data labels.
+    
+  \item \textsc{manner}
+    
+    All manner information is removed from the data labels.
+    
+  \end{enumerate}
+\item \textsc{ASR}
+
+  All the following tasks relate to the structure of the phonetic decision tree used in the traditional ASR pipeline to cluster context-dependent triphones. In GMM training the leaves of the decision tree are then assigned their own Gaussians, and in DNN training the same leaves are used as labels during training via backprop.
+
+  The main intuition behind these experiments is that in using the decision tree labels as targets for the DNN classifier, we are performing model transfer. The decision tree and it's associated Gaussians perform classification, and we are merely training a DNN to perform that same task. So, the decision tree can be thought of as a single task for the DNN to learn.
+
+  However, the DNN only sees the leaves of the decision tree. It doesn't see any of the branches, or any of its wonderful linguistic structure. So, in order to force the DNN to learn the information hidden in the decision tree, the following tasks are like cross-sections of the tree, slicing it from leaves up. The DNN then has to learn how to read these cross-sections, and how to map data onto each layer.
+
+  If we slice the tree at the roots, we have the \textsc{monophones}. If we slice down half-way (\textsc{1/2 triphones}), we have more contextual information than monophones but less than full triphones. If go a little farther down (\textsc{3/4 triphones}), we get even more context, but less general information about the original phoneme.
+  
+  \begin{enumerate}
+  \item monophones
+
+    When we chop the tree at the roots.
+    
+  \item 1/2 triphones
+
+    Chop the tree half-way down.
+    
+  \item 3/4 triphones
+
+    Chopping a little further.
+    
+  \end{enumerate}
+
+\item \textsc{ML}
+
+  The following tasks do not make use of any linguistic knowledge or any part of the ASR pipeline. The only things needed to perform these tasks is labeled data.
+
+  The two approaches above, leverage information about linguistics or ASR pipeline in order to force a DNN to learn structure about the data. The labeled data we want to classify is just a set of audio features and labels. These labels contain no information about how they might relate to each other, even if that information may be exploitable and useful for classification.
+
+  In the \textsc{Ling} and \textsc{ASR} sections, we are forcing the DNN to learn that phonemes have features or that certain contexts correlate to audio features.
+
+  However, a more interesting problem is how to learn this structure in a data set when we don't have that knowledge \textit{a priori}.
+
+  The following tasks force the DNN to learn structure in the data without any knowledge about that structure. In order to do so, I make the assumption that the data does in fact have heirarchical relations. That is, I assume the labels were made by something like a phonetic decision tree, and I try to recover its structure.
+  
+  \begin{enumerate}
+  \item k-means
+
+    Standard k-means on the data, with the caveat that labels cannot be split across clusters. A first round of clustering is performed, and then all data from the same original label are shifted to the cluster with the most data points from that label. Then, centroids are recalculated, and data is re-clustered. This adapated k-means should find related data points in the same clusters. If k-means is working, we would expect to be able to recover phonemes (monophones) from the labeled triphone data.
+    
+  \item random forest
+
+    In another attempt to cluster triphones along phonetic categories, the random forest procedure works as follows: (1) take a random subset of the labels, (2) train a random forest with all data points associated with those labels, (3) re-classify all the rest of the data with the new random forest. In this way, we will reduce the number of labels (eg. out of 2,000 triphone labels I choose 500), and classify unseen data as its closest seen data point.
+
+  \item bootstrapped resamples
+
+    In this approach, new labels are generated at all. The separate tasks for the DNN are just different samples of the data.
+
+    Some sub-samples may exhibit a more useful decision plane than others, and if we randomly subsample for multiple tasks, the different decision planes will all have something in common. The individual peculiarities of one sub-sample will have to be ignored for the DNN to perform well on all tasks.
+    
+  \end{enumerate}
+\end{enumerate}
+
+
+
+
+
 
 
 
