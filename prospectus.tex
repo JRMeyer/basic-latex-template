@@ -5,6 +5,7 @@
 \usepackage[round]{natbib} % bibliography
 \usepackage{graphicx} % for importing graphics / figures
 \usepackage{booktabs} % publication-worthy tables
+\usepackage{multirow}
 \usepackage{adjustbox} % makes tables fit nicely on the page
 
 
@@ -74,14 +75,15 @@ The differences between the training and testing data will be (1) the recording 
 
 \begin{table}[htbp]
   \centering
-  \begin{adjustbox}{width=.5\textwidth}
-    \begin{tabular}{lll}
+  \begin{adjustbox}{width=.75\textwidth}
+    \begin{tabular}{clcc}
       \toprule
-      & \textbf{Train} & \textbf{Test}\\
+      && \multicolumn{2}{c}{\textsc{Corpus}}\\
+      && \textbf{Train} & \textbf{Test}\\
       \midrule
-      \textbf{Noise} & TIDIGITS & Aurora 5 \\
-      \textbf{Speaker} & LibriSpeech-A & LibriSpeech-B \\
-      \textbf{Language} & LibriSpeech & Kyrgyz Audiobook \\
+      \multirow{3}{*}{\textsc{Audio Condition}} &\textbf{Noise} & TIDIGITS & Aurora 5 \\
+      &\textbf{Speaker} & LibriSpeech-A & LibriSpeech-B \\
+      &\textbf{Language} & LibriSpeech & Kyrgyz Audiobook \\
       \bottomrule
     \end{tabular}
     \label{table:data}
@@ -92,40 +94,86 @@ The differences between the training and testing data will be (1) the recording 
 \end{table}
 
 
+\subsection{Model Training Procedure}
 
-In particular, I will investigate methods of neural net training with Multi-Task Learning. Mutli-Task Learning has a long history of producting robust classifiers by learning representations of the data which are useful in performing all tasks (Caruna 1997).
+I investigate methods of neural net training with Multi-Task Learning (MTL).
 
-Typically, these tasks are assumed to exist and are useful in some other application (e.g. POS tagging and dependency parsing combined as two tasks). However, a less common approach is to create completely new tasks for the sake of Multi-Task Learning.
+Typically, the tasks used in MTL are assumed to exist and be useful in some other application (e.g. POS tagging as an additional task to learn dependency parsing). However, a less common approach to MTL training is to create completely new tasks.
 
-This dissertation investigates the creation of new tasks, either using linguist-expert knowledge, ASR Engineer-expert knowledge, or general machine learning concepts. The latter two genres of tasks can only be used in buidling acoustic models, but the final approach leveraging machine learning concepts could be applied to any classification problem on any dataset. For example, you can train an image classifier with the latter methods, but not with the former.
+This dissertation investigates the creation of new tasks for MTL, either using (1) linguist-expert knowledge, (2) ASR Engineer-expert knowledge, or (3) general Machine Learning knowledge.
 
+The latter two knowledge sources are useful for buidling acoustic models, but not much else. On the other hand, the final source of knowledge (general machine learning concepts) can be applied to any classification problem.
 
+The three knowledge sources will be abbreviated as such:
+  
 \begin{itemize}
-
-\item \textbf{Multi-task Learning}
-
-Ways to construct the mutliple tasks using:
-  
-  \begin{itemize}
-    
-  \item \textbf{Linguistic Knowledge}
-    
-  \begin{itemize}  
-  \item \textbf{Tasks == classification based on phonetic categories  \\ (e.g. vowels vs. consonants)}
-  \end{itemize}
-  
-  \item \textbf{Traditional Speech Recognition Pipeline}
-  \begin{itemize}  
-  \item \textbf{Tasks == classification based on phoneme classification tree \\ (e.g. monophones vs. triphones)}
-  \end{itemize}
-    
-  \item \textbf{General Machine Learning}
-  \begin{itemize}  
-  \item \textbf{Tasks == classification based on new labels \\ (e.g. from k-means; random forests) / data sub-sets (e.g. bootstrap resampling)}
-  \end{itemize}
-  \end{itemize}
-  
+\item  (\textsc{LING}) \textbf{Linguistic Knowledge} 
+\item (\textsc{ASR}) \textbf{Traditional Speech Recognition Pipeline}
+\item (\textsc{ML}) \textbf{General Machine Learning}
 \end{itemize}
+
+
+Each of these knowledge sources contains a wealth of ideas which could be used in MTL for acoustic modeling, and I will consolidate each knowledge source into three experiments. With three experiments for each knowledge source, my dissertation will contain nine (9) experimental conditions.
+
+Specifically, I will perform the following experiments:
+
+\begin{table}[htbp]
+  \centering
+  \begin{adjustbox}{width=.75\textwidth}
+    \begin{tabular}{cccc}
+      \toprule
+      & \multicolumn{3}{c}{\textsc{Knowledge Source}}\\
+      & \textbf{LING} & \textbf{ASR} & \textbf{ML}\\
+      \midrule
+      \multirow{3}{*}{\textsc{Experiments}} & voicing & monophones &  k-means \\
+      & place & $1/2$ triphones & random forests  \\
+      & manner & triphone variations &  bootstrapped resamples  \\
+      \bottomrule
+    \end{tabular}
+    \label{table:data}
+  \end{adjustbox}
+  
+  \caption{Experimental Setup}
+  
+\end{table}
+
+
+When these experiments will be applied to each of the three audio conditions, we get the following:
+
+  
+
+
+\begin{table}[htbp]
+  \centering
+  \begin{adjustbox}{width=.95\textwidth}
+    \begin{tabular}{ccclc}
+      \toprule
+      \textbf{Data Condition} & \textbf{Train Data} & \textbf{Test Data} & \textbf{MTL Training Tasks} & \textbf{Num. Exps} \\
+      \midrule
+      \multirow{4}{*}{\textsc{Noise}} & \multirow{4}{*}{\textsc{TIDIGITS}} & \multirow{4}{*}{\textsc{Aurora 5}} & Basline & 1\\
+      & & & Baseline + LING & 3   \\
+      & & & Baseline + ASR  & 3  \\
+      & & & Baseline + ML   & 3  \\
+      \midrule
+      \multirow{4}{*}{\textsc{Speaker}} & \multirow{4}{*}{\textsc{LibriSpeech-A}} & \multirow{4}{*}{\textsc{LibriSpeech-B}} & Baseline & 1 \\
+      & & & Baseline + LING & 3  \\
+      & & & Baseline + ASR  & 3  \\
+      & & & Baseline + ML   & 3  \\     \midrule
+      \multirow{4}{*}{\textsc{Language}} & & \multirow{4}{*}{\textsc{Kyrgyz-B}} & Baseline & 1\\
+      & \textsc{LibriSpeech +} & & Baseline + LING  & 3 \\
+      &  \textsc{Kyrgyz-A} & & Baseline + ASR   & 3 \\
+      & & & Baseline + ML & 3 \\
+      \midrule
+      &&&& 30\\
+      \bottomrule\\
+    \end{tabular}
+    \label{table:data}
+  \end{adjustbox}
+  
+  \caption{Experimental Setup}
+  
+\end{table}
+
 
 
 \end{document}
