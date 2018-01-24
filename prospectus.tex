@@ -127,7 +127,7 @@ Specifically, I will use the following concepts to create new tasks to be used i
       \midrule
       \multirow{3}{*}{\textsc{Experiments}} & voicing & monophones &  k-means \\
       & place & $1/2$ triphones & random forests  \\
-      & manner & triphone variations &  bootstrapped resamples  \\
+      & manner & $3/4$ triphones &  bootstrapped resamples  \\
       \bottomrule
     \end{tabular}
     \label{table:data}
@@ -250,7 +250,7 @@ When these experiments will be applied to each of the three audio conditions, we
 
   \item bootstrapped resamples
 
-    In this approach, new labels are generated at all. The separate tasks for the DNN are just different samples of the data.
+    In this approach, new labels are not generated at all. The separate tasks for the DNN are just different samples of the data.
 
     Some sub-samples may exhibit a more useful decision plane than others, and if we randomly subsample for multiple tasks, the different decision planes will all have something in common. The individual peculiarities of one sub-sample will have to be ignored for the DNN to perform well on all tasks.
     
