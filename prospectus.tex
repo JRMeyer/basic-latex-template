@@ -20,10 +20,19 @@
 
 \section{What I'm doing \& Why it's Extremely Cool}
 
-I'm creating Neural Nets which better classify data from unseen conditions, without any explicit adaptation of model parameters or data transformations.
+I'm creating Neural Nets which better classify data from unseen conditions, without any explicit adaptation of model parameters or data transformations. In my dissertation, the neural nets of interest are acoustic models for automatic speech recognition, and the unseen data conditions are \texttt{new noise}, a \texttt{new speaker}, or a \texttt{new language}.
 
-My approach is extremely cool because it doesn't require tons of data, it is not specific to some dataset, and it can be used to build any Neural Net (not just for speech recognition).
+My approach is extremely cool because it doesn't require tons of data, it is not specific to some dataset, and it can be used to train any Neural Net (not just for speech recognition).
 
+In the past people have dealt with new data by (1) adapting an existing model to the new data, or (2) normalizing the new data to look more like the old training data. More recently, Multi-Task Learning (MTL) has been found to produce models which are better at handling new data, because these models inherently learn more robust features which generalize to unseen domains. 
+
+MTL training for neural nets works by training a set of hidden layers to perform multiple tasks (multiple output layers). Here is an example of MTL architecture for a multi-lingual acoustic model from Heigold 2013.
+
+\begin{center}
+\includegraphics[width=.75\textwidth,keepaspectratio]{figs/heigold-2013-dnn-b.png}
+\end{center}
+
+In this dissertation (following the MTL tradition), each output softmax layer will be called a \texttt{Task}. In reality, a \texttt{Task} is better thought of as a set of \texttt{(data,label)} pairs, but for convienience I will refer to output layers as \texttt{Tasks}.
 
 \section{Overview of Speech Recognition}
 
@@ -69,12 +78,14 @@ This dissertation investigates training methods for acoustic modeling in the Neu
 
 I aim to produce acoustic models which perform better (i.e. lower Word Error Rates) on datasets which are not similar the original training dataset.
 
-I investiage the effectiveness of different tasks (eg. linguistic tasks vs machine learning tasks) in a Multi-task Learning framework.
+I investiage the effectiveness of different \texttt{Tasks} (eg. linguistic \texttt{Tasks} vs machine learning \texttt{Tasks}) in a Multi-task Learning framework.
 
 
 \subsection{Data}
 
-The differences between the training and testing data will be (1) the recording noise conditions, (2) who the speaker is, or (3) what language the speaker is using. The following table shows which data sets are used for each audio condition.
+I am creating acoustic models which generalize well to new data. To measure how well the models generalize, I use a set of speech corpora which exhibit some interesting differences between training and testing data. These differences between corpora exemplify the typical challenges faced in speech recognition generalization.
+
+The training and testing data will differ in either (1) the recording \texttt{noise} conditions, (2) who the \texttt{speaker} is, or (3) what \texttt{language} the speaker is using. The following table shows which data sets are used for each audio condition.
 
 
 \begin{table}[htbp]
@@ -102,7 +113,7 @@ The differences between the training and testing data will be (1) the recording 
 
 This dissertation investigates the creation of new tasks for MTL, either using (1) linguist-expert knowledge, (2) ASR Engineer-expert knowledge, or (3) general Machine Learning knowledge.
 
-The latter two knowledge sources are useful for buidling acoustic models, but not much else. On the other hand, the final knowledge source (general machine learning concepts) can be applied to \textit{any} classification problem.
+The former two knowledge sources are useful for buidling acoustic models, but not much else. On the other hand, the final knowledge source (general machine learning concepts) can be applied to \textit{any} classification problem.
 
 The three knowledge sources will be abbreviated as such:
   
