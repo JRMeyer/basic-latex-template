@@ -20,20 +20,29 @@
 
 \section{What I'm doing \& Why it's Extremely Cool}
 
-I'm creating Neural Nets which better classify data from unseen conditions, without any explicit adaptation of model parameters or data transformations. In my dissertation, the neural nets of interest are acoustic models for automatic speech recognition, and the unseen data conditions are \texttt{new noise}, a \texttt{new speaker}, or a \texttt{new language}.
+I'm creating Neural Nets which better classify data from unseen conditions, without any explicit adaptation of model parameters or data transformations. In my dissertation, the neural nets of interest are acoustic models for automatic speech recognition, and the unseen data conditions are (1) \texttt{new noise}, (2) a \texttt{new speaker}, or (3) a \texttt{new language}. For each of these three cases, I have two conditions of data. I train the model on one data condition, and then test the on other.
 
+\begin{enumerate}
+  
+\item For the \texttt{Noise} condition, I train on clean audio and test on noisy audio.
+\item For the \texttt{Speaker} condition, I train on a set of speakers, and I test on an unseen speaker.
+\item For the \texttt{Language} condition, I train on (mostly) English, and I test exclusively on Kyrgyz. I must include \textit{some} Kyrgyz in training because the DNN+HMM pipeline requires the testing phonemes defined in the model.  
+  
+\end{enumerate}
+    
 My approach is extremely cool because it doesn't require tons of data, it is not specific to some dataset, and it can be used to train any Neural Net (not just for speech recognition).
 
 In the past people have dealt with new data by (1) adapting an existing model to the new data, or (2) normalizing the new data to look more like the old training data. More recently, Multi-Task Learning (MTL) has been found to produce models which are better at handling new data, because these models inherently learn more robust features which generalize to unseen domains. 
 
-MTL training for neural nets works by training a set of hidden layers to perform multiple tasks (multiple output layers). Here is an example of MTL architecture for a multi-lingual acoustic model from Heigold 2013.
+MTL training for neural nets works by training a set of hidden layers to perform multiple tasks (multiple output layers). Here is an example of MTL architecture for an acoustic model from Heigold 2013.
 
 \begin{center}
 \includegraphics[width=.85\textwidth,keepaspectratio]{figs/heigold-2013-dnn-c.png}
 \end{center}
 
-In this dissertation (following the MTL tradition), each output softmax layer will be called a \texttt{Task}. In reality, a \texttt{Task} is better thought of as a set of \texttt{(data,label)} pairs, but for convienience I will refer to output layers as \texttt{Tasks}.
+This is the same architecture that will be used in my dissertation, but obviously I will have more layers and more nodes per layer. The number of input nodes on my neural nets corresponds to the dimensionality of audio features, and the number of nodes on each output layer corresponds to the number of phonemes (i.e. monophones or triphones) I've defined for the language.
 
+In this dissertation (following the MTL tradition), each output softmax layer will be referred to as a \texttt{Task}.
 \section{Overview of Speech Recognition}
 
 This section contains an overview of the training and testing procedures for standard automatic speech recognition (ASR) pipelines. The overview will provide the reader with a technical grounding in ASR, so that the rest of the dissertation will have some point of reference. 
