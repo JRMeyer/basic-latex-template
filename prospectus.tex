@@ -234,6 +234,90 @@ During testing, \textit{only one} of the \texttt{Tasks} is used. The additional 
 
     Voicing information is removed from the data labels.
 
+    Speaker Robustness Experiments: The training data is a 4.5 hour subset of Librispeech, with mixed speakers, men and women. The testing data is 30 minutes of speech from two speakers (one man one woman).
+
+    First, two separate GMM-HMM models are trained on the training data. The first GMM-HMM model uses the standard CMUDict phoneset (39 phones + stress variants).
+
+
+\begin{table}[htbp]
+  \centering
+  \begin{adjustbox}{width=.5\textwidth}
+    \begin{tabular}{lll}
+      \toprule
+      \textbf{Phoneme} & \textbf{Example} & \textbf{Translation} \\
+      \midrule
+      \texttt{AA} &	odd  &   AA D \\
+      \texttt{AE} &	at &	AE T \\
+      \texttt{AH} &	hut &	HH AH T \\ 
+      \texttt{AO} &	ought &	AO T \\ 
+      \texttt{AW} &	cow	 & K AW \\
+      \texttt{AY} &	hide &	HH AY D \\
+      \texttt{B} & 	be	& B IY \\
+      \texttt{CH} &	cheese	& CH IY Z \\
+      \texttt{D} & 	dee	& D IY \\
+      \texttt{DH} &	thee	& DH IY \\
+      \texttt{EH} &	Ed	& EH D \\
+      \texttt{ER} &	hurt	& HH ER T \\
+      \texttt{EY} &	ate	& EY T \\
+      \texttt{F} & 	fee	& F IY \\
+      \texttt{G} & 	green	& G R IY N \\
+      \texttt{HH} &	he	& HH IY \\
+      \texttt{IH} &	it	& IH T \\
+      \texttt{IY} &	eat	& IY T \\
+      \texttt{JH} &	gee	& JH IY \\
+      \texttt{K} & 	key	& K IY \\
+      \texttt{L} & 	lee	& L IY \\
+      \texttt{M} & 	me	& M IY \\
+      \texttt{N} & 	knee	& N IY \\
+      \texttt{NG} &	ping	& P IH NG \\
+      \texttt{OW} &	oat	& OW T \\
+      \texttt{OY} &	toy	& T OY \\
+      \texttt{P} & 	pee	& P IY \\
+      \texttt{R} & 	read	& R IY D \\
+      \texttt{S} & 	sea	& S IY \\
+      \texttt{SH} &	she	& SH IY \\
+      \texttt{T} & 	tea	& T IY \\
+      \texttt{TH} &	theta	& TH EY T AH \\
+      \texttt{UH} &	hood	& HH UH D \\
+      \texttt{UW} &	two	& T UW \\
+      \texttt{V} & 	vee	& V IY \\
+      \texttt{W} &	we	& W IY \\
+      \texttt{Y} &	yield	& Y IY L D \\
+      \texttt{Z} &	zee	& Z IY \\
+      \texttt{ZH} &	seizure	& S IY ZH ER \\
+      \bottomrule
+    \end{tabular}
+    \label{table:data}
+  \end{adjustbox}
+  \caption{CMUDict Phoneset}
+\end{table}
+
+
+    From this standard phoneset, the normal 3-state monophones are trained from a flat-start via EM training. A total of XXX states are trained with a total of XXX Gaussian components over XXX iterations of EM. These monophones are then expanded into context-dependent triphones via a phonetic decision tree, with a maximum of XXX leaves. The resulting leaves (state clusters) are then trained with XXX Gaussian components over XXX iterations of EM. The final model acheives a WER of XXX on the testing data.
+
+    The second GMM-HMM model trained differs from the first model in its set of initial phones. Instead of building monophones (and then triphones) from the standard CMUDict, this \texttt{-Voicing} model collapsed all voicing information from the phonetic dictionary (i.e. the lexicon file).
+
+
+\begin{verbatim}
+B P   --> P
+CH JH --> CH
+D T   --> T
+DH TH --> TH
+F V   --> F
+G K   --> G
+S Z   --> S
+SH ZH --> SH
+
+sed -Ei "s/B/P/g" filename
+sed -Ei "s/JH/CH/g" filename
+sed -Ei "s/D/T/g" filename # gets DH-->TH as well
+sed -Ei "s/F/V/g" filename
+sed -Ei "s/K/G/g" filename # avoiding G-->K because of NG
+sed -Ei "s/Z/S/g" filename # gets SH-->ZH as well
+\end{verbatim}
+    
+
+    
   \item \textsc{place}
 
     All place information is removed from the data labels.
@@ -369,4 +453,8 @@ During testing, \textit{only one} of the \texttt{Tasks} is used. The additional 
 
 
 
- 
+
+
+%% CMUDict: used for Librispeech
+
+
