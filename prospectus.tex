@@ -43,6 +43,8 @@ MTL training for neural nets works by training a set of hidden layers to perform
 This is the same architecture that will be used in my dissertation, but obviously I will have more layers and more nodes per layer. The number of input nodes on my neural nets corresponds to the dimensionality of audio features, and the number of nodes on each output layer corresponds to the number of phonemes (i.e. monophones or triphones) I've defined for the language.
 
 In this dissertation (following the MTL tradition), each output softmax layer will be referred to as a \texttt{Task}.
+
+
 \section{Overview of Speech Recognition}
 
 This section contains an overview of the training and testing procedures for standard automatic speech recognition (ASR) pipelines. The overview will provide the reader with a technical grounding in ASR, so that the rest of the dissertation will have some point of reference. 
@@ -57,6 +59,15 @@ This section contains an overview of the training and testing procedures for sta
 \item \textbf{end-to-end Neural Nets}
 
 \end{itemize}
+
+\section{Overview of Multi-Task Learning}
+
+A task (in classification) is a set of (data,label) pairs.
+
+Most machine learning training uses single-task learning (e.g. classifying an image as a digit [0-9].
+
+In Mutli-Task learning, we learn multiple tasks which share useful information. An example of a non-useful auxillary task is classifying a number as greater or less than 7, when the main task is to identify the identity of a single digit.
+
 
 
 \section{Background Literature}
@@ -307,13 +318,6 @@ F V   --> F
 G K   --> G
 S Z   --> S
 SH ZH --> SH
-
-sed -Ei "s/B/P/g" filename
-sed -Ei "s/JH/CH/g" filename
-sed -Ei "s/D/T/g" filename # gets DH-->TH as well
-sed -Ei "s/F/V/g" filename
-sed -Ei "s/K/G/g" filename # avoiding G-->K because of NG
-sed -Ei "s/Z/S/g" filename # gets SH-->ZH as well
 \end{verbatim}
     
 
@@ -321,11 +325,32 @@ sed -Ei "s/Z/S/g" filename # gets SH-->ZH as well
   \item \textsc{place}
 
     All place information is removed from the data labels.
-    
+
+\begin{verbatim}  
+F TH SH S HH --> F        voiceless fricatives
+V DH Z ZH    --> V        voiced fricatives
+P T K        --> P        voiceless plosives    
+B D G        --> B        voiced plosives
+M N NG       --> N        voiced nasal
+L R          --> R        voiced laterals
+Y W          --> Y        voiced approximants
+\end{verbatim}      
+ 
   \item \textsc{manner}
     
     All manner information is removed from the data labels.
-    
+
+\begin{verbatim}
+B M V W --> W          voiced labials
+P F     --> P          voiceless labials
+D Z     --> D          voiced alveolar
+N L R   --> R          voiced alveolar2
+T S     --> T          voiceless alveolar
+ZH JH   --> JH         voiced postalveolar
+SH CH   --> CH         voiceless postalveolar
+NG G    --> G          voiced velar
+\end{verbatim}
+
   \end{enumerate}
 
 

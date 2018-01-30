@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017/Debian) (preloaded format=pdflatex 2018.1.22)  29 JAN 2018 05:47
+This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017/Debian) (preloaded format=pdflatex 2018.1.22)  30 JAN 2018 10:10
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -306,95 +306,95 @@ e 40.
 [1{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}
 
  <./figs/heigold-2013-dnn-c.png>]
-LaTeX Font Info:    Try loading font information for OMS+cmr on input line 53.
+LaTeX Font Info:    Try loading font information for OMS+cmr on input line 55.
  (/usr/share/texlive/texmf-dist/tex/latex/base/omscmr.fd
 File: omscmr.fd 2014/09/29 v2.5h Standard LaTeX font definitions
 )
 LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <10> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 53.
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 55.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <7> on input line 103.
+(Font)              <7> on input line 114.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <5> on input line 103.
+(Font)              <5> on input line 114.
  [2] [3]
 <figs/mtl-arch-baseline.png, id=23, 632.3625pt x 681.54625pt>
 File: figs/mtl-arch-baseline.png Graphic file (type png)
 <use figs/mtl-arch-baseline.png>
-Package pdftex.def Info: figs/mtl-arch-baseline.png  used on input line 215. on
- input line 215.
+Package pdftex.def Info: figs/mtl-arch-baseline.png  used on input line 226. on
+ input line 226.
 Package pdftex.def Info: Requested size: 275.11122pt x 296.51183pt on input lin
-e 215.
+e 226.
 
-[4 <./figs/mtl-arch-baseline.png>]
-<figs/mtl-arch-voicing.png, id=28, 632.3625pt x 681.54625pt>
+[4] [5 <./figs/mtl-arch-baseline.png>] [6]
+<figs/mtl-arch-voicing.png, id=34, 632.3625pt x 681.54625pt>
 File: figs/mtl-arch-voicing.png Graphic file (type png)
 <use figs/mtl-arch-voicing.png>
-Package pdftex.def Info: figs/mtl-arch-voicing.png  used on input line 334. on 
-input line 334.
+Package pdftex.def Info: figs/mtl-arch-voicing.png  used on input line 359. on 
+input line 359.
 Package pdftex.def Info: Requested size: 133.38957pt x 143.7633pt on input line
- 334.
-<figs/mtl-arch-place.png, id=29, 632.3625pt x 681.54625pt>
+ 359.
+<figs/mtl-arch-place.png, id=35, 632.3625pt x 681.54625pt>
 File: figs/mtl-arch-place.png Graphic file (type png)
 <use figs/mtl-arch-place.png>
-Package pdftex.def Info: figs/mtl-arch-place.png  used on input line 338. on in
-put line 338.
+Package pdftex.def Info: figs/mtl-arch-place.png  used on input line 363. on in
+put line 363.
 Package pdftex.def Info: Requested size: 133.38957pt x 143.7633pt on input line
- 338.
-<figs/mtl-arch-manner.png, id=30, 632.3625pt x 681.54625pt>
+ 363.
+<figs/mtl-arch-manner.png, id=36, 632.3625pt x 681.54625pt>
 File: figs/mtl-arch-manner.png Graphic file (type png)
 <use figs/mtl-arch-manner.png>
-Package pdftex.def Info: figs/mtl-arch-manner.png  used on input line 342. on i
-nput line 342.
+Package pdftex.def Info: figs/mtl-arch-manner.png  used on input line 367. on i
+nput line 367.
 Package pdftex.def Info: Requested size: 133.38957pt x 143.7633pt on input line
- 342.
- [5] [6]
-<figs/mtl-arch-mono.png, id=37, 632.3625pt x 681.54625pt>
-File: figs/mtl-arch-mono.png Graphic file (type png)
-<use figs/mtl-arch-mono.png>
-Package pdftex.def Info: figs/mtl-arch-mono.png  used on input line 381. on inp
-ut line 381.
-Package pdftex.def Info: Requested size: 133.38957pt x 143.7633pt on input line
- 381.
-<figs/mtl-arch-halfTri.png, id=38, 632.3625pt x 681.54625pt>
-File: figs/mtl-arch-halfTri.png Graphic file (type png)
-<use figs/mtl-arch-halfTri.png>
-Package pdftex.def Info: figs/mtl-arch-halfTri.png  used on input line 385. on 
-input line 385.
-Package pdftex.def Info: Requested size: 133.38957pt x 143.7633pt on input line
- 385.
-<figs/mtl-arch-3QuarterTri.png, id=39, 632.3625pt x 681.54625pt>
-File: figs/mtl-arch-3QuarterTri.png Graphic file (type png)
-<use figs/mtl-arch-3QuarterTri.png>
-Package pdftex.def Info: figs/mtl-arch-3QuarterTri.png  used on input line 389.
- on input line 389.
-Package pdftex.def Info: Requested size: 133.38957pt x 143.7633pt on input line
- 389.
+ 367.
  [7 <./figs/mtl-arch-voicing.png> <./figs/mtl-arch-place.png> <./figs/mtl-arch-
 manner.png>]
-<figs/mtl-arch-kMeans.png, id=47, 632.3625pt x 681.54625pt>
+<figs/mtl-arch-mono.png, id=44, 632.3625pt x 681.54625pt>
+File: figs/mtl-arch-mono.png Graphic file (type png)
+<use figs/mtl-arch-mono.png>
+Package pdftex.def Info: figs/mtl-arch-mono.png  used on input line 406. on inp
+ut line 406.
+Package pdftex.def Info: Requested size: 133.38957pt x 143.7633pt on input line
+ 406.
+<figs/mtl-arch-halfTri.png, id=45, 632.3625pt x 681.54625pt>
+File: figs/mtl-arch-halfTri.png Graphic file (type png)
+<use figs/mtl-arch-halfTri.png>
+Package pdftex.def Info: figs/mtl-arch-halfTri.png  used on input line 410. on 
+input line 410.
+Package pdftex.def Info: Requested size: 133.38957pt x 143.7633pt on input line
+ 410.
+<figs/mtl-arch-3QuarterTri.png, id=46, 632.3625pt x 681.54625pt>
+File: figs/mtl-arch-3QuarterTri.png Graphic file (type png)
+<use figs/mtl-arch-3QuarterTri.png>
+Package pdftex.def Info: figs/mtl-arch-3QuarterTri.png  used on input line 414.
+ on input line 414.
+Package pdftex.def Info: Requested size: 133.38957pt x 143.7633pt on input line
+ 414.
+ [8 <./figs/mtl-arch-mono.png> <./figs/mtl-arch-halfTri.png> <./figs/mtl-arch-3
+QuarterTri.png>]
+<figs/mtl-arch-kMeans.png, id=53, 632.3625pt x 681.54625pt>
 File: figs/mtl-arch-kMeans.png Graphic file (type png)
 <use figs/mtl-arch-kMeans.png>
-Package pdftex.def Info: figs/mtl-arch-kMeans.png  used on input line 426. on i
-nput line 426.
+Package pdftex.def Info: figs/mtl-arch-kMeans.png  used on input line 451. on i
+nput line 451.
 Package pdftex.def Info: Requested size: 133.38957pt x 143.7633pt on input line
- 426.
-<figs/mtl-arch-forest.png, id=48, 632.3625pt x 681.54625pt>
+ 451.
+<figs/mtl-arch-forest.png, id=54, 632.3625pt x 681.54625pt>
 File: figs/mtl-arch-forest.png Graphic file (type png)
 <use figs/mtl-arch-forest.png>
-Package pdftex.def Info: figs/mtl-arch-forest.png  used on input line 430. on i
-nput line 430.
+Package pdftex.def Info: figs/mtl-arch-forest.png  used on input line 455. on i
+nput line 455.
 Package pdftex.def Info: Requested size: 133.38957pt x 143.7633pt on input line
- 430.
-<figs/mtl-arch-resampled.png, id=49, 632.3625pt x 681.54625pt>
+ 455.
+<figs/mtl-arch-resampled.png, id=55, 632.3625pt x 681.54625pt>
 File: figs/mtl-arch-resampled.png Graphic file (type png)
 <use figs/mtl-arch-resampled.png>
-Package pdftex.def Info: figs/mtl-arch-resampled.png  used on input line 434. o
-n input line 434.
+Package pdftex.def Info: figs/mtl-arch-resampled.png  used on input line 459. o
+n input line 459.
 Package pdftex.def Info: Requested size: 133.38957pt x 143.7633pt on input line
- 434.
- [8 <./figs/mtl-arch-mono.png> <./figs/mtl-arch-halfTri.png> <./figs/mtl-arch-3
-QuarterTri.png>] [9 <./figs/mtl-arch-kMeans.png> <./figs/mtl-arch-forest.png> <
-./figs/mtl-arch-resampled.png>] (./prospectus.aux)
+ 459.
+ [9 <./figs/mtl-arch-kMeans.png> <./figs/mtl-arch-forest.png> <./figs/mtl-arch-
+resampled.png>] (./prospectus.aux)
 
 LaTeX Warning: There were multiply-defined labels.
 
@@ -402,7 +402,7 @@ LaTeX Warning: There were multiply-defined labels.
 Here is how much of TeX's memory you used:
  3283 strings out of 492990
  48179 string characters out of 6135005
- 128653 words of memory out of 5000000
+ 129653 words of memory out of 5000000
  6778 multiletter control sequences out of 15000+600000
  5973 words of font info for 22 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
@@ -415,7 +415,7 @@ exmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texlive/texmf-di
 st/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texlive/texmf-dist/fon
 ts/type1/public/amsfonts/cm/cmti10.pfb></usr/share/texlive/texmf-dist/fonts/typ
 e1/public/amsfonts/cm/cmtt10.pfb>
-Output written on prospectus.pdf (9 pages, 403561 bytes).
+Output written on prospectus.pdf (9 pages, 404424 bytes).
 PDF statistics:
  89 PDF objects out of 1000 (max. 8388607)
  47 compressed objects within 1 object stream
