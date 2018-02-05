@@ -18,9 +18,15 @@
 \begin{document}
 
 
-\section{What I'm doing \& Why it's Extremely Cool}
+\section{Goals \& Import of Dissertation}
 
-I'm creating Neural Nets which better classify data from unseen conditions, without any explicit adaptation of model parameters or data transformations. In my dissertation, the neural nets of interest are acoustic models for automatic speech recognition, and the unseen data conditions are (1) \texttt{new noise}, (2) a \texttt{new speaker}, or (3) a \texttt{new language}. For each of these three cases, I have two conditions of data. I train the model on one data condition, and then test the on other.
+The main goal of this dissertation is to develop training methods for neural networks which lead to better classification of data from unseen conditions. This dissertation falls into the category of research on model generalization and model robustness. In particular, this work focuses on small data sets, where traditional neural net training lead to overfitting.
+
+Using the framework of Multi-Task Learning, I train a single neural net to classify data with several labels, encouraging the hidden layers to learn generic, useful represetations of the data. This is accomplished without any explicit adaptation of model parameters or data transformations.
+
+In the past people have dealt with new data by (1) adapting an existing model to the new data, or (2) normalizing the new data to look more like the old training data. More recently, Multi-Task Learning (MTL) has been found to produce models which are better at handling new data, because these models inherently learn more robust features which generalize to unseen domains. 
+
+In the following, the neural nets of interest are acoustic models for automatic speech recognition, and the unseen data conditions are (1) \texttt{new noise}, (2) a \texttt{new speaker}, or (3) a \texttt{new language}. For each of these three cases, I have two conditions of data. I train the model on one data condition, and then test the on other.
 
 \begin{enumerate}
   
@@ -30,15 +36,15 @@ I'm creating Neural Nets which better classify data from unseen conditions, with
   
 \end{enumerate}
     
-My approach is extremely cool because it doesn't require tons of data, it is not specific to some dataset, and it can be used to train any Neural Net (not just for speech recognition).
-
-In the past people have dealt with new data by (1) adapting an existing model to the new data, or (2) normalizing the new data to look more like the old training data. More recently, Multi-Task Learning (MTL) has been found to produce models which are better at handling new data, because these models inherently learn more robust features which generalize to unseen domains. 
+My approach is innovative because it doesn't require massive data sets, as some other popular reseach labs have done (Google, Firefox, Baidu, Microsoft, etc). Further more, my approach is not specific to any one dataset, and it can be used to train any neural net (not just for speech recognition).
 
 MTL training for neural nets works by training a set of hidden layers to perform multiple tasks (multiple output layers). Here is an example of MTL architecture for an acoustic model from Heigold 2013.
 
 \begin{center}
 \includegraphics[width=.85\textwidth,keepaspectratio]{figs/heigold-2013-dnn-c.png}
 \end{center}
+
+During training all \texttt{Tasks} are trained in unison, but during testing I only use \texttt{Task A} to decode new audio. The only benefit from these extra tasks comes from the training phase, and their influence on the shared hidden layers.
 
 This is the same architecture that will be used in my dissertation, but obviously I will have more layers and more nodes per layer. The number of input nodes on my neural nets corresponds to the dimensionality of audio features, and the number of nodes on each output layer corresponds to the number of phonemes (i.e. monophones or triphones) I've defined for the language.
 
@@ -49,16 +55,49 @@ In this dissertation (following the MTL tradition), each output softmax layer wi
 
 This section contains an overview of the training and testing procedures for standard automatic speech recognition (ASR) pipelines. The overview will provide the reader with a technical grounding in ASR, so that the rest of the dissertation will have some point of reference. 
 
+\subsection{From DARPA to Siri: some historical context}
 
-\begin{itemize}
+These three vains of ASR research all exist in some historical context, and it is insightful to compare them as such. 
 
-\item \textbf{Gaussians + HMMs}
+\subsubsection{Isolated Word Systems}
+Most of the early work on ASR in the 50's and 60's focused on isolated word, speaker-dependent speech recognition. The typical use case was a single adult male carefully reading off single digits [0-9] into a microphone. One of the very first demonstrations reported accuracy rates of up to 99\% on isolated digit recognition \cite{davis1952automatic}. It may sound like speech recognition research was off to a great start with Word Error Rates (WER) so low, but in truth the approach taken in much of this early work could not be extended further. These approaches relied on acoustic properties of vowels in a pattern-matching scheme which requires a representation of each word in the vocabulary saved on disk. This line of work was lead by research labs in telecommunications companies like Bell Labs and NEC Corporation (a Japanese technology giant), and also more academic labs like MIT Lincoln Labs.
+
+Speech research soon was boosted into full gear when in 1971, the Advanced Research Program Agency (ARPA) of the US Department of Defense launched the 5-year Spoken Understanding Research Program. The goal of the program was to ``obtain a breakthrough in speech understanding capability that could then be used toward the development of practical man-machine communication systems.'' \cite{klatt1977} The contestants were given the task of creating a system which could recognize a vocabulary of 1000 words with a 10\% WER in reasonable time. The research was funded by the US Military, and as such all the target tasks were relevant to military operations \cite{juang2005automatic}. A team at Carnegie Mellon showed best promise with their `Harpy' system, but given how slow it was, DARPA was disappointed and halted the program.
+ 
+Given that command and control was the target application, isolated words were a logical choice for the unit of recognition. The user said one word, and the decoder compared that word to all the words it had stored on disc, and returned the closest match. This assumes the user actually said a word in the machine's vocabulary, and so each user was trained to work with the machine, and the machine was trained to work with each user. By modern standards, these recognizers were not flexible. However, what these recognizers lacked in flexibility they gained in accuracy. There was no guessing which word was spoken, given all words in the English language. There was no guessing how many words were spoken either, because the user was trained to say one word at a time. Furthermore, there was no real issue of noise conditions, because recording and testing would be done in the same place. There was no worry about microphone robustness or sampling-rate issues, because the creators knew exactly beforehand what hardware the recognizer ran on. All these problems current ASR research faces were unknown to these early researchers, and their approach was simple, and efficient. This was pattern-matching at its finest. The computer stored a representation of each word in its vocabulary, and given new input from the user, the input was checked against all exemplars in the system.
+
+This approach worked just fine until users wanted more. Users wanted something more human-like. First of all, training the recognizer to work for every new user was a hassle. We humans don't need to relearn every word in our language when we meet someone new, but these machines did. We humans can understand our friends when we're in an echoey factory or in a small room, but these machines couldn't.
+
+Also, speaking slowly and carefully only one word at a time was a pain. Humans don't do that. In our story today, this is the complaint most relevant to us.
+
+\subsubsection{Continuous Speech Systems and the phoneme}
+
+In order to make a recognizer that could handle a string of words, where the length of that string was unknown to the system, major overhauls of the Isolated Word system were needed.
+
+First of all, the acoustics of the words themselves vary drastically in continuous speech. In isolated systems, every word is preceded by silence and succeded by silence. This padding is great for pattern recognition, because the edges of words will be pretty stable, acoustically. When it comes to continuous speech, however, word beginings can be preceded by the tail end of the previous word. As a result, the acoustics of both words become distorted. This distortion is called co-articulation, and it causes the edge sounds to blend together.
+
+It is clear that storing exemplars of words on disc is not an option with continuous speech systems. A system which can recognize 100 words in isolation never has to worry about variants of sounds. That system merely needs to account for the length of sounds, not whether or not their acoustics change. If we want that same system to handle strings of up to three words (e.g. ``one two three''), it should ideally store a version of each word in every possible context. That would mean 100 words with 101 preceding contexts and 101 suceeding contexts (where silence is also a context). So, we've gone from needing to store a mere 100 words to storing over a million. The decoding speed would be horrendous, the space used on disk would be prohibitive, not to mention the time needed by the user to record all those contexts!
+
+Modeling whole words became an obvious bottleneck to recognition of continuous speech. This is where linguistics came on the scene in the engineering world with the phoneme.
+
+The phoneme is really just a fancy Greek word to mean speech sound. Every language has a finite set of phonemes, and with this finite set of phonemes all words are created. This is music to the ears of ASR researchers, because all of a sudden, an infinite number of words and strings of words can be boiled down to set of finite acoustic events. What's more, typically languages don't have more than 50 of these phonemes! Where simple systems had hard limits of 100 or 1000 words, with only 50 discrete phonemes there is no upper limit to the number of words a system can recognize.
+
+
+\subsubsection{Modern Large Vocabulary Continuous Speech Recognition}
+
+In the following, I will provide an overiew of three main pipelines in ASR.
+
+The first two pipelines make use of Hidden-Markov Models (HMMs) and are still widely used today in practice. The first HMM-based models use Gaussian Mixture Model (GMMs) as the emission probabilities of states in the HMMs, whereas the second HMM-based approach uses Deep Neural Networks (DNNs) for the emission probabilities. The first method is refered to as the GMM-HMM approach, and the second is the DNN-HMM approach. The pipeline at decoding for these two models is almost identical, but their training is significantly different.
+
+The third approach, which is gaining lots of research interest currently, is end-to-end ASR with DNNs. The training and decoding of these models is completely different from the former HMM-based approaches, as I will explain below.
+
+
+\subsection{Gaussians + HMMs}
   
-\item \textbf{Neural Nets + HMMs}
+\subsection{Neural Nets + HMMs}
   
-\item \textbf{end-to-end Neural Nets}
+\subsection{end-to-end Neural Nets}
 
-\end{itemize}
 
 \section{Overview of Multi-Task Learning}
 
@@ -481,5 +520,25 @@ NG G    --> G          voiced velar
 
 
 %% CMUDict: used for Librispeech
+
+%% @article{davis1952automatic,
+%%   title={Automatic recognition of spoken digits},
+%%   author={Davis, KH and Biddulph, R and Balashek, Stephen},
+%%   journal={The Journal of the Acoustical Society of America},
+%%   volume={24},
+%%   number={6},
+%%   pages={637--642},
+%%   year={1952},
+%%   publisher={ASA}
+%% }
+
+%% @article{juang2005automatic,
+%%   title={Automatic speech recognition--a brief history of the technology development},
+%%   author={Juang, Biing-Hwang and Rabiner, Lawrence R},
+%%   journal={Georgia Institute of Technology. Atlanta Rutgers University and the University of California. Santa Barbara},
+%%   volume={1},
+%%   pages={67},
+%%   year={2005}
+%% }
 
 
