@@ -55,24 +55,69 @@ In this dissertation (following the MTL tradition), each output softmax layer wi
 
 This section contains an overview of the training and testing procedures for standard automatic speech recognition (ASR) pipelines. The overview will provide the reader with a technical grounding in ASR, so that the rest of the dissertation will have some point of reference. 
 
-\subsection{From DARPA to Siri: some historical context}
+\subsection{From ARPA to Siri: History of ASR}
 
-These three vains of ASR research all exist in some historical context, and it is insightful to compare them as such. 
+All research exists in some historical context, answering pressing questions of the times, making use of and reacting to existing technologies. ASR research is a fine example of a field which has grown in directions defined by either military, academic, or commercial incentives. Early work on ASR reflected the needs of telecommunications companies. Then came a wave of interest from the US Department of Defense, and most recently the four tech giants (Google, Amazon, Facebook, and Apple) have set the bar for what is classified as meaningful research. While all these initiators pushed researchers in different directions, they all share one common goal: to make ASR more human-like. Once a certain task is well performed, we quickly realize that same system, unlike a human, cannot perform some other task well. As such, while ASR for a constrained task like single-speaker digit recognition may seem ``solved", we still are far from general human-like performance.
 
 \subsubsection{Isolated Word Systems}
-Most of the early work on ASR in the 50's and 60's focused on isolated word, speaker-dependent speech recognition. The typical use case was a single adult male carefully reading off single digits [0-9] into a microphone. One of the very first demonstrations reported accuracy rates of up to 99\% on isolated digit recognition \cite{davis1952automatic}. It may sound like speech recognition research was off to a great start with Word Error Rates (WER) so low, but in truth the approach taken in much of this early work could not be extended further. These approaches relied on acoustic properties of vowels in a pattern-matching scheme which requires a representation of each word in the vocabulary saved on disk. This line of work was lead by research labs in telecommunications companies like Bell Labs and NEC Corporation (a Japanese technology giant), and also more academic labs like MIT Lincoln Labs.
+Most of the early work on ASR in the 50's and 60's focused on isolated word, speaker-dependent speech recognition. The typical use case was a single adult male carefully reading off single digits [0-9] into a microphone. One of the very first demonstrations reported accuracy rates of up to 99\% on isolated digit recognition \cite{davis1952automatic}. This system relied on the formant frequencies of vowels to recognize entire words. The system measured and saved to disk typical formant trajectories during the pronunciation of each word, and given a new word, estimated its formants and compared the pattern to the examplars on disk.
 
-Speech research soon was boosted into full gear when in 1971, the Advanced Research Program Agency (ARPA) of the US Department of Defense launched the 5-year Spoken Understanding Research Program. The goal of the program was to ``obtain a breakthrough in speech understanding capability that could then be used toward the development of practical man-machine communication systems.'' \cite{klatt1977} The contestants were given the task of creating a system which could recognize a vocabulary of 1000 words with a 10\% WER in reasonable time. The research was funded by the US Military, and as such all the target tasks were relevant to military operations \cite{juang2005automatic}. A team at Carnegie Mellon showed best promise with their `Harpy' system, but given how slow it was, DARPA was disappointed and halted the program.
- 
-Given that command and control was the target application, isolated words were a logical choice for the unit of recognition. The user said one word, and the decoder compared that word to all the words it had stored on disc, and returned the closest match. This assumes the user actually said a word in the machine's vocabulary, and so each user was trained to work with the machine, and the machine was trained to work with each user. By modern standards, these recognizers were not flexible. However, what these recognizers lacked in flexibility they gained in accuracy. There was no guessing which word was spoken, given all words in the English language. There was no guessing how many words were spoken either, because the user was trained to say one word at a time. Furthermore, there was no real issue of noise conditions, because recording and testing would be done in the same place. There was no worry about microphone robustness or sampling-rate issues, because the creators knew exactly beforehand what hardware the recognizer ran on. All these problems current ASR research faces were unknown to these early researchers, and their approach was simple, and efficient. This was pattern-matching at its finest. The computer stored a representation of each word in its vocabulary, and given new input from the user, the input was checked against all exemplars in the system.
 
-This approach worked just fine until users wanted more. Users wanted something more human-like. First of all, training the recognizer to work for every new user was a hassle. We humans don't need to relearn every word in our language when we meet someone new, but these machines did. We humans can understand our friends when we're in an echoey factory or in a small room, but these machines couldn't.
+\begin{center}
+\includegraphics[width=.85\textwidth,keepaspectratio]{figs/digits.png}
+\end{center}
 
-Also, speaking slowly and carefully only one word at a time was a pain. Humans don't do that. In our story today, this is the complaint most relevant to us.
+
+It may sound like speech recognition research was off to a great start with Word Error Rates (WER) so low, but in truth the approach taken in much of this early work could not be extended further. These approaches relied on acoustic properties of vowels in a pattern-matching scheme which requires a representation of each word in the vocabulary saved on disk.
+
+
+
+This line of work was lead by research labs in telecommunications companies like Bell Labs and NEC Corporation (a Japanese technology giant), and also more academic labs like MIT Lincoln Labs.
+
+ \subsubsection{Constrained Vocabulary Continuous Speech Systems}
+Speech research soon was boosted into full gear when in 1971, the Advanced Research Program Agency (ARPA) of the US Department of Defense launched the 5-year Spoken Understanding Research Program. The goal of the program was to ``obtain a breakthrough in speech understanding capability that could then be used toward the development of practical man-machine communication systems.'' \cite{klatt1977} ARPA wanted something that Airforce pilots could control with their voice while their hands were busy steering.
+
+The contestants were given the task of creating a system which could recognize a vocabulary of 1000 words with a 10\% WER in reasonable time. A team at Carnegie Mellon showed best promise with their `Harpy' system. \cite{juang2005automatic} The Harpy system decoded a new utterance in the following way:
+
+\begin{enumerate}
+\item FEATURE EXTRACTION
+  \begin{enumerate}
+  \item process audio with 5kHz low-pass filter and sample to 10k samples per second 
+  \item extract linear prediction coefficients in 10-ms frames with a 10-ms shift
+  \item group together similar, adjacent acoustic segments
+  \end{enumerate}
+  
+\item GRAPH CONSTRUCTION
+  \begin{enumerate}
+  \item a set of 98 phonemes (and diphones) defined by expert
+  \item pronunciations for all words defined
+  \item pronunciations of all grammatical sentences compiled into one graph (15,000 states with self-loops)
+  \end{enumerate}
+
+\item DECODING
+  \begin{enumerate}
+  \item incoming audio segments compared against 98 templates
+  \item best path (with beam search) followed
+  \end{enumerate}
+\end{enumerate}
+
+Harpy is a speaker-specific system, and the 98 phoneme templates need to be tuned to each speaker. For a new speaker to be enrolled into the system, she must spend about 30 minutes recording example sentences, which are then force-aligned to the graph. This forced-alignment, however, assumes that at least one speaker has already been enrolled, and their 98 phoneme templates are used to align the next speaker's audio.
+
+Given that command and control was the target application, a limited vocabulary and limited grammar was reasonable. The user said one short sentence (from a constrained, finite set), and the decoder compared that sentence to a graph of all possible sentences, and returned the closest match. This assumes the user actually said a sentence in the machine's vocabulary. Each user was trained to work with the machine (learn its grammar), and the machine was trained to work with each user (via enrollment). 
+
+In his review of ARPA's Speech Understanding Research Program, (Klatt 1977) concludes that ``all [teams] failed to meet the ARPA goals'', writes a very gloomy prediction on the future of ASR research funding:
+
+\begin{quote}
+  ... it is disruptive to send funding oscillations through thr basic research community and to subject science to fads and anti-fads. The danger now is that funds will be less available for the basic science that must be done in the speech analysis area before real further progress is made.
+\end{quote}
+
+By modern standards, these recognizers were not flexible. However, what these recognizers lacked in flexibility they gained in accuracy. The machine didn't have to consider more than 1,000 words and a simple grammar. Furthermore, there was no real issue of noise conditions, because recording and testing would be both in quiet conditions. There was no worry about microphone robustness or sampling-rate issues, because the creators knew exactly beforehand what hardware the recognizer ran on. All these problems current ASR research faces were unknown to these early researchers, and their approach was simple, and efficient.
+
+This approach worked just fine until users wanted more. Users wanted something more human-like. First of all, training the recognizer to work for every new user was a hassle. We humans don't need to relearn all sounds in our language when we meet someone new, but these machines did. We humans can understand our friends when we're in an echoey factory or in a small room, but these machines couldn't.
 
 \subsubsection{Continuous Speech Systems and the phoneme}
 
-In order to make a recognizer that could handle a string of words, where the length of that string was unknown to the system, major overhauls of the Isolated Word system were needed.
+In order to make a recognizer that could handle longer sentences, where the length of that string was unknown to the system, major overhauls of the Isolated Word system were needed.
 
 First of all, the acoustics of the words themselves vary drastically in continuous speech. In isolated systems, every word is preceded by silence and succeded by silence. This padding is great for pattern recognition, because the edges of words will be pretty stable, acoustically. When it comes to continuous speech, however, word beginings can be preceded by the tail end of the previous word. As a result, the acoustics of both words become distorted. This distortion is called co-articulation, and it causes the edge sounds to blend together.
 
