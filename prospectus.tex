@@ -51,6 +51,11 @@ This is the same architecture that will be used in my dissertation, but obviousl
 In this dissertation (following the MTL tradition), each output softmax layer will be referred to as a \texttt{Task}.
 
 
+
+
+
+\newpage
+
 \section{Overview of Speech Recognition}
 
 This section contains an overview of the training and testing procedures for standard automatic speech recognition (ASR) pipelines. The overview will provide the reader with a technical grounding in ASR, so that the rest of the dissertation will have some point of reference. 
@@ -59,25 +64,34 @@ This section contains an overview of the training and testing procedures for sta
 
 All research exists in some historical context, answering pressing questions of the times, making use of and reacting to existing technologies. ASR research is a fine example of a field which has grown in directions defined by either military, academic, or commercial incentives. Early work on ASR reflected the needs of telecommunications companies. Then came a wave of interest from the US Department of Defense, and most recently the four tech giants (Google, Amazon, Facebook, and Apple) have set the bar for what is classified as meaningful research. While all these initiators pushed researchers in different directions, they all share one common goal: to make ASR more human-like. Once a certain task is well performed, we quickly realize that same system, unlike a human, cannot perform some other task well. As such, while ASR for a constrained task like single-speaker digit recognition may seem ``solved", we still are far from general human-like performance.
 
-\subsubsection{Isolated Word Systems}
-Most of the early work on ASR in the 50's and 60's focused on isolated word, speaker-dependent speech recognition. The typical use case was a single adult male carefully reading off single digits [0-9] into a microphone. One of the very first demonstrations reported accuracy rates of up to 99\% on isolated digit recognition \cite{davis1952automatic}. This system relied on the formant frequencies of vowels to recognize entire words. The system measured and saved to disk typical formant trajectories during the pronunciation of each word, and given a new word, estimated its formants and compared the pattern to the examplars on disk.
+\subsubsection{1952: Isolated Word Systems: Bell Labs}
+Most of the early work on ASR in the 50's and 60's focused on isolated word, speaker-dependent speech recognition. This line of work was lead by research labs in telecommunications companies like Bell Labs and NEC Corporation (a Japanese technology giant), and also academic labs like MIT Lincoln Labs.
+
+Given the interests of the researchers, the typical use case was a single adult male carefully reading off single digits [0-9] into a microphone. One of the very first demonstrations reported accuracy rates of up to 99\% on isolated digit recognition \cite{davis1952automatic}. This system relied on the formant frequencies of vowels to recognize entire words. The system measured and saved to disk typical formant trajectories during the pronunciation of each word, and given a new word, estimated its formants and compared the pattern to the examplars on disk.
 
 
 \begin{center}
-\includegraphics[width=.85\textwidth,keepaspectratio]{figs/digits.png}
+\includegraphics[width=.9\textwidth,keepaspectratio]{figs/digits.png}
 \end{center}
 
 
 It may sound like speech recognition research was off to a great start with Word Error Rates (WER) so low, but in truth the approach taken in much of this early work could not be extended further. These approaches relied on acoustic properties of vowels in a pattern-matching scheme which requires a representation of each word in the vocabulary saved on disk.
 
+If the system were to recognize 1000 words instead of just 10, the time needed to compare new input to each of the 1000 examplars would be prohibitive. Additionally, the space on disk would increase with every additional word. A more serious limitation is the approach of whole-word matching via formant frequencies. Two words with similar consonants and identical vowels (eg. `dog' vs `dock') would be nearly indistinguishable for the system.
 
+\subsubsection{1971: Constrained Sentence Recognition: ARPA}
 
-This line of work was lead by research labs in telecommunications companies like Bell Labs and NEC Corporation (a Japanese technology giant), and also more academic labs like MIT Lincoln Labs.
+ Speech research soon was boosted into full gear when in 1971, the Advanced Research Program Agency (ARPA) of the US Department of Defense launched the 5-year Spoken Understanding Research Program. The goal of the program was to ``obtain a breakthrough in speech understanding capability that could then be used toward the development of practical man-machine communication systems.'' \cite{klatt1977} ARPA wanted something that Airforce pilots could control with their voice while their hands were busy steering.
 
- \subsubsection{Constrained Vocabulary Continuous Speech Systems}
-Speech research soon was boosted into full gear when in 1971, the Advanced Research Program Agency (ARPA) of the US Department of Defense launched the 5-year Spoken Understanding Research Program. The goal of the program was to ``obtain a breakthrough in speech understanding capability that could then be used toward the development of practical man-machine communication systems.'' \cite{klatt1977} ARPA wanted something that Airforce pilots could control with their voice while their hands were busy steering.
+ The contestants were given the task of creating a system which could recognize simple sentences from a vocabulary of 1000 words with a 10\% WER in reasonable time. In order to make a recognizer that could handle sentences instead of isolated words, where the length of that string was unknown to the system, major overhauls of the Isolated Word system were needed.
 
-The contestants were given the task of creating a system which could recognize a vocabulary of 1000 words with a 10\% WER in reasonable time. A team at Carnegie Mellon showed best promise with their `Harpy' system. \cite{juang2005automatic} The Harpy system decoded a new utterance in the following way:
+First of all, it was clear that storing an exemplar of each word on disk is not an option with continuous speech systems. The decoding speed would be horrendous, the space used on disk would be prohibitive, not to mention the time needed by the user to record every word. Modeling whole words became an obvious bottleneck to recognition of continuous speech. As such, speech needed to be modeled at a level lower than words themselves, and the phoneme became an obvious candidate.
+
+The phoneme is defined as the smallest meaningful speech sound. Every language has a finite set of phonemes, and with this finite set of phonemes all words are created. This is music to the ears of ASR researchers, because all of a sudden, an infinite number of words and strings of words can be boiled down to set of finite acoustic events. What's more, typically languages don't have more than 50 phonemes. Where simple systems had hard limits of 100 or 1000 words, with only 50 discrete phonemes there is no upper limit to the number of words a system can recognize.
+
+All of the teams in the ARPA project used the phoneme as the unit for modelling speech, but the team at Carnegie Mellon showed best promise with their `Harpy' system. \cite{juang2005automatic} Like in Isolated Word Recognitions, all teams used some kind of template matching, but with phoneme templates instead of word templates.
+
+The Harpy system decoded a new utterance in the following way:
 
 \begin{enumerate}
 \item FEATURE EXTRACTION
@@ -103,6 +117,10 @@ The contestants were given the task of creating a system which could recognize a
 
 Harpy is a speaker-specific system, and the 98 phoneme templates need to be tuned to each speaker. For a new speaker to be enrolled into the system, she must spend about 30 minutes recording example sentences, which are then force-aligned to the graph. This forced-alignment, however, assumes that at least one speaker has already been enrolled, and their 98 phoneme templates are used to align the next speaker's audio.
 
+Probably the most significant result of the ARPA project was James Baker's 1975 dissertation at CMU, which firmly established the import of the Hidden Markov Model in ASR \cite{bakerDissertation1975}.
+
+
+
 Given that command and control was the target application, a limited vocabulary and limited grammar was reasonable. The user said one short sentence (from a constrained, finite set), and the decoder compared that sentence to a graph of all possible sentences, and returned the closest match. This assumes the user actually said a sentence in the machine's vocabulary. Each user was trained to work with the machine (learn its grammar), and the machine was trained to work with each user (via enrollment). 
 
 In his review of ARPA's Speech Understanding Research Program, (Klatt 1977) concludes that ``all [teams] failed to meet the ARPA goals'', writes a very gloomy prediction on the future of ASR research funding:
@@ -115,20 +133,9 @@ By modern standards, these recognizers were not flexible. However, what these re
 
 This approach worked just fine until users wanted more. Users wanted something more human-like. First of all, training the recognizer to work for every new user was a hassle. We humans don't need to relearn all sounds in our language when we meet someone new, but these machines did. We humans can understand our friends when we're in an echoey factory or in a small room, but these machines couldn't.
 
-\subsubsection{Continuous Speech Systems and the phoneme}
-
-In order to make a recognizer that could handle longer sentences, where the length of that string was unknown to the system, major overhauls of the Isolated Word system were needed.
-
-First of all, the acoustics of the words themselves vary drastically in continuous speech. In isolated systems, every word is preceded by silence and succeded by silence. This padding is great for pattern recognition, because the edges of words will be pretty stable, acoustically. When it comes to continuous speech, however, word beginings can be preceded by the tail end of the previous word. As a result, the acoustics of both words become distorted. This distortion is called co-articulation, and it causes the edge sounds to blend together.
-
-It is clear that storing exemplars of words on disc is not an option with continuous speech systems. A system which can recognize 100 words in isolation never has to worry about variants of sounds. That system merely needs to account for the length of sounds, not whether or not their acoustics change. If we want that same system to handle strings of up to three words (e.g. ``one two three''), it should ideally store a version of each word in every possible context. That would mean 100 words with 101 preceding contexts and 101 suceeding contexts (where silence is also a context). So, we've gone from needing to store a mere 100 words to storing over a million. The decoding speed would be horrendous, the space used on disk would be prohibitive, not to mention the time needed by the user to record all those contexts!
-
-Modeling whole words became an obvious bottleneck to recognition of continuous speech. This is where linguistics came on the scene in the engineering world with the phoneme.
-
-The phoneme is really just a fancy Greek word to mean speech sound. Every language has a finite set of phonemes, and with this finite set of phonemes all words are created. This is music to the ears of ASR researchers, because all of a sudden, an infinite number of words and strings of words can be boiled down to set of finite acoustic events. What's more, typically languages don't have more than 50 of these phonemes! Where simple systems had hard limits of 100 or 1000 words, with only 50 discrete phonemes there is no upper limit to the number of words a system can recognize.
 
 
-\subsubsection{Modern Large Vocabulary Continuous Speech Recognition}
+\subsubsection{1997: Large Vocabulary Continuous Speech Recognition: AT\&T Labs}
 
 In the following, I will provide an overiew of three main pipelines in ASR.
 
@@ -137,12 +144,7 @@ The first two pipelines make use of Hidden-Markov Models (HMMs) and are still wi
 The third approach, which is gaining lots of research interest currently, is end-to-end ASR with DNNs. The training and decoding of these models is completely different from the former HMM-based approaches, as I will explain below.
 
 
-\subsection{Gaussians + HMMs}
-  
-\subsection{Neural Nets + HMMs}
-  
-\subsection{end-to-end Neural Nets}
-
+\newpage
 
 \section{Overview of Multi-Task Learning}
 
@@ -153,6 +155,8 @@ Most machine learning training uses single-task learning (e.g. classifying an im
 In Mutli-Task learning, we learn multiple tasks which share useful information. An example of a non-useful auxillary task is classifying a number as greater or less than 7, when the main task is to identify the identity of a single digit.
 
 
+
+\newpage
 
 \section{Background Literature}
 
@@ -173,6 +177,7 @@ Here I will cover the literature relevant to working with small (or completely n
 
 
 
+\newpage
 
 \section{Experiments}
 
@@ -192,7 +197,7 @@ I am creating acoustic models which generalize well to new data. To measure how 
 The training and testing data will differ in either (1) the recording \texttt{noise} conditions, (2) who the \texttt{speaker} is, or (3) what \texttt{language} the speaker is using. The following table shows which data sets are used for each audio condition.
 
 
-\begin{table}[htbp]
+\begin{table}[!htbp]
   \centering
   \begin{adjustbox}{width=.75\textwidth}
     \begin{tabular}{clcc}
@@ -232,9 +237,9 @@ Each of these categories contains a wealth of ideas, but I will consolidate each
 
 Specifically, I will use the following concepts to create new tasks to be used in MTL training:
 
-\begin{table}[htbp]
+\begin{table}[!htbp]
   \centering
-  \begin{adjustbox}{width=.75\textwidth}
+  \begin{adjustbox}{width=.55\textwidth}
     \begin{tabular}{cccc}
       \toprule
       & \multicolumn{3}{c}{\textsc{Knowledge Source}}\\
@@ -257,9 +262,9 @@ Each of these tasks will be added to a Baseline model. More specifically, the Ba
 
 When these experiments will be applied to each of the three audio conditions, we get the following 30 experiments:
 
-\begin{table}[htbp]
+\begin{table}[!htbp]
   \centering
-  \begin{adjustbox}{width=.95\textwidth}
+  \begin{adjustbox}{width=.75\textwidth}
     \begin{tabular}{ccclc}
       \toprule
       \textbf{Data Condition} & \textbf{Train Data} & \textbf{Test Data} & \textbf{MTL Training Tasks} & \textbf{Num. Exps} \\
@@ -289,8 +294,6 @@ When these experiments will be applied to each of the three audio conditions, we
 \end{table}
 
 
-\newpage
-
 \subsection{Task Creation Specifics}
 
 
@@ -306,7 +309,7 @@ During testing, \textit{only one} of the \texttt{Tasks} is used. The additional 
 
 \begin{figure}[!htb]
   \centering
-\minipage{0.66\textwidth}
+\minipage{0.33\textwidth}
   \includegraphics[width=\linewidth]{figs/mtl-arch-baseline.png}
   \caption{\texttt{Baseline}}
 \endminipage\hfill
@@ -314,7 +317,6 @@ During testing, \textit{only one} of the \texttt{Tasks} is used. The additional 
 
 
 
-\newpage
 \item \textbf{LING}
 
   All of the linguistic knowledge tasks view the phoneme as a bundle of features.
@@ -334,58 +336,58 @@ During testing, \textit{only one} of the \texttt{Tasks} is used. The additional 
     First, two separate GMM-HMM models are trained on the training data. The first GMM-HMM model uses the standard CMUDict phoneset (39 phones + stress variants).
 
 
-\begin{table}[htbp]
-  \centering
-  \begin{adjustbox}{width=.5\textwidth}
-    \begin{tabular}{lll}
-      \toprule
-      \textbf{Phoneme} & \textbf{Example} & \textbf{Translation} \\
-      \midrule
-      \texttt{AA} &	odd  &   AA D \\
-      \texttt{AE} &	at &	AE T \\
-      \texttt{AH} &	hut &	HH AH T \\ 
-      \texttt{AO} &	ought &	AO T \\ 
-      \texttt{AW} &	cow	 & K AW \\
-      \texttt{AY} &	hide &	HH AY D \\
-      \texttt{B} & 	be	& B IY \\
-      \texttt{CH} &	cheese	& CH IY Z \\
-      \texttt{D} & 	dee	& D IY \\
-      \texttt{DH} &	thee	& DH IY \\
-      \texttt{EH} &	Ed	& EH D \\
-      \texttt{ER} &	hurt	& HH ER T \\
-      \texttt{EY} &	ate	& EY T \\
-      \texttt{F} & 	fee	& F IY \\
-      \texttt{G} & 	green	& G R IY N \\
-      \texttt{HH} &	he	& HH IY \\
-      \texttt{IH} &	it	& IH T \\
-      \texttt{IY} &	eat	& IY T \\
-      \texttt{JH} &	gee	& JH IY \\
-      \texttt{K} & 	key	& K IY \\
-      \texttt{L} & 	lee	& L IY \\
-      \texttt{M} & 	me	& M IY \\
-      \texttt{N} & 	knee	& N IY \\
-      \texttt{NG} &	ping	& P IH NG \\
-      \texttt{OW} &	oat	& OW T \\
-      \texttt{OY} &	toy	& T OY \\
-      \texttt{P} & 	pee	& P IY \\
-      \texttt{R} & 	read	& R IY D \\
-      \texttt{S} & 	sea	& S IY \\
-      \texttt{SH} &	she	& SH IY \\
-      \texttt{T} & 	tea	& T IY \\
-      \texttt{TH} &	theta	& TH EY T AH \\
-      \texttt{UH} &	hood	& HH UH D \\
-      \texttt{UW} &	two	& T UW \\
-      \texttt{V} & 	vee	& V IY \\
-      \texttt{W} &	we	& W IY \\
-      \texttt{Y} &	yield	& Y IY L D \\
-      \texttt{Z} &	zee	& Z IY \\
-      \texttt{ZH} &	seizure	& S IY ZH ER \\
-      \bottomrule
-    \end{tabular}
-    \label{table:data}
-  \end{adjustbox}
-  \caption{CMUDict Phoneset}
-\end{table}
+%% \begin{table}[!htbp]
+%%   \centering
+%%   \begin{adjustbox}{width=.5\textwidth}
+%%     \begin{tabular}{lll}
+%%       \toprule
+%%       \textbf{Phoneme} & \textbf{Example} & \textbf{Translation} \\
+%%       \midrule
+%%       \texttt{AA} &	odd  &   AA D \\
+%%       \texttt{AE} &	at &	AE T \\
+%%       \texttt{AH} &	hut &	HH AH T \\ 
+%%       \texttt{AO} &	ought &	AO T \\ 
+%%       \texttt{AW} &	cow	 & K AW \\
+%%       \texttt{AY} &	hide &	HH AY D \\
+%%       \texttt{B} & 	be	& B IY \\
+%%       \texttt{CH} &	cheese	& CH IY Z \\
+%%       \texttt{D} & 	dee	& D IY \\
+%%       \texttt{DH} &	thee	& DH IY \\
+%%       \texttt{EH} &	Ed	& EH D \\
+%%       \texttt{ER} &	hurt	& HH ER T \\
+%%       \texttt{EY} &	ate	& EY T \\
+%%       \texttt{F} & 	fee	& F IY \\
+%%       \texttt{G} & 	green	& G R IY N \\
+%%       \texttt{HH} &	he	& HH IY \\
+%%       \texttt{IH} &	it	& IH T \\
+%%       \texttt{IY} &	eat	& IY T \\
+%%       \texttt{JH} &	gee	& JH IY \\
+%%       \texttt{K} & 	key	& K IY \\
+%%       \texttt{L} & 	lee	& L IY \\
+%%       \texttt{M} & 	me	& M IY \\
+%%       \texttt{N} & 	knee	& N IY \\
+%%       \texttt{NG} &	ping	& P IH NG \\
+%%       \texttt{OW} &	oat	& OW T \\
+%%       \texttt{OY} &	toy	& T OY \\
+%%       \texttt{P} & 	pee	& P IY \\
+%%       \texttt{R} & 	read	& R IY D \\
+%%       \texttt{S} & 	sea	& S IY \\
+%%       \texttt{SH} &	she	& SH IY \\
+%%       \texttt{T} & 	tea	& T IY \\
+%%       \texttt{TH} &	theta	& TH EY T AH \\
+%%       \texttt{UH} &	hood	& HH UH D \\
+%%       \texttt{UW} &	two	& T UW \\
+%%       \texttt{V} & 	vee	& V IY \\
+%%       \texttt{W} &	we	& W IY \\
+%%       \texttt{Y} &	yield	& Y IY L D \\
+%%       \texttt{Z} &	zee	& Z IY \\
+%%       \texttt{ZH} &	seizure	& S IY ZH ER \\
+%%       \bottomrule
+%%     \end{tabular}
+%%     \label{table:data}
+%%   \end{adjustbox}
+%%   \caption{CMUDict Phoneset}
+%% \end{table}
 
 
     From this standard phoneset, the normal 3-state monophones are trained from a flat-start via EM training. A total of XXX states are trained with a total of XXX Gaussian components over XXX iterations of EM. These monophones are then expanded into context-dependent triphones via a phonetic decision tree, with a maximum of XXX leaves. The resulting leaves (state clusters) are then trained with XXX Gaussian components over XXX iterations of EM. The final model acheives a WER of XXX on the testing data.
@@ -455,7 +457,6 @@ NG G    --> G          voiced velar
 
 
 
-\newpage
 
 \item \textbf{ASR}
 
@@ -501,7 +502,6 @@ NG G    --> G          voiced velar
 \end{figure}
 
 
-\newpage
 
 \item \textbf{ML}
 
