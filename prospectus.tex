@@ -147,19 +147,13 @@ An example of what a decoding graph in Harpy might look like is the following (k
 
 Harpy is a speaker-specific system, and the 98 phoneme templates need to be tuned to each speaker. For a new speaker to be enrolled into the system, she must spend about 30 minutes recording example sentences, which are then force-aligned to the graph. This forced-alignment, however, assumes that at least one speaker has already been enrolled, and their 98 phoneme templates are used to align the next speaker's audio.
 
-
-
-
 Given that command and control was the target application, a limited vocabulary and limited grammar was reasonable. The user said one short sentence (from a constrained, finite set), and the decoder compared that sentence to a graph of all possible sentences, and returned the closest match. This assumes the user actually said a sentence in the machine's vocabulary. Each user was trained to work with the machine (learn its grammar), and the machine was trained to work with each user (via enrollment). 
-
-
 
 By modern standards, these recognizers were not flexible. However, what these recognizers lacked in flexibility they gained in accuracy. The machine didn't have to consider more than 1,000 words and a simple grammar. Furthermore, there was no real issue of noise conditions, because recording and testing would be both in quiet conditions. There was no worry about microphone robustness or sampling-rate issues, because the creators knew exactly beforehand what hardware the recognizer ran on. All these problems current ASR research faces were unknown to these early researchers, and their approach was simple, and efficient.
 
 This approach worked just fine until users wanted more. Users wanted something more human-like. First of all, training the recognizer to work for every new user was a hassle. We humans don't need to relearn all sounds in our language when we meet someone new, but these machines did. We humans can understand our friends when we're in an echoey factory or in a small room, but these machines couldn't.
 
 Regardless of the successes of the SUR program, ARPA was dissappointed. The best system, Harpy, decoded in about 80x real time. Harpy could not be used in practice, and speeding her up was not a simple task.
-
 
 In his review of ARPA's Speech Understanding Research Program, (Klatt 1977) concludes that ``all [teams] failed to meet the ARPA goals'', writes a very gloomy prediction on the future of ASR research funding:
 
@@ -169,20 +163,29 @@ In his review of ARPA's Speech Understanding Research Program, (Klatt 1977) conc
 
 In addition to problem of speed, flexibility was a greater concern. The kinds of sentences recognized by Harpy were determined by a BNF grammar. This consisted of a set of hand-crafted rules, and was not easily extensible. Such a set of rules has yet to be constructed for the English language, and even in the 1980's, researchers realized waited for such a grammar was not an option. A major shift was about to take place in the ASR world, moving away from template matching and strict grammars to statistical methods. Instead of hard assignments (grammatical or not), a better system would assign a kind of likelihood to the sentence, word, or sound in question.
 
-\subsection{the 80's}
+\subsection{1986: Expectation Maximization, Hidden Markov Models, \& Gaussian Mixtures: Bell Labs}
+
+Juang 1986
 
 ``Speech  research  in 
 the  1980s  was  characterized  by  a  shift  in  technology  from 
 template  based  approaches  to  statistical  modeling  methods 
 especially   the   hidden   Markov   model   approach'' (Speech Recognition by Machine: A Review)
 
-\subsubsection{1997: Large Vocabulary Continuous Speech Recognition: AT\&T Labs}
 
-In the following, I will provide an overiew of three main pipelines in ASR.
+\subsubsection{1995: Modern GMM-HMM Speech Recognition: The HTK Book}
 
-The first two pipelines make use of Hidden-Markov Models (HMMs) and are still widely used today in practice. The first HMM-based models use Gaussian Mixture Model (GMMs) as the emission probabilities of states in the HMMs, whereas the second HMM-based approach uses Deep Neural Networks (DNNs) for the emission probabilities. The first method is refered to as the GMM-HMM approach, and the second is the DNN-HMM approach. The pipeline at decoding for these two models is almost identical, but their training is significantly different.
+While preceded by CMU Sphinx in 1990, HTK was the first toolkit to incorporate all of the core components of Modern GMM-HMM speech recognition. While eventually the two toolkits offered the same capabilities by the mid-ninties, the first version of CMU's Sphinx used Vector Quantized codebooks to estimate emission probabilities on HMM states, while HTK began with GMMs in 1994. Regardeless of their differences in performance, HTK's extensive documentation (The HTK Book) became the reference of choice for most speech recognition researchers.
 
-The third approach, which is gaining lots of research interest currently, is end-to-end ASR with DNNs. The training and decoding of these models is completely different from the former HMM-based approaches, as I will explain below.
+\begin{enumerate}
+\item GMM  
+\item state-clustered triphones
+\item HMM
+\item n-gram LM
+\end{enumerate}
+
+
+
 
 
 \newpage
