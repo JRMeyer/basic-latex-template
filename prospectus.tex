@@ -20,23 +20,25 @@
 
 \section{Goals \& Import of Dissertation}
 
-The main goal of this dissertation is to develop training methods for neural networks which lead to better classification of data from unseen conditions. This dissertation falls into the category of research on model generalization and model robustness. In particular, this work focuses on small data sets, where traditional neural net training lead to overfitting.
+The main goal of this dissertation is to develop training methods for neural networks which lead to better classification of data from unseen conditions. In particular, this work focuses on small data sets, where traditional neural net training leads to overfitting.
 
-Using the framework of Multi-Task Learning, I train a single neural net to classify data with several labels, encouraging the hidden layers to learn generic, useful represetations of the data. This is accomplished without any explicit adaptation of model parameters or data transformations.
+When training a statistical classifier on a small data set, the researcher must take extra precautions to avoid overfitting. A powerful model (such as a deep neural network) will easily achieve 100\% classification accuracy on a small training dataset, because the model learns ``useful'' noise in its parameters. However, that ``useful'' noise is specific to the training data, and will not generalize to a new dataset. For example, deep neural network training to classify images of cats and dogs may learn to associate teeth with dogs, if some of the dogs have their mouths open. This kind of random chance occurs more often with small datasets, which means the smaller the dataset, the worse the generalization of the model. If this cat vs dog classifier gets a new picture of a cat with its mouth open, it may be very well classified as a dog.
 
-In the past people have dealt with new data by (1) adapting an existing model to the new data, or (2) normalizing the new data to look more like the old training data. More recently, Multi-Task Learning (MTL) has been found to produce models which are better at handling new data, because these models inherently learn more robust features which generalize to unseen domains. 
+Likewise, in speech recognition we must be careful with small datasets, so that our acoustic models don't learn ``useful'' noise during training. The sources of this noise in speech recognition stem from background conditions (busy streets vs quiet room), the person doing the talking (old woman vs young boy), or an extreme example is the language itself. A small dataset of speech from an audiobook will produce an acoustic model which fails miserably on speech from a noisy car. The most common approach to combat this problem is to collect a new, bigger dataset from the target condition. However, if we want speech recognition that is truly human-like, we need to develop training techniques which lead to better generalization.
 
-In the following, the neural nets of interest are acoustic models for automatic speech recognition, and the unseen data conditions are (1) \texttt{new noise}, (2) a \texttt{new speaker}, or (3) a \texttt{new language}. For each of these three cases, I have two conditions of data. I train the model on one data condition, and then test the on other.
+This dissertation investigates training techniques for acoustic modelling on small datasets. To determine the generalizability of the resulting models, the training and testing datasets are sampled from very different recording conditions. The unseen testing data conditions are (1) \texttt{new noise}, (2) a \texttt{new speaker}, or (3) a \texttt{new language}.
+
+
+Using the framework of Multi-Task Learning, I train a single neural net to classify a small dataset with several tasks, encouraging the hidden layers to learn generic, useful represetations of the data. This is accomplished without any explicit adaptation of model parameters or data transformations.
 
 \begin{enumerate}
   
 \item For the \texttt{Noise} condition, I train on clean audio and test on noisy audio.
 \item For the \texttt{Speaker} condition, I train on a set of speakers, and I test on an unseen speaker.
-\item For the \texttt{Language} condition, I train on (mostly) English, and I test exclusively on Kyrgyz. I must include \textit{some} Kyrgyz in training because the DNN+HMM pipeline requires the testing phonemes defined in the model.  
-  
+\item For the \texttt{Language} condition, I train on (mostly) English, and I test exclusively on Kyrgyz.
 \end{enumerate}
     
-My approach is innovative because it doesn't require massive data sets, as some other popular reseach labs have done (Google, Firefox, Baidu, Microsoft, etc). Further more, my approach is not specific to any one dataset, and it can be used to train any neural net (not just for speech recognition).
+My approach is innovative because it doesn't require massive data sets, as some other popular reseach labs have relied on (Google, Firefox, Baidu, Microsoft, etc), and it doesn't require tuning the net to the new dataset (e.g. fMLLR). Further more, my approach is not specific to any one dataset, and it can be used to train any neural net (not just for speech recognition).
 
 MTL training for neural nets works by training a set of hidden layers to perform multiple tasks (multiple output layers). Here is an example of MTL architecture for an acoustic model from Heigold 2013.
 
@@ -44,11 +46,10 @@ MTL training for neural nets works by training a set of hidden layers to perform
 \includegraphics[width=.85\textwidth,keepaspectratio]{figs/heigold-2013-dnn-c.png}
 \end{center}
 
-During training all \texttt{Tasks} are trained in unison, but during testing I only use \texttt{Task A} to decode new audio. The only benefit from these extra tasks comes from the training phase, and their influence on the shared hidden layers.
+This is the architecture that will be used in my dissertation. The number of input nodes on my neural nets corresponds to the dimensionality of audio features, and the number of nodes on each output layer corresponds to the number of phonemes (i.e. monophones or triphones) I've defined for the language.
 
-This is the same architecture that will be used in my dissertation, but obviously I will have more layers and more nodes per layer. The number of input nodes on my neural nets corresponds to the dimensionality of audio features, and the number of nodes on each output layer corresponds to the number of phonemes (i.e. monophones or triphones) I've defined for the language.
+During training all \texttt{Tasks} are trained in unison, but during testing only one \texttt{Task} is used. The only benefit from these extra tasks comes from the training phase, and their influence on the shared hidden layers.
 
-In this dissertation (following the MTL tradition), each output softmax layer will be referred to as a \texttt{Task}.
 
 
 
@@ -62,12 +63,32 @@ This section contains an overview of the training and testing procedures for sta
 
 \subsection{From ARPA to Siri: History of ASR}
 
-All research exists in some historical context, answering pressing questions of the times, making use of and reacting to existing technologies. ASR research is a fine example of a field which has grown in directions defined by either military, academic, or commercial incentives. Early work on ASR reflected the needs of telecommunications companies. Then came a wave of interest from the US Department of Defense, and most recently the four tech giants (Google, Amazon, Facebook, and Apple) have set the bar for what is classified as meaningful research. While all these initiators pushed researchers in different directions, they all share one common goal: to make ASR more human-like. Once a certain task is well performed, we quickly realize that same system, unlike a human, cannot perform some other task well. As such, while ASR for a constrained task like single-speaker digit recognition may seem ``solved", we still are far from general human-like performance.
+All research exists in some historical context, answering pressing questions of the times, making use of and reacting to existing technologies. ASR research is a fine example of a field which has grown in directions defined by either military, academic, or commercial incentives. Early work on ASR reflected the needs of telecommunications companies. Then came a wave of interest from the US Department of Defense, and most recently the four tech giants (Google, Amazon, Facebook, and Apple) have set the bar for what is classified as meaningful research. While all these initiators pushed researchers in different directions, they all share one common goal: to make ASR more human-like.
 
 \subsubsection{1952: Isolated Word Systems: Bell Labs}
-Most of the early work on ASR in the 50's and 60's focused on isolated word, speaker-dependent speech recognition. This line of work was lead by research labs in telecommunications companies like Bell Labs and NEC Corporation (a Japanese technology giant), and also academic labs like MIT Lincoln Labs.
+Most of the early work on ASR in the 50's and 60's focused on isolated word, speaker-dependent speech recognition. This line of work was lead by research labs in telecommunications companies like Bell Labs and NEC Corporation (a Japanese technology giant), and also academic labs like MIT Lincoln Labs. (TYPICAL XXX)
 
-Given the interests of the researchers, the typical use case was a single adult male carefully reading off single digits [0-9] into a microphone. One of the very first demonstrations reported accuracy rates of up to 99\% on isolated digit recognition \cite{davis1952automatic}. This system relied on the formant frequencies of vowels to recognize entire words. The system measured and saved to disk typical formant trajectories during the pronunciation of each word, and given a new word, estimated its formants and compared the pattern to the examplars on disk.
+Given the interests of the researchers, the typical use case was a single adult male carefully reading off single digits [0-9] into a microphone. One of the very first demonstrations reported accuracy rates of up to 99\% on isolated digit recognition \cite{davis1952automatic}. This system relied on the formant frequencies of speech to recognize entire words. That is, there was no concept of syllables or consonants or vowels in these systems. The word was treated as a single unit, and during classification all words were compared to each other to find the best match.
+
+This work, along with most others of this time period, relied on a template-matching framework to classify spoken words. An exmplar of each word was saved to disk (for each speaker ideally), and when a user spoke a new, unknown word into the microphone, the computer compared that audio with all the examplars it had on file for that speaker. The closest match was returned back, and when recognizing a set of ten digits, this worked surprisingly well. 
+
+The Bell Labs system worked in the following way:
+
+\begin{enumerate}
+\item FEATURE EXTRACTION
+  \begin{enumerate}
+  \item two frequency ranges of the audio are extracted, which roughly correlate to the first two formants of speech
+  \item these two formants are plotted on an x-y axis in time
+  \end{enumerate}
+  
+\item TEMPLATE MATCHING
+  \begin{enumerate}
+  \item the 2-D x-y plot from new audio is compared to each of 10 examplars on file, and closest is returned
+  \end{enumerate}
+\end{enumerate}
+
+
+An example set of templates (from the original Bell Labs paper) is show below:
 
 
 \begin{center}
@@ -77,17 +98,18 @@ Given the interests of the researchers, the typical use case was a single adult 
 
 It may sound like speech recognition research was off to a great start with Word Error Rates (WER) so low, but in truth the approach taken in much of this early work could not be extended further. These approaches relied on acoustic properties of vowels in a pattern-matching scheme which requires a representation of each word in the vocabulary saved on disk.
 
-If the system were to recognize 1000 words instead of just 10, the time needed to compare new input to each of the 1000 examplars would be prohibitive. Additionally, the space on disk would increase with every additional word. A more serious limitation is the approach of whole-word matching via formant frequencies. Two words with similar consonants and identical vowels (eg. `dog' vs `dock') would be nearly indistinguishable for the system.
+If the system were to recognize 1000 words instead of just 10, the time needed to compare new input to each of the 1000 examplars would be prohibitive. Additionally, the space on disk would increase with every additional word. A more serious limitation is the approach of whole-word template-matching via formant frequencies. Two words with similar consonants and identical vowels (eg. `dog' vs `dock') would be nearly indistinguishable for the system.
 
 \subsubsection{1971: Constrained Sentence Recognition: ARPA}
 
- Speech research soon was boosted into full gear when in 1971, the Advanced Research Program Agency (ARPA) of the US Department of Defense launched the 5-year Spoken Understanding Research Program. The goal of the program was to ``obtain a breakthrough in speech understanding capability that could then be used toward the development of practical man-machine communication systems.'' \cite{klatt1977} ARPA wanted something that Airforce pilots could control with their voice while their hands were busy steering.
+ Speech research soon was boosted into full gear when in 1971, the Advanced Research Program Agency (ARPA) of the US Department of Defense launched the 5-year Spoken Understanding Research (SUR) program. The goal of the program was to ``obtain a breakthrough in speech understanding capability that could then be used toward the development of practical man-machine communication systems.'' \cite{klatt1977} ARPA wanted something that Airforce pilots could control with their voice while their hands were busy steering. The SUR program spurred various papers from four main research groups (TYPICAL SUR PAPERS). Probably the most significant result of the ARPA project was James Baker's 1975 dissertation at CMU, which firmly established the import of the Hidden Markov Model in ASR \cite{bakerDissertation1975}.
+
 
  The contestants were given the task of creating a system which could recognize simple sentences from a vocabulary of 1000 words with a 10\% WER in reasonable time. In order to make a recognizer that could handle sentences instead of isolated words, where the length of that string was unknown to the system, major overhauls of the Isolated Word system were needed.
 
-First of all, it was clear that storing an exemplar of each word on disk is not an option with continuous speech systems. The decoding speed would be horrendous, the space used on disk would be prohibitive, not to mention the time needed by the user to record every word. Modeling whole words became an obvious bottleneck to recognition of continuous speech. As such, speech needed to be modeled at a level lower than words themselves, and the phoneme became an obvious candidate.
+First of all, it was clear that storing an exemplar of each word on disk is not an option with continuous speech systems. In addition to the nearly impossible task of discovering word boundaries from raw audio, the decoding speed would be horrendous if the words were found. The machine would have to compare each word to each of the 1,000 candidate words on disk. Furthermore, the space used on disk would be prohibitive, not to mention the time needed by the user to record every word during speaker enrollment. Modeling whole words became an obvious bottleneck to recognition of continuous speech. As such, speech needed to be modeled at a level lower than words themselves, and the phoneme became an obvious candidate.
 
-The phoneme is defined as the smallest meaningful speech sound. Every language has a finite set of phonemes, and with this finite set of phonemes all words are created. This is music to the ears of ASR researchers, because all of a sudden, an infinite number of words and strings of words can be boiled down to set of finite acoustic events. What's more, typically languages don't have more than 50 phonemes. Where simple systems had hard limits of 100 or 1000 words, with only 50 discrete phonemes there is no upper limit to the number of words a system can recognize.
+The phoneme is the smallest meaningful speech sound. Every language has a finite set of phonemes, and with this finite set of phonemes all words are created. Typically languages don't have more than 50 phonemes, and that number will not increase with vocabulary or grammar complexity. Where simple systems had hard limits of 100 or 1000 words, with only 50 discrete phonemes there is no upper limit to the number of words a system can recognize.
 
 All of the teams in the ARPA project used the phoneme as the unit for modelling speech, but the team at Carnegie Mellon showed best promise with their `Harpy' system. \cite{juang2005automatic} Like in Isolated Word Recognitions, all teams used some kind of template matching, but with phoneme templates instead of word templates.
 
@@ -105,7 +127,7 @@ The Harpy system decoded a new utterance in the following way:
   \begin{enumerate}
   \item a set of 98 phonemes (and diphones) defined by expert
   \item pronunciations for all words defined
-  \item pronunciations of all grammatical sentences compiled into one graph (15,000 states with self-loops)
+  \item pronunciations of all accepted sentences in the grammar compiled into one graph (15,000 states with self-loops)
   \end{enumerate}
 
 \item DECODING
@@ -115,13 +137,29 @@ The Harpy system decoded a new utterance in the following way:
   \end{enumerate}
 \end{enumerate}
 
+An example of what a decoding graph in Harpy might look like is the following (klatt 1977):
+
+
+\begin{center}
+\includegraphics[width=.9\textwidth,keepaspectratio]{figs/harpy-graph.png}
+\end{center}
+
+
 Harpy is a speaker-specific system, and the 98 phoneme templates need to be tuned to each speaker. For a new speaker to be enrolled into the system, she must spend about 30 minutes recording example sentences, which are then force-aligned to the graph. This forced-alignment, however, assumes that at least one speaker has already been enrolled, and their 98 phoneme templates are used to align the next speaker's audio.
 
-Probably the most significant result of the ARPA project was James Baker's 1975 dissertation at CMU, which firmly established the import of the Hidden Markov Model in ASR \cite{bakerDissertation1975}.
 
 
 
 Given that command and control was the target application, a limited vocabulary and limited grammar was reasonable. The user said one short sentence (from a constrained, finite set), and the decoder compared that sentence to a graph of all possible sentences, and returned the closest match. This assumes the user actually said a sentence in the machine's vocabulary. Each user was trained to work with the machine (learn its grammar), and the machine was trained to work with each user (via enrollment). 
+
+
+
+By modern standards, these recognizers were not flexible. However, what these recognizers lacked in flexibility they gained in accuracy. The machine didn't have to consider more than 1,000 words and a simple grammar. Furthermore, there was no real issue of noise conditions, because recording and testing would be both in quiet conditions. There was no worry about microphone robustness or sampling-rate issues, because the creators knew exactly beforehand what hardware the recognizer ran on. All these problems current ASR research faces were unknown to these early researchers, and their approach was simple, and efficient.
+
+This approach worked just fine until users wanted more. Users wanted something more human-like. First of all, training the recognizer to work for every new user was a hassle. We humans don't need to relearn all sounds in our language when we meet someone new, but these machines did. We humans can understand our friends when we're in an echoey factory or in a small room, but these machines couldn't.
+
+Regardless of the successes of the SUR program, ARPA was dissappointed. The best system, Harpy, decoded in about 80x real time. Harpy could not be used in practice, and speeding her up was not a simple task.
+
 
 In his review of ARPA's Speech Understanding Research Program, (Klatt 1977) concludes that ``all [teams] failed to meet the ARPA goals'', writes a very gloomy prediction on the future of ASR research funding:
 
@@ -129,9 +167,7 @@ In his review of ARPA's Speech Understanding Research Program, (Klatt 1977) conc
   ... it is disruptive to send funding oscillations through thr basic research community and to subject science to fads and anti-fads. The danger now is that funds will be less available for the basic science that must be done in the speech analysis area before real further progress is made.
 \end{quote}
 
-By modern standards, these recognizers were not flexible. However, what these recognizers lacked in flexibility they gained in accuracy. The machine didn't have to consider more than 1,000 words and a simple grammar. Furthermore, there was no real issue of noise conditions, because recording and testing would be both in quiet conditions. There was no worry about microphone robustness or sampling-rate issues, because the creators knew exactly beforehand what hardware the recognizer ran on. All these problems current ASR research faces were unknown to these early researchers, and their approach was simple, and efficient.
-
-This approach worked just fine until users wanted more. Users wanted something more human-like. First of all, training the recognizer to work for every new user was a hassle. We humans don't need to relearn all sounds in our language when we meet someone new, but these machines did. We humans can understand our friends when we're in an echoey factory or in a small room, but these machines couldn't.
+In addition to problem of speed, flexibility was a greater concern. The kinds of sentences recognized by Harpy were determined by a BNF grammar. This consisted of a set of hand-crafted rules, and was not easily extensible. Such a set of rules has yet to be constructed for the English language, and even in the 1980's, researchers realized waited for such a grammar was not an option. A major shift was about to take place in the ASR world, moving away from template matching and strict grammars to statistical methods. Instead of hard assignments (grammatical or not), a better system would assign a kind of likelihood to the sentence, word, or sound in question.
 
 \subsection{the 80's}
 
