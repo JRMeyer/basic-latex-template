@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017/Debian) (preloaded format=pdflatex 2018.1.22)  8 FEB 2018 07:53
+This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017/Debian) (preloaded format=pdflatex 2018.1.22)  8 FEB 2018 11:08
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -170,7 +170,102 @@ Package: varwidth 2009/03/30 ver 0.92;  Variable-width minipages
 \@vwid@loff=\dimen135
 \@vwid@roff=\dimen136
 ))
-(./prospectus.aux
+(/usr/share/texlive/texmf-dist/tex/latex/amsmath/amsmath.sty
+Package: amsmath 2016/11/05 v2.16a AMS math features
+\@mathmargin=\skip56
+
+For additional information on amsmath, use the `?' option.
+(/usr/share/texlive/texmf-dist/tex/latex/amsmath/amstext.sty
+Package: amstext 2000/06/29 v2.01 AMS text
+
+(/usr/share/texlive/texmf-dist/tex/latex/amsmath/amsgen.sty
+File: amsgen.sty 1999/11/30 v2.0 generic functions
+\@emptytoks=\toks18
+\ex@=\dimen137
+))
+(/usr/share/texlive/texmf-dist/tex/latex/amsmath/amsbsy.sty
+Package: amsbsy 1999/11/29 v1.2d Bold Symbols
+\pmbraise@=\dimen138
+)
+(/usr/share/texlive/texmf-dist/tex/latex/amsmath/amsopn.sty
+Package: amsopn 2016/03/08 v2.02 operator names
+)
+\inf@bad=\count99
+LaTeX Info: Redefining \frac on input line 213.
+\uproot@=\count100
+\leftroot@=\count101
+LaTeX Info: Redefining \overline on input line 375.
+\classnum@=\count102
+\DOTSCASE@=\count103
+LaTeX Info: Redefining \ldots on input line 472.
+LaTeX Info: Redefining \dots on input line 475.
+LaTeX Info: Redefining \cdots on input line 596.
+\Mathstrutbox@=\box28
+\strutbox@=\box29
+\big@size=\dimen139
+LaTeX Font Info:    Redeclaring font encoding OML on input line 712.
+LaTeX Font Info:    Redeclaring font encoding OMS on input line 713.
+\macc@depth=\count104
+\c@MaxMatrixCols=\count105
+\dotsspace@=\muskip10
+\c@parentequation=\count106
+\dspbrk@lvl=\count107
+\tag@help=\toks19
+\row@=\count108
+\column@=\count109
+\maxfields@=\count110
+\andhelp@=\toks20
+\eqnshift@=\dimen140
+\alignsep@=\dimen141
+\tagshift@=\dimen142
+\tagwidth@=\dimen143
+\totwidth@=\dimen144
+\lineht@=\dimen145
+\@envbody=\toks21
+\multlinegap=\skip57
+\multlinetaggap=\skip58
+\mathdisplay@stack=\toks22
+LaTeX Info: Redefining \[ on input line 2817.
+LaTeX Info: Redefining \] on input line 2818.
+)
+(/usr/share/texlive/texmf-dist/tex/latex/algorithms/algorithm.sty
+Package: algorithm 2009/08/24 v0.1 Document Style `algorithm' - floating enviro
+nment
+
+(/usr/share/texlive/texmf-dist/tex/latex/float/float.sty
+Package: float 2001/11/08 v1.3d Float enhancements (AL)
+\c@float@type=\count111
+\float@exts=\toks23
+\float@box=\box30
+\@float@everytoks=\toks24
+\@floatcapt=\box31
+)
+(/usr/share/texlive/texmf-dist/tex/latex/base/ifthen.sty
+Package: ifthen 2014/09/29 v1.1c Standard LaTeX ifthen package (DPC)
+)
+\@float@every@algorithm=\toks25
+\c@algorithm=\count112
+)
+(/usr/share/texlive/texmf-dist/tex/latex/algorithmicx/algpseudocode.sty
+Package: algpseudocode 
+
+(/usr/share/texlive/texmf-dist/tex/latex/algorithmicx/algorithmicx.sty
+Package: algorithmicx 2005/04/27 v1.2 Algorithmicx
+
+Document Style algorithmicx 1.2 - a greatly improved `algorithmic' style
+\c@ALG@line=\count113
+\c@ALG@rem=\count114
+\c@ALG@nested=\count115
+\ALG@tlm=\skip59
+\ALG@thistlm=\skip60
+\c@ALG@Lnr=\count116
+\c@ALG@blocknr=\count117
+\c@ALG@storecount=\count118
+\c@ALG@tmpcounter=\count119
+\ALG@tmplength=\skip61
+)
+Document Style - pseudocode environments for use with the `algorithmicx' style
+) (./prospectus.aux
 
 LaTeX Warning: Label `table:data' multiply defined.
 
@@ -180,18 +275,18 @@ LaTeX Warning: Label `table:data' multiply defined.
 )
 \openout1 = `prospectus.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 18.
-LaTeX Font Info:    ... okay on input line 18.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 18.
-LaTeX Font Info:    ... okay on input line 18.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 18.
-LaTeX Font Info:    ... okay on input line 18.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 18.
-LaTeX Font Info:    ... okay on input line 18.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 18.
-LaTeX Font Info:    ... okay on input line 18.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 18.
-LaTeX Font Info:    ... okay on input line 18.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 20.
+LaTeX Font Info:    ... okay on input line 20.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 20.
+LaTeX Font Info:    ... okay on input line 20.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 20.
+LaTeX Font Info:    ... okay on input line 20.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 20.
+LaTeX Font Info:    ... okay on input line 20.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 20.
+LaTeX Font Info:    ... okay on input line 20.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 20.
+LaTeX Font Info:    ... okay on input line 20.
 
 *geometry* driver: auto-detecting
 *geometry* detected driver: pdftex
@@ -229,17 +324,17 @@ LaTeX Font Info:    ... okay on input line 18.
 
 (/usr/share/texlive/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count99
-\scratchdimen=\dimen137
-\scratchbox=\box28
-\nofMPsegments=\count100
-\nofMParguments=\count101
-\everyMPshowfont=\toks18
-\MPscratchCnt=\count102
-\MPscratchDim=\dimen138
-\MPnumerator=\count103
-\makeMPintoPDFobject=\count104
-\everyMPtoPDFconversion=\toks19
+\scratchcounter=\count120
+\scratchdimen=\dimen146
+\scratchbox=\box32
+\nofMPsegments=\count121
+\nofMParguments=\count122
+\everyMPshowfont=\toks26
+\MPscratchCnt=\count123
+\MPscratchDim=\dimen147
+\MPnumerator=\count124
+\makeMPintoPDFobject=\count125
+\everyMPtoPDFconversion=\toks27
 ) (/usr/share/texlive/texmf-dist/tex/latex/oberdiek/epstopdf-base.sty
 Package: epstopdf-base 2016/05/15 v2.6 Base part for package epstopdf
 
@@ -295,180 +390,198 @@ e
 <figs/heigold-2013-dnn-c.png, id=1, 973.6375pt x 681.54625pt>
 File: figs/heigold-2013-dnn-c.png Graphic file (type png)
 <use figs/heigold-2013-dnn-c.png>
-Package pdftex.def Info: figs/heigold-2013-dnn-c.png  used on input line 46. on
- input line 46.
+Package pdftex.def Info: figs/heigold-2013-dnn-c.png  used on input line 48. on
+ input line 48.
 Package pdftex.def Info: Requested size: 354.31049pt x 248.01874pt on input lin
-e 46.
+e 48.
 
 [1{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}
 
 ] [2 <./figs/heigold-2013-dnn-c.png>]
 
 Package natbib Warning: Citation `davis1952automatic' on page 3 undefined on in
-put line 69.
+put line 71.
 
 <figs/digits.png, id=15, 1572.87625pt x 837.1275pt>
 File: figs/digits.png Graphic file (type png)
 <use figs/digits.png>
-Package pdftex.def Info: figs/digits.png  used on input line 93. on input line 
-93.
+Package pdftex.def Info: figs/digits.png  used on input line 95. on input line 
+95.
 Package pdftex.def Info: Requested size: 375.14705pt x 199.6629pt on input line
- 93.
+ 95.
 [3]
 
 Package natbib Warning: Citation `klatt1977' on page 4 undefined on input line 
-103.
+105.
 
 
 Package natbib Warning: Citation `bakerDissertation1975' on page 4 undefined on
- input line 103.
+ input line 105.
 
 
 Package natbib Warning: Citation `juang2005automatic' on page 4 undefined on in
-put line 112.
+put line 114.
 
 [4 <./figs/digits.png>]
 <figs/harpy-graph.png, id=24, 1636.1125pt x 718.685pt>
 File: figs/harpy-graph.png Graphic file (type png)
 <use figs/harpy-graph.png>
-Package pdftex.def Info: figs/harpy-graph.png  used on input line 142. on input
- line 142.
+Package pdftex.def Info: figs/harpy-graph.png  used on input line 144. on input
+ line 144.
 Package pdftex.def Info: Requested size: 375.14705pt x 164.78963pt on input lin
-e 142.
+e 144.
  [5 <./figs/harpy-graph.png>] [6]
 <figs/htk-feats.png, id=32, 643.40375pt x 794.97pt>
 File: figs/htk-feats.png Graphic file (type png)
 <use figs/htk-feats.png>
-Package pdftex.def Info: figs/htk-feats.png  used on input line 196. on input l
-ine 196.
+Package pdftex.def Info: figs/htk-feats.png  used on input line 198. on input l
+ine 198.
 Package pdftex.def Info: Requested size: 187.57352pt x 231.76054pt on input lin
-e 196.
-<figs/3-state-hmm.png, id=33, 811.03pt x 459.7175pt>
+e 198.
+<figs/3-state-hmm.png, id=33, 111.00795pt x 47.46547pt>
 File: figs/3-state-hmm.png Graphic file (type png)
 <use figs/3-state-hmm.png>
-Package pdftex.def Info: figs/3-state-hmm.png  used on input line 207. on input
- line 207.
-Package pdftex.def Info: Requested size: 187.57352pt x 106.32204pt on input lin
-e 207.
- [7 <./figs/htk-feats.png>] [8 <./figs/3-state-hmm.png>] [9]
-LaTeX Font Info:    Try loading font information for OMS+cmr on input line 302.
+Package pdftex.def Info: figs/3-state-hmm.png  used on input line 209. on input
+ line 209.
+Package pdftex.def Info: Requested size: 187.57352pt x 80.20927pt on input line
+ 209.
+ [7 <./figs/htk-feats.png> <./figs/3-state-hmm.png>]
+<figs/skeleton-hmm.png, id=40, 419.24812pt x 90.74812pt>
+File: figs/skeleton-hmm.png Graphic file (type png)
+<use figs/skeleton-hmm.png>
+Package pdftex.def Info: figs/skeleton-hmm.png  used on input line 221. on inpu
+t line 221.
+Package pdftex.def Info: Requested size: 375.14705pt x 81.20728pt on input line
+ 221.
+ [8 <./figs/skeleton-hmm.png>]
+<figs/flat-start.png, id=48, 419.24812pt x 247.60687pt>
+File: figs/flat-start.png Graphic file (type png)
+<use figs/flat-start.png>
+Package pdftex.def Info: figs/flat-start.png  used on input line 240. on input 
+line 240.
+Package pdftex.def Info: Requested size: 375.14705pt x 221.57465pt on input lin
+e 240.
+
+Overfull \hbox (5.3142pt too wide) in paragraph at lines 240--241
+ [] 
+ []
+
+[9 <./figs/flat-start.png>] [10] [11]
+LaTeX Font Info:    Try loading font information for OMS+cmr on input line 366.
 
 
 (/usr/share/texlive/texmf-dist/tex/latex/base/omscmr.fd
 File: omscmr.fd 2014/09/29 v2.5h Standard LaTeX font definitions
 )
 LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <10> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 302.
- [10]
-LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <7> on input line 338.
-LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <5> on input line 338.
- [11]
-<figs/mtl-arch-baseline.png, id=56, 632.3625pt x 681.54625pt>
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 366.
+ [12] [13]
+<figs/mtl-arch-baseline.png, id=69, 632.3625pt x 681.54625pt>
 File: figs/mtl-arch-baseline.png Graphic file (type png)
 <use figs/mtl-arch-baseline.png>
-Package pdftex.def Info: figs/mtl-arch-baseline.png  used on input line 448. on
- input line 448.
+Package pdftex.def Info: figs/mtl-arch-baseline.png  used on input line 512. on
+ input line 512.
 Package pdftex.def Info: Requested size: 137.5556pt x 148.24551pt on input line
- 448.
- [12 <./figs/mtl-arch-baseline.png>] [13]
-<figs/mtl-arch-voicing.png, id=65, 632.3625pt x 681.54625pt>
+ 512.
+ [14 <./figs/mtl-arch-baseline.png>] [15]
+<figs/mtl-arch-voicing.png, id=77, 632.3625pt x 681.54625pt>
 File: figs/mtl-arch-voicing.png Graphic file (type png)
 <use figs/mtl-arch-voicing.png>
-Package pdftex.def Info: figs/mtl-arch-voicing.png  used on input line 580. on 
-input line 580.
+Package pdftex.def Info: figs/mtl-arch-voicing.png  used on input line 644. on 
+input line 644.
 Package pdftex.def Info: Requested size: 133.38957pt x 143.7633pt on input line
- 580.
-<figs/mtl-arch-place.png, id=66, 632.3625pt x 681.54625pt>
+ 644.
+<figs/mtl-arch-place.png, id=78, 632.3625pt x 681.54625pt>
 File: figs/mtl-arch-place.png Graphic file (type png)
 <use figs/mtl-arch-place.png>
-Package pdftex.def Info: figs/mtl-arch-place.png  used on input line 584. on in
-put line 584.
+Package pdftex.def Info: figs/mtl-arch-place.png  used on input line 648. on in
+put line 648.
 Package pdftex.def Info: Requested size: 133.38957pt x 143.7633pt on input line
- 584.
-<figs/mtl-arch-manner.png, id=67, 632.3625pt x 681.54625pt>
+ 648.
+<figs/mtl-arch-manner.png, id=79, 632.3625pt x 681.54625pt>
 File: figs/mtl-arch-manner.png Graphic file (type png)
 <use figs/mtl-arch-manner.png>
-Package pdftex.def Info: figs/mtl-arch-manner.png  used on input line 588. on i
-nput line 588.
+Package pdftex.def Info: figs/mtl-arch-manner.png  used on input line 652. on i
+nput line 652.
 Package pdftex.def Info: Requested size: 133.38957pt x 143.7633pt on input line
- 588.
-<figs/mtl-arch-mono.png, id=68, 632.3625pt x 681.54625pt>
+ 652.
+<figs/mtl-arch-mono.png, id=80, 632.3625pt x 681.54625pt>
 File: figs/mtl-arch-mono.png Graphic file (type png)
 <use figs/mtl-arch-mono.png>
-Package pdftex.def Info: figs/mtl-arch-mono.png  used on input line 626. on inp
-ut line 626.
+Package pdftex.def Info: figs/mtl-arch-mono.png  used on input line 690. on inp
+ut line 690.
 Package pdftex.def Info: Requested size: 133.38957pt x 143.7633pt on input line
- 626.
-<figs/mtl-arch-halfTri.png, id=69, 632.3625pt x 681.54625pt>
+ 690.
+<figs/mtl-arch-halfTri.png, id=81, 632.3625pt x 681.54625pt>
 File: figs/mtl-arch-halfTri.png Graphic file (type png)
 <use figs/mtl-arch-halfTri.png>
-Package pdftex.def Info: figs/mtl-arch-halfTri.png  used on input line 630. on 
-input line 630.
+Package pdftex.def Info: figs/mtl-arch-halfTri.png  used on input line 694. on 
+input line 694.
 Package pdftex.def Info: Requested size: 133.38957pt x 143.7633pt on input line
- 630.
-<figs/mtl-arch-3QuarterTri.png, id=70, 632.3625pt x 681.54625pt>
+ 694.
+<figs/mtl-arch-3QuarterTri.png, id=82, 632.3625pt x 681.54625pt>
 File: figs/mtl-arch-3QuarterTri.png Graphic file (type png)
 <use figs/mtl-arch-3QuarterTri.png>
-Package pdftex.def Info: figs/mtl-arch-3QuarterTri.png  used on input line 634.
- on input line 634.
+Package pdftex.def Info: figs/mtl-arch-3QuarterTri.png  used on input line 698.
+ on input line 698.
 Package pdftex.def Info: Requested size: 133.38957pt x 143.7633pt on input line
- 634.
- [14 <./figs/mtl-arch-voicing.png> <./figs/mtl-arch-place.png> <./figs/mtl-arch
+ 698.
+ [16 <./figs/mtl-arch-voicing.png> <./figs/mtl-arch-place.png> <./figs/mtl-arch
 -manner.png>]
-<figs/mtl-arch-kMeans.png, id=77, 632.3625pt x 681.54625pt>
+<figs/mtl-arch-kMeans.png, id=89, 632.3625pt x 681.54625pt>
 File: figs/mtl-arch-kMeans.png Graphic file (type png)
 <use figs/mtl-arch-kMeans.png>
-Package pdftex.def Info: figs/mtl-arch-kMeans.png  used on input line 670. on i
-nput line 670.
+Package pdftex.def Info: figs/mtl-arch-kMeans.png  used on input line 734. on i
+nput line 734.
 Package pdftex.def Info: Requested size: 133.38957pt x 143.7633pt on input line
- 670.
-<figs/mtl-arch-forest.png, id=78, 632.3625pt x 681.54625pt>
+ 734.
+<figs/mtl-arch-forest.png, id=90, 632.3625pt x 681.54625pt>
 File: figs/mtl-arch-forest.png Graphic file (type png)
 <use figs/mtl-arch-forest.png>
-Package pdftex.def Info: figs/mtl-arch-forest.png  used on input line 674. on i
-nput line 674.
+Package pdftex.def Info: figs/mtl-arch-forest.png  used on input line 738. on i
+nput line 738.
 Package pdftex.def Info: Requested size: 133.38957pt x 143.7633pt on input line
- 674.
-<figs/mtl-arch-resampled.png, id=79, 632.3625pt x 681.54625pt>
+ 738.
+<figs/mtl-arch-resampled.png, id=91, 632.3625pt x 681.54625pt>
 File: figs/mtl-arch-resampled.png Graphic file (type png)
 <use figs/mtl-arch-resampled.png>
-Package pdftex.def Info: figs/mtl-arch-resampled.png  used on input line 678. o
-n input line 678.
+Package pdftex.def Info: figs/mtl-arch-resampled.png  used on input line 742. o
+n input line 742.
 Package pdftex.def Info: Requested size: 133.38957pt x 143.7633pt on input line
- 678.
+ 742.
 
 
 Package natbib Warning: There were undefined citations.
 
-[15 <./figs/mtl-arch-mono.png> <./figs/mtl-arch-halfTri.png> <./figs/mtl-arch-3
-QuarterTri.png>] [16 <./figs/mtl-arch-kMeans.png> <./figs/mtl-arch-forest.png> 
+[17 <./figs/mtl-arch-mono.png> <./figs/mtl-arch-halfTri.png> <./figs/mtl-arch-3
+QuarterTri.png>] [18 <./figs/mtl-arch-kMeans.png> <./figs/mtl-arch-forest.png> 
 <./figs/mtl-arch-resampled.png>] (./prospectus.aux)
 
 LaTeX Warning: There were multiply-defined labels.
 
  ) 
 Here is how much of TeX's memory you used:
- 3307 strings out of 492990
- 48674 string characters out of 6135005
- 121655 words of memory out of 5000000
- 6798 multiletter control sequences out of 15000+600000
- 5973 words of font info for 22 fonts, out of 8000000 for 9000
+ 4552 strings out of 492990
+ 64777 string characters out of 6135005
+ 142034 words of memory out of 5000000
+ 8005 multiletter control sequences out of 15000+600000
+ 6726 words of font info for 25 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 41i,10n,43p,865b,476s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 41i,10n,43p,993b,482s stack positions out of 5000i,500n,10000p,200000b,80000s
 </usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></us
 r/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/shar
 e/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmcsc10.pfb></usr/share/tex
 live/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/share/texlive/t
 exmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texlive/texmf-di
-st/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texlive/texmf-dist/fon
-ts/type1/public/amsfonts/cm/cmti10.pfb></usr/share/texlive/texmf-dist/fonts/typ
-e1/public/amsfonts/cm/cmtt10.pfb>
-Output written on prospectus.pdf (16 pages, 753381 bytes).
+st/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/share/texlive/texmf-dist/fonts
+/type1/public/amsfonts/cm/cmr8.pfb></usr/share/texlive/texmf-dist/fonts/type1/p
+ublic/amsfonts/cm/cmsy10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/
+amsfonts/cm/cmti10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfon
+ts/cm/cmtt10.pfb>
+Output written on prospectus.pdf (18 pages, 853784 bytes).
 PDF statistics:
- 119 PDF objects out of 1000 (max. 8388607)
- 62 compressed objects within 1 object stream
+ 137 PDF objects out of 1000 (max. 8388607)
+ 72 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
- 76 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 86 words of extra memory for PDF output out of 10000 (max. 10000000)
 

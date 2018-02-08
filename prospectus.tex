@@ -6,8 +6,10 @@
 \usepackage{graphicx} % for importing graphics / figures
 \usepackage{booktabs} % publication-worthy tables
 \usepackage{multirow}
-\usepackage{adjustbox} % makes tables fit nicely on the page
-
+\usepackage{adjustbox} % makes tables fit nicely on the pag
+\usepackage{amsmath}
+\usepackage{algorithm}
+\usepackage[noend]{algpseudocode}
 
 \lhead{Josh MEYER}
 \rhead{Dissertation Prospectus}
@@ -211,11 +213,73 @@ Given that human speech is a purely left-to-right signal, monophone HMMs are def
 
 The reason that most GMM-HMMs in speech recognition use three states is the following: neighboring phonemes will blend together, and therefore acoustic features at the edges of sounds may be significantly different from the center of the phoneme. All else being equal, the central state of a monophone should be more consistent than its edges.
 
-  
-  
+Defining a typoglogy for these monophones is not enough to use them in decoding new audio. HMMs are defined by (1) their states, (2) the transitions between those states, (3) the probabilities of transitions between states, and (4) the emission probability of an observation given a state.
+
+So far we have defined how many states we want (three states per phoneme), we have defined the \textit{kinds} of transitions between states (left-to-right or self-loop), and we have defined the shape of the emission probability of each state (a multivariate Gaussian mixture model). However, what this gets us is merely a set of skeleton GMM-HMMs. For these HMMs to be useful, we need to have accurate transition probabilities (s.t. the probability of leaving any non-final state $== 1$) and emissions probabilities (the $\mu, \sigma^2$ for each Gaussian component).
+
+\begin{center}
+\includegraphics[width=.9\textwidth,keepaspectratio]{figs/skeleton-hmm.png}
+\end{center}
+
+One approach to get these numbers would be to down and think really hard about what these numbers should be, filling them in ourselves. We could make self-loops for vowels longer than stop consonants, and we could define the parameters of Gaussians based on some knowledge of acoustic phonetics. However, this is a pretty horrible idea. So instead of trying to guess these values, we use some concepts from machine learning to \textit{learn} them from data.
+
+So, to learn about the acoustics of human speech, we need to collect a lot of it. However, just having access to a huge spoken corpus isn't enough; we need to know which segments of the audio correspond to which states in our GMM-HMMs so that we can update parameters given the appropriate data. While it is certainly possible to align segments of audio to HMM states by hand, it is a very tedious job, and takes about XXX human hours per XXX hour of audio (TIMIT).
+
+A much better approach is to automatically align audio segments (i.e. feature vectors) to HMM states. The algorithms for this alignment have been known since the 1960's (XXX), and are guaranteed to acheive the best model for the given data. This parameter estimation technique is called the Baum-Welch Algorithm, and it falls into the category of Expectation Maximization (EM) algorithms. This is very different from backpropagation with neural nets, which only gets you a local optimum at best.
+
+Given (1) a speech corpus, (2) transcriptions of the speech, and (3) a pronunciation dictionary, we can estimate all the parameters of our GMM-HMMs.
+
   \begin{enumerate}
-  \item Flat-start
+  \item Flat-start 
+
+    To successfully train our monophone GMM-HMMs from our speech data, we eventually want to have the entire corpus split into segments which correspond to the states of the HMMs.
+    
+    To begin training our monophone HMM-GMMs, we need a first guess as to what the sounds may be.
+
+    \begin{center}
+      \includegraphics[width=.9\textwidth,keepaspectratio]{figs/flat-start.png}
+    \end{center}
+
+    Flat-start training works in the following way:
+
+    
+    \begin{algorithm}
+      \caption{Flat Start Alignment}
+      \begin{algorithmic}[1]
+        \Procedure{Compile Utterance HMMs from Transcripts}{}
+        \For{each utterance in corpus}
+        \State initialize utterance HMM with start state
+        \For{each word in utterance}
+        \State lookup pronunciation of word in lexicon
+        \For{each phoneme in word}
+        \State lookup monophone HMM definition for phoneme
+        \State concatenate monophone HMM to utterance HMM
+        \EndFor
+        \EndFor
+        \State finalize utterance HMM with accepting state
+        \EndFor
+        \EndProcedure
+
+        \Procedure{Align Feature Vectors to Utterance HMMs}{}
+        \For{each utterance HMM in utterance HMMs}
+        \State N= number of states (minus initial and final) in utterance HMM
+        \State M= number of feature vectors from utterance audio
+        \State nVecs = M/N = number of feature vectors assigned to each state
+        \State Align vectors to states, left-to-right, such that each state is assigned nVecs vectors
+        \EndFor
+        \EndProcedure
+      \end{algorithmic}
+    \end{algorithm}
+
+
+    In this way, Flat Start training allows us to make an initial estimate for every parameter of every monophone GMM-HMM in our acoustic model. This is a very, very crude first estimate, and its assumptions are absurd. This alignment assumes that each phoneme in a word is exactly the same length as every other phoneme in that word, and actually in the whole utterance. Human speech doesn't work like this, and as such it seems like there's no wat that flat start training could work, but it does. It works because of what comes next with Baum-Welch training. Flat start training is not an end in itself, and even though it seems as if its assumptions could never work, one assumption is the saving grace of Flat start training. The assumption is that the linear order of phonemes in an utterance is left-to-right. With just that one assumption built into the typology of our HMMs, we can use the Baum-Welch algorithm to make increasing better alignments to the speech data.
+
   \item Baum-Welch re-estimation
+
+    Now that we have an initial estimate of all the parameters in our monophone GMM-HMMs, we can use both the data and the model to make better and better alignments. The basic idea of Baum-Welch is that we can use the the current model parameters of any given utterance HMM to generate the most likely alignment of that HMM to its corresponding audio clip. Then we take that alignment as the ground-truth alignement, nad update the model parameters accordingly.
+
+    In iterating over parameter updating and alignment generation, we reach parameters that get closer and closer to true estimates. It is key to remeber that all the utterances are updated in unison, and as such, the sounds and speech rates and other peculiarities of individual audio utterances become averaged out. Given that GMM-HMMs are generative models, we are maximizing the likelihood of the data given the model. Our implementation of the EM algorithm (i.e. Baum-Welch training) is a special case of Maximum likelihood estimation, where we don't have full information about the relationship between our model and the data. If we had the golden truth for alignments between feature vectors and HMM states, then we would just update the parameters once, and there would be no re-alignment afterwards. However, since we don't have the alignments, we need to guess at them, and our guesses get better over time.
+
   \end{enumerate}
   
 \item TRIPHONE TRAINING
