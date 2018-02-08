@@ -59,13 +59,11 @@ During training all \texttt{Tasks} are trained in unison, but during testing onl
 
 \section{Overview of Speech Recognition}
 
-This section contains an overview of the training and testing procedures for standard automatic speech recognition (ASR) pipelines. The overview will provide the reader with a technical grounding in ASR, so that the rest of the dissertation will have some point of reference. 
-
-\subsection{From ARPA to Siri: History of ASR}
-
 All research exists in some historical context, answering pressing questions of the times, making use of and reacting to existing technologies. ASR research is a fine example of a field which has grown in directions defined by either military, academic, or commercial incentives. Early work on ASR reflected the needs of telecommunications companies. Then came a wave of interest from the US Department of Defense, and most recently the four tech giants (Google, Amazon, Facebook, and Apple) have set the bar for what is classified as meaningful research. While all these initiators pushed researchers in different directions, they all share one common goal: to make ASR more human-like.
 
-\subsubsection{1952: Isolated Word Systems: Bell Labs}
+This section contains the training and testing procedures for standard automatic speech recognition (ASR) pipelines. The overview will provide the reader with a technical grounding in ASR, so that the rest of the dissertation will have some point of reference. 
+
+\subsection{1952: Isolated Word Systems: Bell Labs}
 Most of the early work on ASR in the 50's and 60's focused on isolated word, speaker-dependent speech recognition. This line of work was lead by research labs in telecommunications companies like Bell Labs and NEC Corporation (a Japanese technology giant), and also academic labs like MIT Lincoln Labs. (TYPICAL XXX)
 
 Given the interests of the researchers, the typical use case was a single adult male carefully reading off single digits [0-9] into a microphone. One of the very first demonstrations reported accuracy rates of up to 99\% on isolated digit recognition \cite{davis1952automatic}. This system relied on the formant frequencies of speech to recognize entire words. That is, there was no concept of syllables or consonants or vowels in these systems. The word was treated as a single unit, and during classification all words were compared to each other to find the best match.
@@ -100,7 +98,7 @@ It may sound like speech recognition research was off to a great start with Word
 
 If the system were to recognize 1000 words instead of just 10, the time needed to compare new input to each of the 1000 examplars would be prohibitive. Additionally, the space on disk would increase with every additional word. A more serious limitation is the approach of whole-word template-matching via formant frequencies. Two words with similar consonants and identical vowels (eg. `dog' vs `dock') would be nearly indistinguishable for the system.
 
-\subsubsection{1971: Constrained Sentence Recognition: ARPA}
+\subsection{1971: Constrained Sentence Recognition: ARPA}
 
  Speech research soon was boosted into full gear when in 1971, the Advanced Research Program Agency (ARPA) of the US Department of Defense launched the 5-year Spoken Understanding Research (SUR) program. The goal of the program was to ``obtain a breakthrough in speech understanding capability that could then be used toward the development of practical man-machine communication systems.'' \cite{klatt1977} ARPA wanted something that Airforce pilots could control with their voice while their hands were busy steering. The SUR program spurred various papers from four main research groups (TYPICAL SUR PAPERS). Probably the most significant result of the ARPA project was James Baker's 1975 dissertation at CMU, which firmly established the import of the Hidden Markov Model in ASR \cite{bakerDissertation1975}.
 
@@ -163,26 +161,116 @@ In his review of ARPA's Speech Understanding Research Program, (Klatt 1977) conc
 
 In addition to problem of speed, flexibility was a greater concern. The kinds of sentences recognized by Harpy were determined by a BNF grammar. This consisted of a set of hand-crafted rules, and was not easily extensible. Such a set of rules has yet to be constructed for the English language, and even in the 1980's, researchers realized waited for such a grammar was not an option. A major shift was about to take place in the ASR world, moving away from template matching and strict grammars to statistical methods. Instead of hard assignments (grammatical or not), a better system would assign a kind of likelihood to the sentence, word, or sound in question.
 
-\subsection{1986: Expectation Maximization, Hidden Markov Models, \& Gaussian Mixtures: Bell Labs}
+\subsection{1986: Hidden Markov Models, \& Gaussian Mixtures: Bell Labs}
 
 Juang 1986
 
-``Speech  research  in 
-the  1980s  was  characterized  by  a  shift  in  technology  from 
-template  based  approaches  to  statistical  modeling  methods 
-especially   the   hidden   Markov   model   approach'' (Speech Recognition by Machine: A Review)
+``Speech research in the 1980s was characterized by a shift in technology from template based approaches to statistical modeling methods especially the hidden Markov model approach'' (Speech Recognition by Machine: A Review)
 
 
-\subsubsection{1995: Modern GMM-HMM Speech Recognition: The HTK Book}
+\subsection{1994: The Modern GMM-HMM Approach: CMU Sphinx \& HTK}
 
-While preceded by CMU Sphinx in 1990, HTK was the first toolkit to incorporate all of the core components of Modern GMM-HMM speech recognition. While eventually the two toolkits offered the same capabilities by the mid-ninties, the first version of CMU's Sphinx used Vector Quantized codebooks to estimate emission probabilities on HMM states, while HTK began with GMMs in 1994. Regardeless of their differences in performance, HTK's extensive documentation (The HTK Book) became the reference of choice for most speech recognition researchers.
+HTK was the first toolkit to incorporate all of the core components of Modern GMM-HMM speech recognition, but for all intents and purposes, Sphinx and HTK can be seen as parallel toolkits.
+
+While eventually the two toolkits offered the same capabilities by the mid-ninties, the first version of CMU's Sphinx used Vector Quantized codebooks to estimate emission probabilities on HMM states, while HTK began with GMMs in 1994. Regardeless of their differences in performance, HTK's extensive documentation (The HTK Book) became the reference of choice for most speech recognition researchers. The first results of the HTK system were reported as a benchmark on DARPA's Resource Management task in 1992 (Woodland Young 1992).
+
+The standard GMM-HMM pipeline of HTK is outlined below. 
 
 \begin{enumerate}
-\item GMM  
-\item state-clustered triphones
-\item HMM
-\item n-gram LM
+
+\item FEATURE EXTRACTION
+  
+  The toolkit itself is agnostic as to which features are extracted from the audio signal, but the extraction process is standard. This extraction is not unique to HTK, and there is a large literature on different methods of defining audio features.
+  
+  A common trait of all modern feature extraction in ASR is the following: the signal in its raw form is not condusive to modelling speech, and feature extraction works to make speech-relevant information more available to whatever statistical model we choose.
+
+  Raw audio is simply air pressure measured in time. It is true that speech is transmitted though air via pressure changes, and as such raw audio contains all the information relevant to human speech. However, that same raw audio contains lots of other information which is not relevant to human speech. Background noise is just as prominent as speech in raw audio, and feature extraction helps to prioritize speech over other noise sources.
+
+  For clean speech recorded in a silent audiobooth, feature extraction is still beneficial because speech sounds are differentiated by amplitudes in both the frequency and time domain. Raw audio does not contain direct information about the frequency domain, so it must be deduced.
+  The two standard audio feature extraction techniques in HTK (and in ASR in general) are Mel-cepstral coefficients (MFCCs) or perceptual linear prediction (PLPs).
+
+  Overlapping windows are shifted across the audio, from beginning to end, to extract feature vectors. For each timestep, the audio falling inside the window is subjected to a series of transformations which both reduce the dimensionality of the data and highlight speech-specific information. Typically the windows are 25 milliseconds long, and the the shift is 10 milliseconds. In this way, enough time is allowed to capture phonetic information inside one window.
+
+  
+\begin{center}
+\includegraphics[width=.45\textwidth,keepaspectratio]{figs/htk-feats.png}
+\end{center}
+
+Ideally, every feature vector should contain enough information to identify the phoneme which was uttered at that timestep.
+
+
+\item MONOPHONE TRAINING
+
+  A monophone GMM-HMM acoustic model contains (as the name suggests) one model for one phoneme. For a language with 50 phonemes, a monophone system will have 50 separate GMM-HMMs. However, the number of states in each phoneme's HMM is not specified, and is a matter of researcher discretion. Typically, each monophone HMM will be designated three states as such:
+
+\begin{center}
+\includegraphics[width=.45\textwidth,keepaspectratio]{figs/3-state-hmm.png}
+\end{center}
+
+Given that human speech is a purely left-to-right signal, monophone HMMs are defined to be strictly left-to-right, with the addition of self-loops. The self-loops (as in the Harpy system) nicely model the differences in time which occur in speech. A long, drawn-out vowel will be modeled with the exact same HMM as a short, quick vowel. The longer vowel will just have to pass through more self-loops.
+
+The reason that most GMM-HMMs in speech recognition use three states is the following: neighboring phonemes will blend together, and therefore acoustic features at the edges of sounds may be significantly different from the center of the phoneme. All else being equal, the central state of a monophone should be more consistent than its edges.
+
+  
+  
+  \begin{enumerate}
+  \item Flat-start
+  \item Baum-Welch re-estimation
+  \end{enumerate}
+  
+\item TRIPHONE TRAINING
+    \begin{enumerate}
+    \item Phonetic decision tree
+      Allows for creating acoustic models which increase in complextiy as the dataset increases in size. This allows the researchers to more effficiently avoid over-fitting on small datasets, and increase model power for big datasets.
+    \item Baum-Welch re-estimation
+    \end{enumerate}
+
+\item DECODING
+  \begin{enumerate}
+  \item Graph compilation
+  \item Viterbi decoding
+  \item n-gram LM
+  \end{enumerate}
+  
 \end{enumerate}
+
+
+
+
+
+
+\subsection{2011: The Modern DNN-HMM Approach: Kaldi}
+
+\begin{enumerate}
+
+\item FEATURE EXTRACTION
+  MFCCs or PLPs
+
+\item MONOPHONE TRAINING
+  \begin{enumerate}
+  \item Flat-start
+  \item Baum-Welch re-estimation
+  \end{enumerate}
+  
+\item TRIPHONE TRAINING
+    \begin{enumerate}
+    \item Phonetic decision tree
+      Allows for creating acoustic models which increase in complextiy as the dataset increases in size. This allows the researchers to more effficiently avoid over-fitting on small datasets, and increase model power for big datasets.
+    \item Baum-Welch re-estimation
+    \end{enumerate}
+
+\item DECODING
+  \begin{enumerate}
+  \item WFST Graph compilation
+  \item Viterbi decoding
+  \item n-gram LM
+  \end{enumerate}
+  
+\end{enumerate}
+
+
+
+
 
 
 
@@ -197,6 +285,9 @@ A task (in classification) is a set of (data,label) pairs.
 Most machine learning training uses single-task learning (e.g. classifying an image as a digit [0-9].
 
 In Mutli-Task learning, we learn multiple tasks which share useful information. An example of a non-useful auxillary task is classifying a number as greater or less than 7, when the main task is to identify the identity of a single digit.
+
+
+
 
 
 
