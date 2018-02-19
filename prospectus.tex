@@ -193,6 +193,38 @@ While eventually the two toolkits offered the same capabilities by the mid-ninti
 
 The standard GMM-HMM pipeline of HTK is outlined below. 
 
+
+
+\begin{enumerate}
+
+\item FEATURE EXTRACTION
+  \begin{enumerate}
+  \item sliding window feature extraction
+  \end{enumerate}
+
+\item GMM-HMM MONOPHONE TRAINING
+  \begin{enumerate}
+  \item Flat-start alignment
+  \item Baum-Welch re-estimation
+  \end{enumerate}
+  
+\item GMM-HMM TRIPHONE TRAINING
+  \begin{enumerate}
+  \item Phonetic decision tree
+  \item Baum-Welch re-estimation
+  \end{enumerate}
+  
+\item DECODING
+  \begin{enumerate}
+  \item Network compilation
+  \item Viterbi decoding
+  \end{enumerate}
+  
+\end{enumerate}
+
+
+
+
 \subsubsection*{FEATURE EXTRACTION}
 
   The toolkit itself is agnostic as to which features are extracted from the audio signal, but the extraction process is standard. This extraction is not unique to HTK, and there is a large literature on different methods of defining audio features.
@@ -216,13 +248,13 @@ Ideally, every feature vector should contain enough information to identify the 
 
 \subsubsection*{MONOPHONE TRAINING}
 
-  A monophone GMM-HMM acoustic model contains (as the name suggests) one model for one phoneme. For a language with 50 phonemes, a monophone system will have 50 separate GMM-HMMs. However, the number of states in each phoneme's HMM is not specified, and is a matter of researcher discretion. Typically, each monophone HMM will be designated three states as such:
+  A monophone GMM-HMM acoustic model contains (as the name suggests) one model for one phoneme. For a language with 50 phonemes, a monophone system will have 50 separate GMM-HMMs. However, the number of states in each phoneme's HMM is not specified, and is a matter of researcher discretion. Given that human speech is a purely left-to-right signal, monophone HMMs are defined to be strictly left-to-right, with the addition of self-loops. Abstracting away from some of the implementation specifics, each monophone HMM will be designated as such:
 
 \begin{center}
-\includegraphics[width=.45\textwidth,keepaspectratio]{figs/3-state-hmm.png}
+\includegraphics[width=.3\textwidth,keepaspectratio]{figs/3-state-hmm.png}
 \end{center}
 
-Given that human speech is a purely left-to-right signal, monophone HMMs are defined to be strictly left-to-right, with the addition of self-loops. The self-loops (as in the Harpy system) nicely model the differences in time which occur in speech. A long, drawn-out vowel will be modeled with the exact same HMM as a short, quick vowel. The longer vowel will just have to pass through more self-loops.
+The self-loops (as in the Harpy system) nicely model the differences in time which occur in speech. A long, drawn-out vowel will be modeled with the exact same HMM as a short, quick vowel. The longer vowel will just have to pass through more self-loops.
 
 The reason that most GMM-HMMs in speech recognition use three states is the following: neighboring phonemes will blend together, and therefore acoustic features at the edges of sounds may be significantly different from the center of the phoneme. All else being equal, the central state of a monophone should be more consistent than its edges.
 
@@ -243,7 +275,7 @@ A much better approach is to automatically align audio segments (i.e. feature ve
 Given (1) a speech corpus, (2) transcriptions of the speech, and (3) a pronunciation dictionary, we can estimate all the parameters of our GMM-HMMs.
 
 \begin{enumerate}
-\item Flat-start 
+\item Flat-Start Alignment
   
   To successfully train our monophone GMM-HMMs from our speech data, we eventually want to have the entire corpus split into segments which correspond to the states of the HMMs.
   
@@ -253,36 +285,40 @@ Given (1) a speech corpus, (2) transcriptions of the speech, and (3) a pronuncia
     \includegraphics[width=1.0\textwidth,keepaspectratio]{figs/flat-start.png}
   \end{center}
   
-  Flat-start training works in the following way:
+  Flat-start training is a very simple solution to the first-alignment problem. The first-alignment problem is this: For Baum-Welch re-estimation to work, we use the parameters of our model to generate new alignements for the model itself. However, in the first step, we have no initialization for the model parameters. We could initialize all parameters randomly, and then start Baum-Welch. This in principle should work, but it would take a long time because the initialization would be truly horrendous. A better first guess would come not from random paramters but from the audio itself.
+
+  In flat-start training, we assume a few things: (1) utterances, (2) transcriptions for the utterances, and (3) a phonetic transcription for every word in the transcripts. Given these three things, we can construct a phonetic transcription for each utterance.  
+
+  Given a phonetic transcription of an utterance in training, starting from left to right, we assign an equal section of the audio to each phoneme in the transcription. This first left-to-right alignment is our initial guess (ie. our flat-start). In practice, this works faster than randomly initialized parameters.
   
   
-  \begin{algorithm}
-    \caption{Flat Start Alignment}
-    \begin{algorithmic}[1]
-      \Procedure{Compile Utterance HMMs from Transcripts}{}
-      \For{each utterance in corpus}
-      \State initialize utterance HMM with start state
-      \For{each word in utterance}
-      \State lookup pronunciation of word in lexicon
-      \For{each phoneme in word}
-      \State lookup monophone HMM definition for phoneme
-      \State concatenate monophone HMM to utterance HMM
-      \EndFor
-      \EndFor
-      \State finalize utterance HMM with accepting state
-      \EndFor
-      \EndProcedure
+  %% \begin{algorithm}
+  %%   \caption{Flat Start Alignment}
+  %%   \begin{algorithmic}[1]
+  %%     \Procedure{Compile Utterance HMMs from Transcripts}{}
+  %%     \For{each utterance in corpus}
+  %%     \State initialize utterance HMM with start state
+  %%     \For{each word in utterance}
+  %%     \State lookup pronunciation of word in lexicon
+  %%     \For{each phoneme in word}
+  %%     \State lookup monophone HMM definition for phoneme
+  %%     \State concatenate monophone HMM to utterance HMM
+  %%     \EndFor
+  %%     \EndFor
+  %%     \State finalize utterance HMM with accepting state
+  %%     \EndFor
+  %%     \EndProcedure
       
-      \Procedure{Align Feature Vectors to Utterance HMMs}{}
-      \For{each utterance HMM in utterance HMMs}
-      \State N= number of states (minus initial and final) in utterance HMM
-      \State M= number of feature vectors from utterance audio
-      \State nVecs = M/N = number of feature vectors assigned to each state
-      \State Align vectors to states, left-to-right, such that each state is assigned nVecs vectors
-      \EndFor
-      \EndProcedure
-    \end{algorithmic}
-  \end{algorithm}
+  %%     \Procedure{Align Feature Vectors to Utterance HMMs}{}
+  %%     \For{each utterance HMM in utterance HMMs}
+  %%     \State N= number of states (minus initial and final) in utterance HMM
+  %%     \State M= number of feature vectors from utterance audio
+  %%     \State nVecs = M/N = number of feature vectors assigned to each state
+  %%     \State Align vectors to states, left-to-right, such that each state is assigned nVecs vectors
+  %%     \EndFor
+  %%     \EndProcedure
+  %%   \end{algorithmic}
+  %% \end{algorithm}
   
 
     In this way, Flat Start training allows us to make an initial estimate for every parameter of every monophone GMM-HMM in our acoustic model. This is a very, very crude first estimate, and its assumptions are absurd. This alignment assumes that each phoneme in a word is exactly the same length as every other phoneme in that word, and actually in the whole utterance. Human speech doesn't work like this, and as such it seems like there's no wat that flat start training could work, but it does. It works because of what comes next with Baum-Welch training. Flat start training is not an end in itself, and even though it seems as if its assumptions could never work, one assumption is the saving grace of Flat start training. The assumption is that the linear order of phonemes in an utterance is left-to-right. With just that one assumption built into the typology of our HMMs, we can use the Baum-Welch algorithm to make increasing better alignments to the speech data.
@@ -411,6 +447,46 @@ Piggy-backing off this procedure, DNN training can be seen as performing Baum-We
 
 Typically, to integrate time information into DNN acoustic model training, the input features are not merely passed in one frame at a time, but frame-splicing occurs. The net still makes predictions one frame at a time, but left and right context is added on to some central frame. The net then makes a prediction as to the identity of the phoneme which produced the central frame.
 
+\begin{enumerate}
+
+\item FEATURE EXTRACTION
+  
+  Kaldi supports standard feature extraction such as MFCCs or PLPs.
+
+\item GMM-HMM MONOPHONE TRAINING
+
+  Same approach as in HTK.
+  
+  \begin{enumerate}
+  \item Flat-start
+  \item Baum-Welch re-estimation
+  \end{enumerate}
+  
+\item GMM-HMM TRIPHONE TRAINING
+
+  Same as in HTK.
+  
+  \begin{enumerate}
+  \item Phonetic decision tree
+  \item Baum-Welch re-estimation
+  \end{enumerate}
+
+  
+\item DNN TRAINING
+  \begin{enumerate}
+  \item Frame-splicing
+  \item Gradient descent via backprop
+  \end{enumerate}
+  
+\item DECODING
+  \begin{enumerate}
+  \item WFST Graph compilation
+  \item Viterbi decoding
+  \item n-gram LM
+  \end{enumerate}
+  
+\end{enumerate}
+
 
 \subsubsection{DNN TRAINING}
 
@@ -458,7 +534,7 @@ The next FST encodes information about the triphone-monophone relationship. This
   \includegraphics[width=.9\textwidth,keepaspectratio]{figs/mohri-C.png}
 \end{center}
 
-The last WFST encodes all the information from the phonetic decision tree. It accepts triphones and returns state identities. You will notice that all arcs leaving a state have the same label. This is because Kaldi encodes all information about states via arcs. Technically, HCLG does not contain states. They are inferred from the arcs. As such, the H.fst accepts a triphone and returns the IDs of the states of which the triphone is comprised. If we have 3-state models, then C.fst will return 3 states for every triphone. These state IDs are linked to either individual Gaussian mixtures (for GMM-HMM) or output nodes of a neural network (for DNN hybrid system).
+This last WFST encodes all the information from the phonetic decision tree. It accepts triphones and returns state identities. You will notice that all arcs leaving a state have the same label. This is because Kaldi encodes all information about states via arcs. Technically, HCLG does not contain states. They are inferred from the arcs. As such, the H.fst accepts a triphone and returns the IDs of the states of which the triphone is comprised. If we have 3-state models, then C.fst will return 3 states for every triphone. These state IDs are linked to either individual Gaussian mixtures (for GMM-HMM) or output nodes of a neural network (for DNN hybrid system).
 
 
 \begin{center}
@@ -466,45 +542,6 @@ The last WFST encodes all the information from the phonetic decision tree. It ac
 \end{center}
 
 
-\begin{enumerate}
-
-\item FEATURE EXTRACTION
-  
-  Kaldi supports standard feature extraction such as MFCCs or PLPs.
-
-\item GMM-HMM MONOPHONE TRAINING
-
-  Same approach as in HTK.
-  
-  \begin{enumerate}
-  \item Flat-start
-  \item Baum-Welch re-estimation
-  \end{enumerate}
-  
-\item GMM-HMM TRIPHONE TRAINING
-
-  Same as in HTK.
-  
-    \begin{enumerate}
-    \item Phonetic decision tree
-    \item Baum-Welch re-estimation
-    \end{enumerate}
-
-    
-  \item DNN TRAINING
-    \begin{enumerate}
-    \item Frame-splicing
-    \item Gradient descent via backprop
-    \end{enumerate}
-    
-\item DECODING
-  \begin{enumerate}
-  \item WFST Graph compilation
-  \item Viterbi decoding
-  \item n-gram LM
-  \end{enumerate}
-  
-\end{enumerate}
 
 
 
