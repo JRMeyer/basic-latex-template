@@ -502,7 +502,16 @@ Typically, to integrate time information into DNN acoustic model training, the i
 
 \subsubsection*{DNN TRAINING}
 
-Given the alignments from the triphone GMM-HMM system, first we splice features in order to create training data. This training example generation should result in the same number of \texttt{(label,data)} pairs as were provided by the GMM system. The only difference is that for the DNN, each data point will contain more contextual information. It is common to splice a large window of frames (up to 10 frames on each side), and then reduce the dimensionality of the data with a some transform (typically LDA).
+Given the alignments from the triphone GMM-HMM system, first we splice features in order to create training data. This training example generation should result in the same number of \texttt{(label,data)} pairs as were provided by the GMM system. Recall that the phonetic decision tree from the GMM-HMM model was used to define which triphone states would be merged together, and as such, the number of leaves in the tree equals the number of GMMs to be trained. The identity of each GMM is therefore the label for the training data, and when we train a DNN in Kaldi, we are predicting these same labels. As such, we can view the DNN-hybrid approach as a kind of model transfer, where we first create a generative classifier (GMMs defined by decision tree) and we train a DNN to perform the same task. The number of nodes on the output layer of the DNN, therefore, equals the number of leaves in the previously trained decision tree.
+
+
+\begin{center}
+  \includegraphics[width=.9\textwidth,keepaspectratio]{figs/tree-net.png}
+\end{center}
+
+
+
+Even though the labels come directly from the GMM model, for the DNN, each training data instance (audio frame) will contain additional contextual information. It is common to splice a large window of frames (up to 10 frames on each side), and then reduce the dimensionality of the data with a some transform (typically LDA). We don't change the labels from the previous GMM model, but we do enhance the data.
 
     
 
