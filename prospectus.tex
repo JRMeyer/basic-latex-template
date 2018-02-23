@@ -576,6 +576,15 @@ This last WFST encodes all the information from the phonetic decision tree. It a
 
 \section{Overview of Multi-Task Learning}
 
+
+The reason we spend so much time worrying about the number of hidden layers in our neural net and how many nodes are in each hidden layer is because we are afraid of our data. We are afraid that our data has too much noise, and if we give our neural net too much freedom, our data will lead our parameters astray, into a nice and cosy local minimum. We end up in a situation where we punish the neural net for merely following orders (minimize loss on data). We punish it by taking away parameters, even though it could use those extra parameters for good. We know though, that the more parameters we give the net, the more cozy misleading local minima become.
+
+However, in reality, taking parameters away from the net is not fair. We provide the data, we provide the optimization function, and the net does extactly what we told it to do. It would be better if instead of trying to minimize the parameter space as a handicap to the net, we nurture it with more information, changing the role of a researcher from harsh school principal to guiding educator.
+
+Mulitask learning is a way to do exactly this, giving the net more objectives on the same data. With more opjective functions to optimize, we can give the net more freedom via more parameters, not being afraid that the net will be lead astray into overfitting on a local minimum.
+
+With MTL we better equip our nets to take on the world, and can be more secure they will use their resources well.
+
 A task (in classification) is a set of (data,label) pairs.
 
 Most machine learning training uses single-task learning (e.g. classifying an image as a digit [0-9].
