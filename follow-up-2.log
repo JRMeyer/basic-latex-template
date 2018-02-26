@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017/Debian) (preloaded format=pdflatex 2018.1.22)  26 FEB 2018 11:11
+This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017/Debian) (preloaded format=pdflatex 2018.1.22)  26 FEB 2018 16:15
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -442,11 +442,11 @@ LaTeX Info: Redefining \nameref on input line 19.
 \openout3 = `follow-up-2.out'.
 
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <12> on input line 28.
+(Font)              <12> on input line 45.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <8> on input line 28.
+(Font)              <8> on input line 45.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <6> on input line 28.
+(Font)              <6> on input line 45.
 
 
 Package Fancyhdr Warning: \headheight is too small (12.0pt): 
@@ -456,35 +456,34 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
 
 [1{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}
 
-] [2]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 85.
- [3]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 85.
-
-(./follow-up-2.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 85.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 85.
+]
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 70.
+ [2]
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 70.
+ (./follow-up-2.aux)
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 70.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 70.
 Package rerunfilecheck Info: File `follow-up-2.out' has not changed.
 (rerunfilecheck)             Checksum: D41D8CD98F00B204E9800998ECF8427E;0.
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 85.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 70.
  ) 
 Here is how much of TeX's memory you used:
- 11491 strings out of 492990
- 160274 string characters out of 6135005
- 238652 words of memory out of 5000000
+ 11490 strings out of 492990
+ 160268 string characters out of 6135005
+ 239652 words of memory out of 5000000
  14930 multiletter control sequences out of 15000+600000
  8463 words of font info for 30 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 34i,10n,43p,803b,402s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 34i,10n,43p,719b,339s stack positions out of 5000i,500n,10000p,200000b,80000s
 </usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></us
 r/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/share
 /texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texli
 ve/texmf-dist/fonts/type1/public/amsfonts/cm/cmti12.pfb></usr/share/texlive/tex
 mf-dist/fonts/type1/public/amsfonts/cm/cmtt12.pfb>
-Output written on follow-up-2.pdf (3 pages, 63703 bytes).
+Output written on follow-up-2.pdf (2 pages, 60521 bytes).
 PDF statistics:
- 43 PDF objects out of 1000 (max. 8388607)
- 32 compressed objects within 1 object stream
- 6 named destinations out of 1000 (max. 500000)
+ 39 PDF objects out of 1000 (max. 8388607)
+ 29 compressed objects within 1 object stream
+ 5 named destinations out of 1000 (max. 500000)
  1 words of extra memory for PDF output out of 10000 (max. 10000000)
 
