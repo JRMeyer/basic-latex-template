@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017/Debian) (preloaded format=pdflatex 2018.1.22)  27 FEB 2018 07:56
+This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017/Debian) (preloaded format=pdflatex 2018.1.22)  27 FEB 2018 08:38
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -496,13 +496,13 @@ Here is how much of TeX's memory you used:
  14997 multiletter control sequences out of 15000+600000
  7858 words of font info for 28 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 34i,11n,43p,1020b,339s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 34i,11n,43p,1019b,339s stack positions out of 5000i,500n,10000p,200000b,80000s
 </usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></us
 r/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/share
 /texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texli
 ve/texmf-dist/fonts/type1/public/amsfonts/cm/cmti12.pfb></usr/share/texlive/tex
 mf-dist/fonts/type1/public/amsfonts/cm/cmtt12.pfb>
-Output written on follow-up-2.pdf (2 pages, 88555 bytes).
+Output written on follow-up-2.pdf (2 pages, 88553 bytes).
 PDF statistics:
  45 PDF objects out of 1000 (max. 8388607)
  31 compressed objects within 1 object stream
