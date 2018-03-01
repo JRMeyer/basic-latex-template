@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017/Debian) (preloaded format=pdflatex 2018.1.22)  27 FEB 2018 08:38
+This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017/Debian) (preloaded format=pdflatex 2018.1.22)  28 FEB 2018 06:13
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -450,11 +450,11 @@ LaTeX Info: Redefining \nameref on input line 20.
 \openout3 = `follow-up-2.out'.
 
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <12> on input line 51.
+(Font)              <12> on input line 53.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <8> on input line 51.
+(Font)              <8> on input line 53.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <6> on input line 51.
+(Font)              <6> on input line 53.
 
 
 Package Fancyhdr Warning: \headheight is too small (12.0pt): 
@@ -468,41 +468,41 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
 <figs/stl.png, id=16, 319.1925pt x 246.9225pt>
 File: figs/stl.png Graphic file (type png)
 <use figs/stl.png>
-Package pdftex.def Info: figs/stl.png  used on input line 64. on input line 64.
+Package pdftex.def Info: figs/stl.png  used on input line 66. on input line 66.
 
 Package pdftex.def Info: Requested size: 145.89404pt x 112.8623pt on input line
- 64.
+ 66.
 <figs/mtl.png, id=18, 369.38pt x 297.11pt>
 File: figs/mtl.png Graphic file (type png)
 <use figs/mtl.png>
-Package pdftex.def Info: figs/mtl.png  used on input line 72. on input line 72.
+Package pdftex.def Info: figs/mtl.png  used on input line 74. on input line 74.
 
 Package pdftex.def Info: Requested size: 145.89404pt x 117.35036pt on input lin
-e 72.
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 80.
+e 74.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 84.
  [2 <./figs/stl.png> <./figs/mtl.png>]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 80.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 84.
  (./follow-up-2.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 80.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 80.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 84.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 84.
 Package rerunfilecheck Info: File `follow-up-2.out' has not changed.
 (rerunfilecheck)             Checksum: D41D8CD98F00B204E9800998ECF8427E;0.
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 80.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 84.
  ) 
 Here is how much of TeX's memory you used:
  11566 strings out of 492990
  161221 string characters out of 6135005
- 239840 words of memory out of 5000000
+ 240840 words of memory out of 5000000
  14997 multiletter control sequences out of 15000+600000
  7858 words of font info for 28 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 34i,11n,43p,1019b,339s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 34i,10n,43p,1019b,340s stack positions out of 5000i,500n,10000p,200000b,80000s
 </usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></us
 r/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/share
 /texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texli
 ve/texmf-dist/fonts/type1/public/amsfonts/cm/cmti12.pfb></usr/share/texlive/tex
 mf-dist/fonts/type1/public/amsfonts/cm/cmtt12.pfb>
-Output written on follow-up-2.pdf (2 pages, 88553 bytes).
+Output written on follow-up-2.pdf (2 pages, 89870 bytes).
 PDF statistics:
  45 PDF objects out of 1000 (max. 8388607)
  31 compressed objects within 1 object stream
