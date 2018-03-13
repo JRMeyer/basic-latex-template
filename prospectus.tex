@@ -75,16 +75,16 @@ During training all \texttt{Tasks} are trained in unison, but during testing onl
 
 \section{Overview of Speech Recognition}
 
-All research exists in some historical context, answering pressing questions of the times, making use of and reacting to existing technologies. ASR research is a fine example of a field which has grown in directions defined by either military, academic, or commercial incentives. Early work on ASR reflected the needs of telecommunications companies. Then came a wave of interest from the US Department of Defense, and most recently the four tech giants (Google, Amazon, Facebook, and Apple) have set the bar for what is classified as meaningful research. While all these initiators pushed researchers in different directions, they all share one common goal: to make ASR more human-like.
+All research exists in some historical context, answering pressing questions of the times, making use of and reacting to existing technologies. ASR research is a fine example of a field which has grown in directions defined by either military, academic, or commercial incentives. Early work on ASR reflected the needs of telecommunications companies. Then came a wave of interest from the US Department of Defense, and most recently the four tech giants - Google, Amazon, Facebook, and Apple. While all these initiators pushed researchers in different directions, they all share one common goal: to make ASR more human-like.
 
-This section contains the training and testing procedures for standard automatic speech recognition (ASR) pipelines. The overview will provide the reader with a technical grounding in ASR, so that the rest of the dissertation will have some point of reference. 
+This section contains the training and testing procedures for standard automatic speech recognition (ASR) pipelines. This short overview will provide the reader with a technical grounding in ASR. 
 
 \subsection{1952: Isolated Word Systems: Bell Labs}
-Most of the early work on ASR in the 50's and 60's focused on isolated word, speaker-dependent speech recognition. This line of work was lead by research labs in telecommunications companies like Bell Labs and NEC Corporation (a Japanese technology giant), and also academic labs like MIT Lincoln Labs. (XXX)
+Most of the early work on ASR in the 50's and 60's focused on isolated word, speaker-dependent speech recognition. This research was lead by R\&D labs in telecommunications companies like Bell Labs and the NEC Corporation (a Japanese technology giant), and also academic labs like MIT Lincoln Labs. (XXX)
 
 The typical use case was a single adult male carefully reading off single digits [0-9] into a microphone. One of the very first demonstrations reported accuracy rates of up to 99\% on isolated digit recognition \cite{davis1952automatic}. This system relied on approximations of the formant frequencies to recognize entire words. That is, there was no concept of syllables or consonants or vowels in these systems. The word was treated as a single unit, and during classification all words were compared to each other to find the best match.
 
-This work, along with most others of this time period, relied on a template-matching framework to classify spoken words. An exmplar of each word was saved to disk (for each speaker ideally), and when a user spoke a new, unknown word into the microphone, the computer compared that audio with all the examplars it had on file for that speaker. The closest match was returned back, and when recognizing a set of ten digits, this worked surprisingly well. 
+This work, along with most others of this time period, relied on a template-matching framework to classify spoken words. An exemplar of each word was saved to disk (for each speaker ideally), and when a user spoke a new, unknown word into the microphone, the computer compared that audio with all the exemplars it had on file for that speaker. The closest match was returned back, and when recognizing a set of ten digits, this worked surprisingly well. 
 
 The Bell Labs system worked in the following way:
 
@@ -97,7 +97,7 @@ The Bell Labs system worked in the following way:
   
 \item TEMPLATE MATCHING
   \begin{enumerate}
-  \item the 2-D x-y plot from new audio is compared to each of 10 examplars on file, and closest is returned
+  \item the 2-D x-y plot from new audio is compared to each of 10 exemplars on file, and closest is returned
   \end{enumerate}
 \end{enumerate}
 
@@ -110,24 +110,24 @@ An example set of templates (from the original Bell Labs paper) is show below:
 \end{center}
 
 
-It may sound like speech recognition research was off to a great start with accuracy near perfect, but in truth the approach taken in much of this early work could not be extended further for a few reasons. These approaches relied on acoustic properties of vowels in a whole-word template-matching scheme which requires a representation of each word saved on disk. This paradigm, if extented to larger vocabularies would run into major issues in time and space complextiy (big O). If the system needed to recognize 1000 words instead of just 10, the time needed to compare new input to each of the 1000 examplars would be prohibitive. Additionally, the space on disk would increase with every additional word. Therefore, both time and space complexity are proportional to the number of words in the lexicon. This does not bode well for scaling to all words in a language.
+It may sound like speech recognition research was off to a great start with accuracy near perfect, but in truth the approach taken in much of this early work could not be extended further for a few reasons. These approaches relied on acoustic properties of vowels in a whole-word template-matching scheme which requires a representation of each word saved on disk. This paradigm, if extented to larger vocabularies would run into major issues in time and space complextiy (big O). If the system needed to recognize 1000 words instead of just 10, the time needed to compare new input to each of the 1000 exemplars would be prohibitive. Additionally, the space on disk would increase with every additional word. Therefore, both time and space complexity are proportional to the number of words in the lexicon. This does not bode well for scaling to all words in a language.
 
-Aside from implementation issues with this approach, a more fundamental limitation is the ues of whole words as templates, and etracting only formant frequencies as features. Two words with similar consonants and identical vowels (eg. `dog' vs `dock') would be nearly indistinguishable for this system.
+Aside from implementation issues with this approach, a more fundamental limitation is the use of whole words as templates, and extracting only formant frequencies as features. Two words with similar consonants and identical vowels (eg. `dog' vs `dock') would be nearly indistinguishable for this system.
 
 As such, two of the major problems with these digit recognizers relate to the unit of comparison (ie. what does the template represent?) and the extraction of features (ie. how is the template stored?). In the following, the unit of comparison switches from the word to the phoneme, and the features extracted switch from formants to more fine-grained frequency bins (eg. MFCCs).
 
 \subsection{1971: Constrained Sentence Recognition: ARPA}
 
- Speech research soon was boosted into full gear when in 1971, the Advanced Research Program Agency (ARPA) of the US Department of Defense launched the 5-year Spoken Understanding Research (SUR) program. The goal of the program was to ``obtain a breakthrough in speech understanding capability that could then be used toward the development of practical man-machine communication systems'' (Klatt 1977). ARPA wanted something that Airforce pilots could control with their voice while their hands were busy steering. The SUR program spurred various papers from four main research groups (XXX). Probably the most significant result of the ARPA project was James Baker's 1975 dissertation at CMU, which firmly established the import of the Hidden Markov Model in ASR (Baker 1975).
+ Speech research soon was boosted into full gear in 1971, when the Advanced Research Program Agency (ARPA) of the US Department of Defense launched the 5-year Spoken Understanding Research (SUR) program. The goal of the program was to ``obtain a breakthrough in speech understanding capability that could then be used toward the development of practical man-machine communication systems'' (Klatt 1977). ARPA wanted something that Airforce pilots could control with their voice while their hands were busy steering. The SUR program spurred various papers from four main research groups (XXX). Probably the most significant result of the ARPA project was James Baker's 1975 dissertation at CMU, which firmly established the Hidden Markov Model in ASR (Baker 1975).
 
 
  The contestants were given the task of creating a system which could recognize simple sentences from a vocabulary of 1000 words with a 10\% WER in reasonable time. In order to make a recognizer that could handle sentences instead of isolated words, where the length of that string was unknown to the system, major overhauls of the Isolated Word system were needed.
 
-First of all, it was clear that storing an exemplar of each word on disk is not an option with continuous speech systems. In addition to the nearly impossible task of discovering word boundaries from raw audio, the decoding speed would be horrendous (even if word boundaries were found). The machine would have to compare each word to each of the 1,000 candidate words on disk. Furthermore, the space used on disk would be prohibitive, not to mention the time needed by the user to record every word during speaker enrollment. Modeling whole words became an obvious bottleneck to recognition of continuous speech. As such, speech needed to be modeled at a level lower than words themselves, and the phoneme became an obvious candidate.
+First of all, it was clear that storing an exemplar of each word on disk is not an option with continuous speech systems. In addition to the nearly impossible task of discovering word boundaries from raw audio, the decoding speed would be horrendous (even if word boundaries were found). The machine would have to compare each word to each of the 1,000 candidate words on disk. The space used on disk would be prohibitive, not to mention the time needed by the user to record every word during speaker enrollment. Modeling whole words became an obvious bottleneck to recognition of continuous speech. As such, the phoneme became an obvious candidate.
 
 The phoneme is the smallest meaningful speech sound. Every language has a finite set of phonemes, and with this finite set of phonemes all words are created. Typically languages don't have more than 50 phonemes, and that number will not increase with vocabulary or grammar complexity. Where simple systems had hard limits of 100 or 1000 words, with only 50 discrete phonemes there is no upper limit to the number of words a system can recognize.
 
-All of the teams in the ARPA project used the phoneme as the unit for modelling speech, but the team at Carnegie Mellon showed best promise with their `Harpy' system (Juang 2005). Like in Isolated Word Recognitions, all teams used some kind of template matching, but with phoneme templates instead of word templates.
+All of the teams in the ARPA project used the phoneme as the unit for modeling speech. At the end of the project, the team at Carnegie Mellon showed best performance with their `Harpy' system (XXX, for review cf. Juang 2005). Like in Isolated Word Recognition, all teams used some kind of template matching, but with phoneme templates instead of word templates.
 
 The Harpy system decoded a new utterance in the following way:
 
@@ -141,7 +141,7 @@ The Harpy system decoded a new utterance in the following way:
   
 \item GRAPH CONSTRUCTION
   \begin{enumerate}
-  \item a set of 98 phonemes (and diphones) defined by expert
+  \item a set of 98 phonemes (and diphones) defined by experts
   \item pronunciations for all words defined
   \item pronunciations of all accepted sentences in the grammar compiled into one graph (15,000 states with self-loops)
   \end{enumerate}
@@ -153,7 +153,7 @@ The Harpy system decoded a new utterance in the following way:
   \end{enumerate}
 \end{enumerate}
 
-An example of what a decoding graph in Harpy might look like is the following (Klatt 1977):
+An example of what a decoding graph in Harpy might look like (Klatt 1977):
 
 
 \begin{center}
@@ -165,28 +165,24 @@ Harpy is a speaker-specific system, and the 98 phoneme templates need to be tune
 
 Given that command and control was the target application, a limited vocabulary and limited grammar was reasonable. The user said one short sentence (from a constrained, finite set), and the decoder compared that sentence to a graph of all possible sentences, and returned the closest match. This assumes the user actually said a sentence in the machine's vocabulary. Each user was trained to work with the machine (learn its grammar), and the machine was trained to work with each user (via enrollment). 
 
-By modern standards, these recognizers were not flexible. However, what these recognizers lacked in flexibility they gained in accuracy. The machine didn't have to consider more than 1,000 words and a simple grammar. Furthermore, there was no real issue of noise conditions, because recording and testing would be both in quiet conditions. There was no worry about microphone robustness or sampling-rate issues, because the creators knew exactly beforehand what hardware the recognizer ran on. All these problems current ASR research faces were unknown to these early researchers, and their approach was simple, and efficient.
+What these recognizers lacked in flexibility, they gained in accuracy. The machine didn't have to consider more than 1,000 words and a simple grammar. Furthermore, there was no real issue of noise conditions, because recording and testing would be both in quiet conditions. There was no worry about microphone robustness or sampling-rate issues, because the creators knew exactly beforehand what hardware the recognizer ran on.
 
-This approach worked just fine until users wanted more. Users wanted something more human-like. First of all, training the recognizer to work for every new user was a hassle. We humans don't need to relearn all sounds in our language when we meet someone new, but these machines did. We humans can understand our friends when we're in an echoey factory or in a small room, but these machines couldn't.
+This approach worked just fine until users wanted something more human-like. First of all, training the recognizer to work for every new user was a hassle. We humans don't need to relearn all sounds in our language when we meet someone new, but these machines did. We humans can understand our friends when we're in an echoey factory or in a small room, but these machines couldn't.
 
-Regardless of the successes of the SUR program, ARPA was dissappointed. The best system, Harpy, decoded in about 80x real time. Harpy could not be used in practice, and speeding her up was not a simple task. In his review of ARPA's Speech Understanding Research Program, (Klatt 1977) concludes that ``all [teams] failed to meet the ARPA goals.''
+Regardless of the successes of the SUR program, ARPA was dissappointed. The best system, Harpy, decoded in about 80x real time (WER of XXX). Harpy could not be used in practice, and speeding her up was not a simple task. In his review of ARPA's Speech Understanding Research Program, (Klatt 1977) concludes that ``all [teams] failed to meet the ARPA goals.''
 
 %% \begin{quote}
 %%   ... it is disruptive to send funding oscillations through thr basic research community and to subject science to fads and anti-fads. The danger now is that funds will be less available for the basic science that must be done in the speech analysis area before real further progress is made.
 %% \end{quote}
 
-In addition to problem of speed, grammar flexibility was a major concern for making systems that could recognize spontaneous speech. The kinds of sentences recognized by Harpy were determined by a BNF grammar. This consisted of a set of hand-crafted rules, and was not easily extensible. Such a set of rules has yet to be constructed for the English language, and even in the 1980's, researchers realized that such a grammar was not a viable option. A major shift was about to take place in the ASR world, moving away from template matching and strict grammars to statistical acoustic models and statistical grammars. Instead of hard assignments (grammatical or not), a better system would assign a kind of likelihood to the sentence, word, or sound in question.
+In addition to problem of speed, grammar flexibility was a major concern for making systems that could recognize spontaneous speech. The kinds of sentences recognized by Harpy were determined by a BNF grammar. This consisted of a set of hand-crafted rules, and was not easily extensible. Even in the 1980's, researchers realized that such a grammar was not a viable option. A major shift was about to take place in the ASR world, moving away from template matching and strict grammars to statistical acoustic models and statistical grammars. Instead of hard assignments (grammatical or not), a better system would assign a kind of likelihood to the sentence, word, or sound in question.
 
 
-\subsection{1994: The Modern GMM-HMM Approach: HTK}
+\subsection{1994: The GMM-HMM Approach: HTK}
 
-The 1970's introduced the HMM (Baker 1975), the 80's introduced the GMM (Juang 1986) and the statistical grammars (Katz 1987), and the 90's made it all trainable in one toolkit: the Hidden Markov Model Toolkit (HTK) (Young 1994).
+The 1970's introduced the HMM (Baker 1975), the 80's introduced the GMM (Juang 1986) and the statistical grammars (Katz 1987), and the 90's made it all trainable in one toolkit: the Hidden Markov Model Toolkit (HTK) (Young 1994). HTK was the first toolkit to incorporate all of the core components of Modern GMM-HMM speech recognition.
 
-HTK was the first toolkit to incorporate all of the core components of Modern GMM-HMM speech recognition.
-
-CMU's Sphinx was also a leader in the ASR toolkit game, but the first version of CMU's Sphinx used Vector Quantized codebooks to estimate emission probabilities on HMM states, while HTK began with GMMs in 1994.
-
-Regardless of HTK and Sphinx's (minor) differences in performance, HTK's extensive documentation (The HTK Book) became the reference of choice for most speech recognition researchers. The first results of the HTK system were reported as a benchmark on DARPA's Resource Management task in 1992 (Woodland \& Young 1992).
+CMU's Sphinx was a leader in the ASR toolkit game (XXX), but the first version of CMU's Sphinx used Vector Quantized codebooks to estimate emission probabilities on HMM states, while HTK began with GMMs in 1994. Regardless of HTK and Sphinx's (minor) differences in performance, HTK's extensive documentation (The HTK Book) became the reference of choice for most speech recognition researchers. The first results of the HTK system were reported as a benchmark on DARPA's Resource Management task in 1992 (Woodland \& Young 1992).
 
 The standard GMM-HMM pipeline of HTK is outlined below. 
 
@@ -222,12 +218,10 @@ The standard GMM-HMM pipeline of HTK is outlined below.
 
 
 \subsubsection*{FEATURE EXTRACTION}
-
-The toolkit itself is agnostic as to which features are extracted from the audio signal, but the extraction process is standard. This extraction is not unique to HTK, and there is a large literature on different methods of defining audio features (seminal work on MFCCs: Davis \& Mermelstein 1990; PLPs: Hermansky 1990)
   
 A common goal of all feature extraction in speech recognition is the following: the audio signal in its raw form is not condusive to modeling speech, and we need to make speech-information more available for statistical modeling. Feature extraction enhances the signal-to-noise ratio, but it is more than just a ``cleaning'' of audio.
 
-Raw audio is simply air pressure measured in time. Speech is transmitted via change in pressure, and as such raw audio contains all the information relevant to human speech. However, speech sounds are differentiated by amplitudes in both the frequency and time domain. Raw audio does not contain direct information about the frequency domain, so the frequency must be inferred to distinguish and recognize phonemes. Feature extraction makes that frequency information available explicitly, instead of relying on the statistical model to infer on its own.
+Raw audio is simply air pressure measured in time. Speech is transmitted via change in pressure, and as such raw audio contains all the information relevant to human speech. However, speech sounds are differentiated by amplitudes in both the frequency and time domain. Feature extraction makes that frequency information available explicitly, instead of relying on the statistical model to infer on its own.
 
   
 \begin{center}
@@ -238,7 +232,7 @@ Raw audio is simply air pressure measured in time. Speech is transmitted via cha
 
 The two standard audio feature extraction techniques in HTK (and in ASR in general) are Mel-cepstral coefficients (MFCCs) or perceptual linear prediction (PLPs).
 
-  Overlapping windows are shifted across the audio, from beginning to end, to extract feature vectors. For each timestep, the audio falling inside the window is subjected to a series of transformations which both reduce the dimensionality of the data and highlight speech-specific information. Typically the windows are 25 milliseconds long, and the the shift is 10 milliseconds. In this way, enough time is allowed to capture phonetic information inside one window.
+  Overlapping windows are shifted across the audio, from beginning to end, to extract feature vectors. For each timestep, the audio falling inside the window is subjected to a series of transformations which reduce the dimensionality of the data and highlight speech-specific information. Typically the windows are 25 milliseconds long, and the the shift is 10 milliseconds. In this way, enough time is allowed to capture phonetic information inside one window.
 
   
 \begin{center}
@@ -250,7 +244,7 @@ Ideally, every feature vector should contain enough information to identify the 
 
 \subsubsection*{MONOPHONE TRAINING}
 
-  A monophone GMM-HMM acoustic model contains (as the name suggests) one model for one phoneme. For a language with 50 phonemes, a monophone system will have 50 separate GMM-HMMs. However, the number of states in each phoneme's HMM is not specified, and is a matter of researcher discretion. Given that human speech is a purely left-to-right signal, monophone HMMs are defined to be strictly left-to-right, with the addition of self-loops. Abstracting away from some of the implementation specifics, each monophone HMM will be designated as such:
+  A monophone GMM-HMM acoustic model contains (as the name suggests) one model for one phoneme. For a language with 50 phonemes, a monophone system will have 50 separate GMM-HMMs. The number of states in each phoneme's HMM is not specified, and is a matter of researcher discretion. Given that human speech is a purely left-to-right signal, monophone HMMs are defined to be strictly left-to-right, with the addition of self-loops. Abstracting away from some of the implementation specifics, each monophone HMM will be designated as such:
 
 \begin{center}
 \includegraphics[width=.3\textwidth,keepaspectratio]{figs/3-state-hmm.png}
@@ -258,7 +252,7 @@ Ideally, every feature vector should contain enough information to identify the 
 
 The self-loops (as in the Harpy system) nicely model the differences in time which occur in speech. A long, drawn-out vowel will be modeled with the exact same HMM as a short, quick vowel. The longer vowel will just have to pass through more self-loops.
 
-The reason that most GMM-HMMs in speech recognition use three states is the following: neighboring phonemes will blend together, and therefore acoustic features at the edges of sounds may be significantly different from the center of the phoneme. All else being equal, the central state of a monophone should be more consistent than its edges. In addition to modeling co-articulation, three states will allow for the modeling of more complex sounds like affricates or stop consonants, which are composed of multiple acoustic events. For instance, a stop consonant like [b] can be broken into three parts (closed voicing, plosive release, aspiration). Each of these three parts is a separate acoustic event, and should ideally be modeled separately. Multiple state HMMs allow for this kind of fine-grained modeling of a single phoneme into its component parts.
+Most GMM-HMMs in speech recognition use three states because neighboring phonemes blend together. Acoustic features at phoneme boundaries differ significantly from the center of the phoneme. All else being equal, the central state of a monophone should be more consistent than its edges. In addition to modeling co-articulation, three states will allow for the modeling of more complex sounds like affricates or stop consonants, which are composed of multiple acoustic events. For instance, a stop consonant like [b] can be broken into three parts (closed voicing, plosive release, aspiration). Each of these three parts is a separate acoustic event, and should ideally be modeled separately. Multiple state HMMs allow for fine-grained modeling of a single phoneme into its component parts.
 
 Defining a typology for these monophones is not enough to use them in decoding new audio. HMMs are defined by:
 
@@ -276,7 +270,7 @@ So far we have defined how many states we want (three states per phoneme), we ha
 \includegraphics[width=.9\textwidth,keepaspectratio]{figs/skeleton-hmm.png}
 \end{center}
 
-One approach to get these numbers would be to down and think really hard about what these numbers should be, filling them in ourselves. We could make self-loops for vowels longer than stop consonants, and we could define the parameters of Gaussians based on some knowledge of acoustic phonetics. However, this is a pretty horrible idea. So instead of trying to guess these values, we use some concepts from machine learning to \textit{learn} them from data.
+One approach to get these numbers would be to sit down and think really hard about what these numbers should be, filling them in ourselves. We could make self-loops for vowels longer than stop consonants, and we could define the parameters of Gaussians based on some knowledge of acoustic phonetics. However, this is a pretty horrible idea. So instead of trying to guess these values, we use some concepts from machine learning to \textit{learn} them from data.
 
 So, to learn about the acoustics of human speech, we need to collect a lot of it. However, just having access to a huge spoken corpus isn't enough; we need to know which segments of the audio correspond to which states in our GMM-HMMs so that we can update parameters given the appropriate data. While it is certainly possible to align segments of audio to HMM states by hand, it is a very tedious job (examples of this kind of corpus include TIMIT and the Buckeye corpus).
 
@@ -286,15 +280,13 @@ Given (1) a speech corpus, (2) transcriptions of the speech, and (3) a pronuncia
 
 \subsubsection*{Flat-Start Alignment}
   
-To successfully train our monophone GMM-HMMs from our speech data, we eventually want to have the entire corpus split into segments which correspond to the states of the HMMs.
-
-To begin training our monophone HMM-GMMs, we need a first guess as to what the sounds may be, and flat-start training is a very simple solution to this first-alignment problem.
+In order to successfully train our monophone GMM-HMMs from speech data, we eventually want to have the entire corpus split into segments which correspond to the states of the HMMs. Before we can begin iterations of Baum-Welch, we need a first guess as to what the parameters could be - ie. we need an initial alignment to the data.  Flat-start training is a very simple solution to this first-alignment problem.
 
 %% \begin{center}
 %%   \includegraphics[width=1.0\textwidth,keepaspectratio]{figs/flat-start.png}
 %% \end{center}
 
-For Baum-Welch re-estimation to work, we use the parameters of our model to generate new alignements for the model itself. However, in the first step, we have no initialization for the model parameters. We could initialize all parameters randomly, and then start Baum-Welch. This in principle should work, but it would take a long time because the initialization would be truly horrendous. A better first guess would come not from random paramters, but from the audio itself.
+For Baum-Welch re-estimation to work, we use the parameters of our model to generate new alignments for the model itself. However, in the first step, we have no initialization for the model parameters. We could initialize all parameters randomly, and then start Baum-Welch. This in principle should work, but it would take a long time because the initialization would be truly horrendous. A better first guess would come not from random paramters, but from the audio itself.
 
 In flat-start training, we assume a few things: (1) utterances, (2) transcriptions for the utterances, and (3) a phonetic transcription for every word in the transcripts. Given these three things, we can construct a phonetic transcription for each utterance.  
 
@@ -330,17 +322,17 @@ Given a phonetic transcription of an utterance in training, starting from left t
   %% \end{algorithm}
   
 
-In this way, Flat Start training allows us to make an initial estimate for every parameter of every monophone GMM-HMM in our acoustic model. This is a very, very crude first estimate, and its assumptions are absurd. This alignment assumes that each phoneme in a word is exactly the same length as every other phoneme in that word, and actually in the whole utterance. Human speech doesn't work like this, and as such it seems like there's no way that flat start training could work, but it does. It works because of what comes next with Baum-Welch training. Flat start training is not an end in itself, and even though it seems as if its assumptions could never work, one assumption is the saving grace of Flat start training. The assumption is that the linear order of phonemes in an utterance is left-to-right. With just that one assumption built into the typology of our HMMs, we can use the Baum-Welch algorithm to make increasing better alignments to the speech data.
+In this way, Flat Start training allows us to make an initial estimate for every parameter of every monophone GMM-HMM in our acoustic model. This is a very, very crude first estimate, and its assumptions are absurd. This alignment assumes that each phoneme in a word is exactly the same length as every other phoneme in that word, and actually in the whole utterance. Human speech doesn't work like this, and as such it seems like there's no way that flat start training could work, but it does. One assumption is the saving grace of Flat start training. The assumption is that the linear order of phonemes in an utterance is left-to-right. With just that one assumption built into the typology of our HMMs, we can use the Baum-Welch algorithm to make increasing better alignments to the speech data. It works because Baum-Welch training is guaranteed to improve model-data fit, no matter how bad the original fit is.
 
 \subsubsection*{Baum-Welch re-estimation}
 
-Now that we have an initial estimate of all the parameters in our monophone GMM-HMMs, we can use both the data and the model to make better and better alignments. The basic idea of Baum-Welch is that we can use the the current model parameters of any given utterance HMM to generate the most likely alignment of that HMM to its corresponding audio clip. Then we take that alignment as the ground-truth alignement, nad update the model parameters accordingly.
+Now that we have an initial estimate of all the parameters in our monophone GMM-HMMs, we can use both the data and the model to make better and better alignments. The basic idea of Baum-Welch is that we can use the the current model parameters of any given utterance HMM to generate the most likely alignment of that HMM to its corresponding audio clip. Then we take that alignment as the ground-truth alignement, and update the model parameters accordingly.
 
-In iterating over parameter updating and alignment generation, we reach parameters that get closer and closer to true estimates. It is key to remeber that all the utterances are updated in unison, and as such, the sounds and speech rates and other peculiarities of individual audio utterances become averaged out. Given that GMM-HMMs are generative models, we are maximizing the likelihood of the data given the model. Our implementation of the EM algorithm (i.e. Baum-Welch training) is a special case of Maximum likelihood estimation, where we don't have full information about the relationship between our model and the data. If we had the golden truth for alignments between feature vectors and HMM states, then we would just update the parameters once, and there would be no re-alignment afterwards. However, since we don't have the alignments, we need to guess at them, and our guesses get better over time.
+By iterating over (1) parameter updating and then (2) alignment generation, we reach parameters that get closer and closer to true estimates. It is key to remeber that all the utterances are updated in unison, and as such, the sounds and speech rates and other peculiarities of individual audio utterances become averaged out. Given that GMM-HMMs are generative models, we are maximizing the likelihood of the data given the model. Our implementation of the EM algorithm (i.e. Baum-Welch training) is a special case of Maximum Likelihood Estimation (MLE), where we don't have full information about the relationship between our model and the data. If we had the golden truth for alignments between feature vectors and HMM states, then we would just update the parameters once, and there would be no re-alignment afterwards. However, since we don't have the alignments, we need to guess at them, and our guesses get better over time.
 
 \subsubsection*{TRIPHONE TRAINING}
 
-Monophone systems work well, but they are too simple to model natural speech well. In order to increase the complexity of monophone HMMs, there are a few routes we can take.
+Monophone systems work well, but they are too simple to model natural speech in its full complexity. In order to increase the complexity of monophone HMMs, there are a few routes we can take.
 
 \begin{enumerate}
 \item add more states to each HMM
@@ -350,17 +342,17 @@ Monophone systems work well, but they are too simple to model natural speech wel
 
 Monophone HMMs by themselves can become fairly complex (ie. more parameters) if we just keep adding Gaussian components to each state. We can also add more states to each HMM (up to five is not uncommon), and in this way capture more nuanced time information and co-articulation effects. However, no matter how many extra states we add and no matter how many extra Gaussians we thrown into a state, at the end of the day, all instances of a phoneme will be collapsed together. This is bad because phonemes vary acoustically depending on their context, and we can predict those variations. Since we can predict it, we should model it (if we have enough data).
 
-Collapsing every realization of a phoneme into one HMM is bad because it results in fuzziness in the model. For an example, the vowel [ah] will display very different formant patterns if is pronounced between nasals [nahn] (`non') versus when it is found between two stops [taht] (`tot'). These co-articulation effects are predictable given the context, and as such, we can reliably model them if we give our model enough freedom. For the monophone [ah], both realizations [n+ah+n] and [t+ah+t] will be trained as one model [*+ah+*].
+Collapsing every realization of a phoneme into one HMM results in fuzziness in the model. For example, the vowel [ah] will display very different formant patterns if is pronounced between nasals [nahn] (`non') versus when it is found between two stops [taht] (`tot'). These co-articulation effects are predictable given the context, and as such, we can reliably model them if we give our model enough freedom. For the monophone [ah], both realizations [n+ah+n] and [t+ah+t] will be trained as one model [*+ah+*].
 
 Ideally, we would like to model every phoneme in every phonetic context with its own HMM. In that way, we would be sure that all predictable variation would be built into the acoustic model. If we have $N$ number of phonemes in our language, instead of defining a mere $N$ monophones, we would ideally train $N*N*N$ monophones in context, to account for both left and right co-articulation effects. However, training $N^3$ models is much more difficult that training $N$ models, because the chances of finding $N^3$ contexts in any speech corpus are none (no slim here). No language will allow for $N^3$ combinations of phonemes. Furthermore, given a finite data set, the more HMM states we define in the model the less data is available for each state.
   
 \subsubsection*{Phonetic decision tree}
       
-Introduced by Young in 1994, the phonetic decision tree allows the researcher to balance model complexity and overfitting by automatically defining acoustic models which increase in complextiy as the dataset increases in size. This allows the researchers to more effficiently avoid over-fitting on small datasets, and increase model power to better exploit big datasets. Also, phonetic decision trees allow for modeling of triphone contexts which were never observed in the training data.
+Introduced by Young in 1994, the phonetic decision tree balances model complexity and overfitting by automatically defining acoustic models which increase in complextiy as the dataset increases in size. This effficiently avoids over-fitting on small datasets, and increase model power to better exploit big datasets. Also, phonetic decision trees allow for modeling of triphone contexts which were never observed in the training data.
     
-Triphones are a natural extension of monophones if we view them in this way.
+Triphones are a natural extension of monophones. Monophones are the tree roots, and triphones are the tree leaves.
 
-We begin with a pool of feature vectors and information about utterances. From the phonetic transcription of the utterance we can glean lots of good, predictive information about the acoustics found in those feature vectors. A powerful enough statistical model should account for all predictable variation in the data (think extra latent variables in regression analysis). Given the utterance transcriptions, there's a wealth of predictive information we could extract and codify into our models. For instance, we can code information not only about each phoneme, but also its 10 closest neighbors, what word the phoneme belongs to, what position in the word the phoneme occupies (beginning, middle, end) etc. The list is potentially infinite, and each extra variable we account for (if meaningful) will help our model correctly classify the acoustic features. In another application, statistical speech synthesis, this is exactly what happens, to be able to produce more detailed, accurate speech. This is fine for speech sythesis, because to create a good voice, we want to overfit the model to one speaker in particular. For our sake in ASR, we want to be able to recognize the speech of any speaker, and as we add more complexity we add to the model we need more data to train the parameters without overfitting.
+We begin with a pool of feature vectors and information about utterances. From the phonetic transcription of the utterance we can glean lots of good, predictive information about the acoustics found in those feature vectors. A powerful enough statistical model should account for all predictable variation in the data (think extra latent variables in regression analysis). Given the utterance transcriptions, there's a wealth of predictive information we could extract and codify into our models. For instance, we can code information not only about each phoneme, but also its 10 closest neighbors, what word the phoneme belongs to, what position in the word the phoneme occupies (beginning, middle, end) etc. The list is potentially infinite, and each extra variable we account for (if meaningful) will help our model correctly classify the acoustic features. In another application, statistical speech synthesis, this is exactly what happens, to be able to produce more detailed, accurate speech. For ASR, we want to be able to recognize the speech of any speaker, and as we add more complexity to the model we need more data to train without overfitting.
 
 With monophone HMMs, we are using one variable only to define the HMM: the identity of the phoneme itself. To double the model complexity, we could split all training examples for each monophone into two categories: (a) phoneme occurs in middle of word or (b) phoneme occurs at word edge. This division between word-internal phoneme and word-edge phonemes will account for a good deal of predictable variation. The [l] in [lamp] and the [l] in [complex] would be assigned to different monophones.
 
@@ -376,7 +368,7 @@ The solution comes from the intuition that groups of phonemes may extert similar
   \includegraphics[width=.5\textwidth,keepaspectratio]{figs/htk-tree.png}
 \end{center}
 
-To make the phonetic decision tree (similar to CART), first a set of monophone GMM-HMMs is trained. Next, every monophone HMM is copied and re-labeled as a triphone (given left and right context). For this copy-paste first pass, all observed triphones are defined and given their over parameters (just a copy of the original monophone). Next, given these new triphones, Baum-Welch re-estimation is performed just as before over all the training data. As such, the inidividual triphones will have a chance to update their parameters based on their own designated subset of the feature vectors. Next given these new triphone GMM-HMMs, we train the decision tree.
+To make the phonetic decision tree (similar to CART), first a set of monophone GMM-HMMs is trained. Next, every monophone HMM is copied and re-labeled as a triphone (given left and right context). For this copy-paste first pass, all observed triphones are defined and given their parameters (just a copy of the original monophone). Next, given these new triphones, Baum-Welch re-estimation is performed just as before over all the training data. As such, the inidividual triphones will have a chance to update their parameters based on their own designated subset of the feature vectors. Next given these new triphone GMM-HMMs, we train the decision tree.
 
 Here it is important to add a nuance of the standard phonetic decision tree. All splitting for triphones occurs at the state level. That is, each state can have its own root (see Kaldi docs). The above diagram would result in three separate decision trees for the phoneme [aw]. 
     
@@ -390,7 +382,7 @@ During this process, the researcher decides
 \end{enumerate}
 
 
-It should become obvious that because each leaf represents a single state of a 3-state GMM-HMM, then the number of Gaussians in the entire model must be greater than or equal to the number of leaves.
+Each leaf represents a single state of a 3-state GMM-HMM, and as such, the number of Gaussians in the entire model must be greater than or equal to the number of leaves.
 
     
 \subsubsection*{Baum-Welch re-estimation}
@@ -452,11 +444,9 @@ The hybrid approach started gaining traction in the 2000's, when neural nets wer
 
 Kaldi is currently the most popular ASR toolkit for research not only because it supported DNN acoustic modeling before other toolkits - Kaldi also takes a different implementation of the graph decoder, based on Weighted Finite State Transducer technology (Mohri 2001). Kaldi is written in C++ with a much more free license than HTK or Sphinx, making it nicer for both researchers and industry developers.
 
-The DNN-HMM and GMM-HMM approaches are very similar in almost all respects, and the DNN is essentially just a drop-in replacement for the GMM acoustic model. Some minor adjustments have to be made for the Viterbi decoding math to work out: i.e. the standard equation requires the aocustic model to produce a \textit{likelihood} of the audio given a phomeme. GMMs give \textit{likelihoods}, but DNNs give \textit{posteriors}. Aside from some minor math adjustments, at decoding time GMMs and DNNs serve the same prupose: give information about phoneme-audio relations. The rest of the decoder (phonetic dictionary, n-gram language model, phonetic decision tree) remains the same. In fact, it's standard to compile the decoding graph once in Kaldi and use both a GMM and resulting DNN for decoding.
+The DNN-HMM and GMM-HMM approaches are very similar in almost all respects, and the DNN is essentially just a drop-in replacement for the GMM acoustic model. Some minor adjustments have to be made for the Viterbi decoding math to work out: i.e. the standard equation requires the acoustic model to produce a \textit{likelihood} of the audio given a phomeme. GMMs give \textit{likelihoods}, but DNNs give \textit{posteriors}. Aside from some minor math adjustments, at decoding time GMMs and DNNs serve the same purpose: give information about phoneme-audio relations. The rest of the decoder (phonetic dictionary, n-gram language model, phonetic decision tree) remains the same.
 
-Even though the DNN-HMM and GMM-HMM follow nearly identical procedures during decoding, their training is significantly different.
-
-In fact, the standard DNN training procedure relies on the GMM training to produce labeled data. Feedforward deep neural nets require labeled data for supervised training (there are some exceptions as in CTC training).
+Even though the DNN-HMM and GMM-HMM follow nearly identical procedures during decoding, their training is significantly different. In fact, the standard DNN training procedure relies on the GMM training to produce labeled data. Feedforward deep neural nets require labeled data for supervised training (there are some exceptions as in CTC training).
 
 GMM-HMM training uses Baum-Welch parameter estimation via flat-start monophone training to iterate steps of alignement and estimation in order to generate more and more accurate alignements (and more accurate GMMs). This procedure is mathimatically sound, guaranteed to lead to better and better parameter estimates for the given data.
 
@@ -502,7 +492,7 @@ Typically, to integrate time information into DNN acoustic model training, the i
 
 \subsubsection*{DNN TRAINING}
 
-Given the alignments from the triphone GMM-HMM system, first we splice features in order to create training data. This training example generation should result in the same number of \texttt{(label,data)} pairs as were provided by the GMM system. Recall that the phonetic decision tree from the GMM-HMM model was used to define which triphone states would be merged together, and as such, the number of leaves in the tree equals the number of GMMs to be trained. The identity of each GMM is therefore the label for the training data, and when we train a DNN in Kaldi, we are predicting these same labels. As such, we can view the DNN-hybrid approach as a kind of model transfer, where we first create a generative classifier (GMMs defined by decision tree) and we train a DNN to perform the same task. The number of nodes on the output layer of the DNN, therefore, equals the number of leaves in the previously trained decision tree.
+Recall that the phonetic decision tree from the GMM-HMM model was used to define which triphone states would be merged together, and as such, the number of leaves in the tree equals the number of GMMs to be trained. The identity of each GMM is therefore the label for the training data, and when we train a DNN in Kaldi, we are predicting these same labels. We can view the DNN-hybrid approach as a kind of model transfer, where we first create a generative classifier (GMMs defined by decision tree) and we train a DNN to perform the same task. The number of nodes on the output layer of the DNN, therefore, equals the number of leaves in the previously trained decision tree.
 
 
 \begin{center}
@@ -511,13 +501,12 @@ Given the alignments from the triphone GMM-HMM system, first we splice features 
 
 
 
-Even though the labels come directly from the GMM model, for the DNN, each training data instance (audio frame) will contain additional contextual information. It is common to splice a large window of frames (up to 10 frames on each side), and then reduce the dimensionality of the data with a some transform (typically LDA). We don't change the labels from the previous GMM model, but we do enhance the data.
-
+Even though the labels come directly from the GMM model, for the DNN, each training data instance (audio frame) will contain additional contextual information. Given the alignments from the triphone GMM-HMM system, first we splice features in order to create training examples. This step should result in the same number of \texttt{(label,data)} pairs as were provided by the GMM system. It is common to splice a large window of frames (up to 10 frames on each side), and then reduce the dimensionality of the data with a some transform (typically LDA).
     
 
 \subsubsection*{DECODING GRAPH}
 
-Kaldi's approach to graph compilation sets it out from other toolkits. Building on work by Mohri (1997, 2002), Kaldi implements every knowledge source in the ASR pipeline as a Weighted Finite State Transducer (WFST). WFSTs are an elegant choice for speech decoding, because they allow for not only heirarchical combination of knowledge (sentences, words, phonemes), but WFSTs also allow for the combination of weights from each level of the heirarchy. That is, we can just as easily assign probabilities to sequences of words as to sequences of phonemes. All these sources of probabilities are encoded as weights on a WFST, and during compilation, all that information and bias is saved and used.
+Kaldi's approach to graph compilation sets it out from other toolkits. Building on work by Mohri (1997, 2002), Kaldi implements every knowledge source in the ASR pipeline as a Weighted Finite State Transducer (WFST). WFSTs are an elegant choice for speech decoding, because they allow for not only heirarchical combination of knowledge (sentences, words, phonemes), but also the combination of weights from each level of the heirarchy. That is, we can just as easily assign probabilities to sequences of words as to sequences of phonemes. All these sources of probabilities are encoded as weights on a WFST, and during compilation, all that information and bias is saved and used.
 
 Following Mohri, Kaldi creates a single master decoding graph from four (4) WFSTs. The final graph is called HCLG, and it is the composition of subgraphs H, C, L, and G.
 
@@ -537,7 +526,7 @@ Starting from the highest level and working down, the WFST `G' represents the gr
   \includegraphics[width=.9\textwidth,keepaspectratio]{figs/mohri-G.png}
 \end{center}
 
-If we use a backoff n-gram language model to define our grammar, then we will have different possibilities depending on how much of the sequence was observed in training. A decoding graph cannot recognize a word it never saw, but if a sequence of words (eg. ``She codes best in Python.'') that sequence will be assigned a higher probability if it was seen contiguously, rather than if all the words were seen apart.  If that sentence was never seen in training, but the two sentences: ``She codes best in class.'' and ``She prefers C++ to Python.'', then the original sentence is grammatical, but the bigram ``in Python'' was never seen. As such, the backoff weights for ``in'' and ``Python'' would be combined. This is the idea behind a backoff language model, and WFSTs naturally encode this with a backoff state. In the following diagram, \textit{b} is the backoff state, \textit{w1} is ``in'' \textit{w2} is ``class'' \textit{w3} is ``Python''
+If we use a backoff n-gram language model to define our grammar, then we will have different possibilities depending on how much of the sequence was observed in training. A decoding graph cannot recognize a word it never saw. For example, given a sequence of words (eg. ``She codes best in Python.''), that sequence will be assigned a higher probability if it was seen contiguously, rather than if all the words were seen apart. If that sentence was never seen in training, but the two sentences: ``She codes best in class.'' and ``She prefers C++ to Python.'', then the original sentence is grammatical, but the bigram ``in Python'' was never seen. As such, the backoff weights for ``in'' and ``Python'' would be combined. This is the idea behind a backoff language model, and WFSTs naturally encode this with a backoff state. In the following diagram, \textit{b} is the backoff state, \textit{w1} is ``in'' \textit{w2} is ``class'' \textit{w3} is ``Python''
 
 \begin{center}
   \includegraphics[width=.6\textwidth,keepaspectratio]{figs/mohri-backoff.png}
