@@ -1,0 +1,97 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage[margin=1.25in]{geometry}
+\usepackage{fancyhdr} % fancy header
+\pagestyle{fancy} % so fancy
+\usepackage[russian,english]{babel} % for russian letters
+\usepackage{tipa} % for IPA symbols
+\usepackage[round]{natbib} % bibliography
+\usepackage{graphicx} % for importing graphics / figures
+\usepackage{booktabs} % publication-worthy tables
+\usepackage{adjustbox} % makes tables fit nicely on the page
+\usepackage{hyperref}
+
+\lhead{Joshua MEYER}
+\rhead{Cover Letter: Google AI Residency}
+\cfoot{} %% make empty to get rid of the page number %% \cfoot{Page \thepage}
+\renewcommand{\footrulewidth}{0.4pt} %% this puts a fancy line at the footer
+
+
+
+%
+% mozilla
+% NSF
+% Interspeech
+%
+
+\begin{document}
+
+\subsection*{Cover Letter 2.0}
+
+
+A lot has changed since last year. Last year, before I arrived in Mountain View for the final round of interviews for the Google AI Residency, I thought that Silicon Valley would be swarmed with self-driving cars and coffee-delivering robots. Now, I know that Mountain View is actually a peaceful little town with good biryani.
+
+Also, last year I wasn't very keen on moving to California --- Brain Montreal was my top preference then. This year, I'm writing this cover letter from my apartment in San Fransisco. Currently I'm interning at Mozilla's Machine Learning Research group on the DeepSpeech team. My internship is co-funded under a grant from the National Science Foundation. 
+
+This last year I also attended Interspeech 2018 in Hyderabad, India. Attending Interspeech has been a dream of mine ever since I started working in speech recognition. When I started my PhD my heart was set on cognitive science and linguistics. I loved reading Chomsky and researching human perception of acoustic contrasts. While I still enjoy cognitive science, I decided to do more tangible, impactful research. So, in my 2sd year I switched my focus to automatic speech recognition. After teaching myself speech recognition from the ground up, I finally made it to Interspeech this year! I presented my work at Google's co-located workshop on Machine Learning in Speech and Language Processing, and got lots of great feedback from Googlers and other workshop attendees.
+
+But enough about last year --- I've got to tell you about all the cool research I'm working on! In the following you'll get an overview of who I am, what I like to do, how Google AI can help me acheive my goals, and hopefully, how I would be a positive addition to the Google AI team.
+
+
+\subsection*{My Current Research}
+
+\subsubsection*{What is it?}
+
+I work on Transfer Learning for end-to-end speech recognition for low-resourced languages. End-to-end ASR is ideal for low-resource languages because linguistic resources aren't needed. At the same time, end-to-end ASR is horrible for low-resource languages because it requires up to 10,000 hours of audio. Even for companies like Google, it's impossible to get 10,000 hours of transcribed audio for every language in the world. What's worse, it's the same situation for different noise environments. Even 10,000 hours of normal audio isn't enough to recognize someone speaking in a car with the windows down. Collecting 10,000 hours of speech in a moving car doesn't sound like a great option, either. This is where Transfer Learning comes in.
+
+The goal of transfer learning is to use source-domain knowledge as an inductive bias while training a model for some target-domain task. For example, the ``source-doman'' might be English speech recorded in a quiet room, and ``target-domain'' might be English spoken in a moving car. Source-domain knowledge can be found either \textit{directly} in a dataset, or \textit{indirectly} in a trained model. I've worked with both of these approaches, and I believe they're both the future of the field --- especially when it comes to small datasets. With Transfer Learning you could use just a few hours from speech in a moving car in combination with your existing 10,000 hours of clean speech to produce a model better than training on either dataset alone.
+
+My dissertation focuses on Multi-Task Learning, which is a \textit{direct} transfer learning approach. I show that using linguistic classes as labels for classification (in addition to the standard output layer) improves recognition on small datasets. Furthermore, I show that it is possible to discover these linguistic classes without the need of a linguist, making the approach truly scalable.
+
+Currently, with the DeepSpeech team at Mozilla, I'm working on the parameter-copying approach of transfer learning --- an \textit{indirect} transfer method. This approach is both simple and elegant. In my most recent work (NAACL 2019 submission), I show that copying layers from a source model transfer best to a new language if the recurrent layers are trained from scratch. However, any preceding fully-connected layers should be copied and frozen straight from English.
+
+There's a lot of exciting work to be done in transferability of end-to-end ASR models, and I want to be the one doing it! For image recognition models we already have some idea as to which features are encoded at which layers, but for speech recognition we have no idea.
+
+\subsubsection*{Why is it Important?}
+
+End-to-end Transfer learning is the most promising approach for making sure that ASR accessible for all languages, ages, and genders. In every case, this is a small-data problem. If we can develop robust methods for training (or adapting) these end-to-end models on small datasets, then we can be sure to cover more languages, more accents, and be less biased towards certain genders.\footnote{The automatic caption generator for Youtube is known to be biased towards men. \url{http://www.aclweb.org/anthology/W17-1606}}
+
+Furthermore, for researchers and developers in developing countries transfer-learning from a source model is much more feasible, because it can be implemented on a single GPU or even a CPU, regardless of how many GPUs or TPUs were used to train the source model. In short, with transfer learning and multi-task learning I want to push for the BERT moment in ASR.
+
+\subsection*{Open-Ended Research}
+I've been doing open-ended research from the beginning of my PhD, and the biggest challenge has been knowing when to ask for help. No one at my university works on ASR, and so I learned quickly that without guidance it's impossible to make real progress. I spent a year learning the fundamentals as a visiting student at the LIMSI lab at CNRS in Paris, and now at Mozilla I'm learning about the distributed computing and more productive research workflows. Most importantly, I've learned that in this field you can't do research alone --- being a part of a productive and supportive lab is crucial, and I know that is exactly what Google AI / Brain have to offer.
+
+\subsection*{The AI Residency}
+
+
+\newpage
+
+\subsection*{Checking off boxes}
+
+\begin{enumerate}
+
+\item Research Blog: \href{http://jrmeyer.github.io}{jrmeyer.github.io}
+
+\item GitHub: \href{https://github.com/JRMeyer}{JRMeyer}
+  
+\item TensorFlow skills: \href{http://jrmeyer.github.io/machinelearning/2016/02/01/TensorFlow-Tutorial.html}{The Flow of TensorFlow} \& \href{http://jrmeyer.github.io/machinelearning/2019/05/29/tensorflow-dataset-estimator-api.html}{The Joy of the TensorFlow Dataset \& Estimator APIs}
+  
+\item Math skills: \href{http://jrmeyer.github.io/machinelearning/2017/08/18/mle.html}{MLE for Gaussians tutorial}
+
+\item Speech Synthesis tutorial: \href{http://jrmeyer.github.io/tts/2017/02/14/Installing-Merlin.html}{Getting started with Merlin}
+
+\item Multi-Task PhD Research: \href{https://github.com/JRMeyer/kaldi-mirror/tree/master/egs/kgz/kyrgyz-model}{Kaldi Mirror}
+  
+\item Graduate Coursework: Applied NLP // Statistical NLP // Intro to Machine Learning // Speech Language Technology // Regression Analysis (A + B)
+
+
+\end{enumerate}
+
+    
+\begin{center}
+\textit{Thank you for your time and consideration.}  
+\end{center}
+\end{document}
+
+
+
+ 
