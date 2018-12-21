@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017/Debian) (preloaded format=pdflatex 2018.10.12)  17 DEC 2018 08:19
+This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017/Debian) (preloaded format=pdflatex 2018.10.12)  17 DEC 2018 11:49
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -450,51 +450,37 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
 [1{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}
 
 ]
-Overfull \hbox (1.61555pt too wide) in paragraph at lines 50--51
+Overfull \hbox (1.61555pt too wide) in paragraph at lines 52--53
 []\OT1/cmr/m/n/12 Currently, with the Deep-Speech team at Mozilla, I'm work-ing
  on the parameter-
  []
 
-LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <12> on input line 56.
-LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <8> on input line 56.
-LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <6> on input line 56.
-LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <7> on input line 56.
-LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <5> on input line 56.
-[2] [3]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 93.
- [4]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 93.
+[2]
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 95.
+ [3]
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 95.
  (./2019.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 93.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 93.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 95.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 95.
 Package rerunfilecheck Info: File `2019.out' has not changed.
 (rerunfilecheck)             Checksum: D41D8CD98F00B204E9800998ECF8427E;0.
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 93.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 95.
  ) 
 Here is how much of TeX's memory you used:
- 11545 strings out of 492982
- 161002 string characters out of 6134895
- 240946 words of memory out of 5000000
- 14976 multiletter control sequences out of 15000+600000
- 8462 words of font info for 30 fonts, out of 8000000 for 9000
+ 11521 strings out of 492982
+ 160745 string characters out of 6134895
+ 241946 words of memory out of 5000000
+ 14963 multiletter control sequences out of 15000+600000
+ 5856 words of font info for 21 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 34i,10n,43p,784b,341s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 34i,10n,43p,845b,339s stack positions out of 5000i,500n,10000p,200000b,80000s
 </usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></us
-r/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share
-/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/share/texliv
-e/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/share/texlive/texmf-
-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/share/texlive/texmf-dist/fon
-ts/type1/public/amsfonts/cm/cmti12.pfb></usr/share/texlive/texmf-dist/fonts/typ
-e1/public/amsfonts/cm/cmtt10.pfb>
-Output written on 2019.pdf (4 pages, 95571 bytes).
+r/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/share
+/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmti12.pfb>
+Output written on 2019.pdf (3 pages, 56011 bytes).
 PDF statistics:
- 83 PDF objects out of 1000 (max. 8388607)
- 69 compressed objects within 1 object stream
- 20 named destinations out of 1000 (max. 500000)
+ 59 PDF objects out of 1000 (max. 8388607)
+ 50 compressed objects within 1 object stream
+ 17 named destinations out of 1000 (max. 500000)
  1 words of extra memory for PDF output out of 10000 (max. 10000000)
 
