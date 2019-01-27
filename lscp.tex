@@ -1,0 +1,89 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage[margin=1.25in]{geometry}
+\usepackage{fancyhdr} % fancy header
+\pagestyle{fancy} % so fancy
+\usepackage[russian,english]{babel} % for russian letters
+\usepackage{tipa} % for IPA symbols
+\usepackage[round]{natbib} % bibliography
+\usepackage{graphicx} % for importing graphics / figures
+\usepackage{booktabs} % publication-worthy tables
+\usepackage{adjustbox} % makes tables fit nicely on the page
+\usepackage{hyperref}
+
+\lhead{Joshua MEYER}
+\rhead{Cover Letter: Dupoux and Cristia Post-Doctoral Fellowship}
+\cfoot{} %% make empty to get rid of the page number %% \cfoot{Page \thepage}
+\renewcommand{\footrulewidth}{0.4pt} %% this puts a fancy line at the footer
+
+
+
+%
+% mozilla
+% NSF
+% Interspeech
+%
+
+\begin{document}
+
+
+\subsection*{Good Fit}
+
+My unique background and skill-set are an ideal fit for LSCP and this post-doc position in particular. I began my research career as a psycholinguist, investigating perception of phonemic contrasts by Kyrgyz-Russian bilinguals --- I was very inspired by the work of Anne Cutler and Emmanuel Dupoux in this area. I presented my first research results at The 2014 Miniconference on Metrical Structure: Acquisition and Processing, in Utrecht where Emmanuel was keynoting. Shortly afterwards I changed my research focus to speech technology, because I wanted my research to have a larger impact outside of academia. This marriage of academic research and practical applications is firmly where I stand, and I see LSCP as an excellent environment to pursue this. I've already attended one of your lab meetings in Paris --- Tal Linzen invited me to drop by --- and I very much enjoyed your productive and enthusiastic lab environment. Furthermore, Mike Hammond (one of my committee members) says very good things about his sabbatical at your lab, and so I am confident the work environment would be a good fit for me.
+
+My research began in cognitive science, and drifted over to low-resource speech recognition. Moving forward I want to work on Transfer Learning and Multi-Task Learning to inject useful linguistic bias into end-to-end ASR. This is what I'm currently working on at Mozilla as an intern in the DeepSpeech group. I believe that once we find the right unsupervised tasks, we can make use of large, un-labeled datasets for extreme pre-training for low-resource languages. In short, I want to create the BERT moment in ASR, and I feel that this goal lines up very well with your lab and specifically, your ZeroSpeech agenda.
+
+I am also very keen on applying for a \href{https://science.mozilla.org/programs/fellowships}{Mozilla Science Fellowship} with the LSCP lab in order to ensure that our research be as open and accessible as possible.
+
+\subsection*{My Current Research}
+
+\begin{center}
+\textit{Everyone should have access to speech technology in their native language.}
+\end{center}
+
+This is the conviction that drives my research. Currently, I work on Transfer Learning for end-to-end speech recognition because I believe it is the fastest path to ASR in every language. End-to-end ASR is ideal because it doesn't require linguistic resources. However, in it's current form end-to-end ASR doesn't work for low-resource languages because it requires around 10,000 hours of audio. Even for companies like Google, it's impossible to get that much data for every language in the world. This is where Transfer Learning comes in.
+
+The goal of transfer learning is to use source-domain knowledge as an inductive bias while training a model for some target-domain task. For example, the ``source-domain'' might be English speech, and ``target-domain'' might be speech from the Kyrgyz language. Source-domain knowledge can be found either \textit{directly} in a dataset, or \textit{indirectly} in a trained model. I've worked with both of these approaches, and I believe some combination of them is the future of the field --- especially when it comes to small datasets. With Transfer Learning you could use just a few hours of speech from Kyrgyz in combination with a large English dataset to produce a model that works better than training on Kyrgyz alone. Transfer learning isn't new, but applying it to end-to-end ASR is very new, and very relevant.
+
+My dissertation focuses on Multi-Task Learning, which is a \textit{direct} transfer learning approach. I show that using linguistic categories as labels for classification (in addition to the standard output layer) improves recognition on small datasets. Recently, I showed that it is possible to discover these linguistic classes without the need of a linguist, making the approach truly scalable (\href{https://sites.google.com/view/mlslp/proceedings}{Meyer 2018}).
+
+Currently, with the DeepSpeech team at Mozilla, I'm working on the parameter-copying approach of transfer learning --- an \textit{indirect} transfer method. This approach is both simple and elegant. In my most recent work (NAACL 2019 submission), I show that copying layers from a source model transfer best to a new language if the recurrent layers are trained from scratch. However, any preceding fully-connected layers should be copied and frozen straight from English.
+
+There's a lot of exciting work to be done in transferability of end-to-end ASR models, and I want to be the one doing it! For image recognition models we already have some idea as to which features are encoded at which layers, but for speech recognition we have no idea.
+
+End-to-end Transfer learning is the most promising approach for making ASR accessible for all languages, ages, and genders. In every case, this is a small-data problem. If we can develop robust methods for training (or adapting) these end-to-end models on small datasets, then we can be sure to cover more languages, more accents, and be less biased towards certain genders (\href{http://www.aclweb.org/anthology/W17-1606}{Tatman 2017}).
+
+Furthermore, for researchers and developers in developing countries transfer-learning from a source model is much more feasible, because it can be implemented on a single GPU or even a CPU, regardless of how many GPUs were used to train the source model. In short, with transfer learning and multi-task learning I want to push for the BERT moment in ASR.
+
+
+
+\subsection*{Checking off boxes}
+
+\begin{enumerate}
+
+\item Research Blog: \href{http://jrmeyer.github.io}{jrmeyer.github.io}
+
+\item GitHub: \href{https://github.com/JRMeyer}{JRMeyer}
+  
+\item TensorFlow skills: \href{http://jrmeyer.github.io/machinelearning/2016/02/01/TensorFlow-Tutorial.html}{The Flow of TensorFlow} \& \href{http://jrmeyer.github.io/machinelearning/2019/05/29/tensorflow-dataset-estimator-api.html}{The Joy of the TensorFlow Dataset \& Estimator APIs}
+  
+\item Math skills: \href{http://jrmeyer.github.io/machinelearning/2017/08/18/mle.html}{MLE for Gaussians tutorial}
+
+\item Speech Synthesis tutorial: \href{http://jrmeyer.github.io/tts/2017/02/14/Installing-Merlin.html}{Getting started with Merlin}
+
+\item Multi-Task PhD Research: \href{https://github.com/JRMeyer/multi-task-kaldi}{Multi-Task Kaldi}
+  
+\item Graduate Coursework: Applied NLP // Statistical NLP // Intro to Machine Learning // Speech Language Technology // Regression Analysis (A + B)
+
+
+\end{enumerate}
+
+\vspace{.25cm}
+
+\begin{center}
+\textit{Thank you for your time and consideration.}  
+\end{center}
+\end{document}
+
+
+
+ 
