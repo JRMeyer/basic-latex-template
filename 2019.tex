@@ -10,8 +10,8 @@
 \usepackage{adjustbox} % makes tables fit nicely on the page
 \usepackage{hyperref}
 
-\lhead{Joshua MEYER}
-\rhead{Cover Letter: Google AI Residency}
+\lhead{Josh Meyer}
+\rhead{Cover Letter: Apple (Siri Group)}
 \cfoot{} %% make empty to get rid of the page number %% \cfoot{Page \thepage}
 \renewcommand{\footrulewidth}{0.4pt} %% this puts a fancy line at the footer
 
@@ -25,83 +25,50 @@
 
 \begin{document}
 
-\subsection*{Cover Letter 2.0}
+
+\subsection*{Who I am}
+
+I’m a PhD candidate passionate about Machine Learning and open-source language technologies.
+
+My educational background is in Computational Linguistics, Theoretical Linguistics, Natural Language Processing, Statistics, and Cognitive Science. My PhD thesis focuses on Speech Technology, and Automatic Speech Recognition in particular. I work to develop approaches for training more robust Deep Neural Networks for Speech Recognition, using Multi-Task Learning and Transfer Learning.
+
+My research is linguistically informed, but based in machine learning methods.
 
 
-A lot has changed since when I wrote this cover letter last year. Last year, I thought that Mountain View was a city from some dystopian future, swarmed by drones and self-driving cars. Now, after last year's on-site interview for the Google AI Residency, I know that Mountain View is actually a peaceful little town with good biryani.
+\subsection*{What I do}
 
-Last year, I wasn't very keen on moving to California --- Brain Montr\'eal was my top preference for the Residency. This year, I'm writing this cover letter from my apartment in San Francisco, where I'm an NSF intern at Mozilla's Machine Learning Research group, working on the DeepSpeech team.
+I work on Automatic Speech Recognition. Currently, I am a National Science Foundation Research Fellow as well as a Research Intern at the Mozilla Machine Learning Research Group.
 
-Last year, I felt my research wasn't good enough for the top machine learning conferences. Since then, I presented at Google's 2018 Workshop on Machine Learning in Speech and Language Processing, I sent a first-authored paper to NAACL-HLT, and just a few days ago I sent another first-authored paper to ICML. More importantly, I am proud of all of these papers.
+My PhD research investigates Multi-Task approaches for Acoustic Modeling (in the hybrid DNN-HMM framework, using Kaldi). Specifically, I look at auxiliary task creation for use in Multi-Task training, where little human knowledge is required to create the tasks. The extra tasks are then used during DNN acoustic model parameter search (i.e. during backprop).
 
-But enough about last year --- I've got to tell you about all the cool research I'm working on now! In the following you'll get an overview of who I am and what I do, how Google AI can help me achieve my goals, and how I can be a positive addition to the Google AI team.
+Currently, I work on Transfer Learning techniques for adaptation of end-to-end ASR models. Specifically, I maintain the \texttt{transfer-learning} branch of Mozilla's DeepSpeech. My main interest is to enable easy transfer approaches for low-resource language / domain adaptation.
 
-
-
-
-\subsection*{My Research \& Why It's Important}
-
-\begin{center}
-\textit{Everyone should have access to speech technology in their native language.}
-\end{center}
-
-This is the conviction that drives my research. Research is important insofar as it has an impact in people's lives, and this is the impact I want to have.
-
-When I started my PhD, my heart was set on theoretical linguistics and cognitive science, but after a year of fieldwork --- researching phonetics in Kyrgyzstan --- I switched my focus to Automatic Speech Recognition. When Kyrgyz-speakers would ask me what my research was about, I'd say ``I'm studying how vowels work in the Kyrgyz language.'' However, when they asked me why my research was important \textit{to them}, I never had a good answer. In the end, I never came up with a good answer, so I changed my research.
-
-I knew that I could make a difference with speech technology. After teaching myself speech recognition from the ground up, I made the first speech recognizer for the Kyrgyz language, and later, the first Kyrgyz speech synthesizer. Now, Kyrgyz text-to-speech (via eSpeak-NG) is freely available for use in Mac, Android, Windows, and Linux! However, there is still a lot of work to be done on speech technology for Kyrgyz (and the rest of the world's 7,000 languages!). Three years after adding Kyrgyz to Google Translate, Google still has no Kyrgyz text-to-speech --- I want to change this.
-
-Currently, I work on Transfer Learning for end-to-end speech recognition because it is the fastest path to speech-to-text for every language in the world. End-to-end speech recognition is the most scalable approach to speech-to-text, because it doesn't require hand-crafted linguistic resources for each language. However, end-to-end methods are extremely data-hungry. Currently, to train an end-to-end speech recognizer, you ideally need over 10,000 hours of transcribed speech. Even for massive companies like Google, it's impossible to get that much data for every language in the world. This is where my research on Transfer Learning comes in.
-
-The goal of Transfer Learning is to extract knowledge from one dataset which can help train a model for another dataset. The first dataset is called the ``source-domain'' and the second dataset is the ``target-domain''. For example, the ``source-domain'' might be English speech, and ``target-domain'' might be Kyrgyz speech.
-
-If the ``source-domain'' contains knowledge which is useful in the ``target-domain'', then we can leverage that knowledge to bootstrap models for the target-domain. For example, any speech-to-text model should know that a honking car is not human language. This separation of background noise from human speech is language-independent, and we should be able to transfer this knowledge from a large English dataset to a model trained on a small Kyrgyz dataset.
-
-My dissertation focuses on Multi-Task Learning, which is a kind of Transfer Learning that teaches one model to perform multiple tasks in parallel, exploiting knowledge from each task. For example, one chapter of my dissertation uses speech-to-text in conjunction with speech-to-``abstract linguistic classes'' to teach models the underlying features of language which are useful in both tasks.
-
-Currently, with the DeepSpeech team at Mozilla, I'm working on another kind of Transfer Learning --- model-based transfer. In my most recent work (ICML 2019 submission), my co-authors and I investigate which layers of a pre-trained English model transfer best to a new language --- with results from 12 different languages! We also use experiments to interpret what exactly the model learned at different layers. There's a lot of exciting work to be done in Transfer Learning in end-to-end speech recognition, and I want to be on the team doing it!
-
-
-\subsection*{Challenges of Open-Ended Research}
-
-I've been doing open-ended research since I was an undergrad research assistant. When my professor asked me if I wanted to create my own research project, I took her offer and never looked back. Since then, the biggest challenge has been knowing when to ask for help. I've never had a problem coming up with new research ideas, but for a long time I tried to do everything on my own. Today, I know that without the help of others I cannot accomplish my research goals.
-
-At the Mozilla Machine Learning Research group, I have the freedom to choose what research I work on. I also know that doing good research alone is impossible. I've learned how to communicate with my team effectively, and how to split up the work such that each person is working on what they do best. For the last two papers, I came up with the main research question, a colleague (a TensorFlow guru) coded up the approach, and I ran the experiments. Later, all colleagues helped interpret the results. In short, I've learned that in this field you can't do research alone --- being a part of a productive and supportive lab is crucial, and I know this is exactly what Google AI \& Google Brain have to offer.
-
-\subsection*{Achieving my Goals \& the AI Residency}
-
-Quite simply, working with and learning from the world's leaders in machine learning at Google AI will help me advance my goals because you know how to implement research that can truly scale. I want to create speech-to-text and text-to-speech for every language in the world. Google has the data, compute power, and supportive research environment I need to make a real difference. I constantly have new research ideas, and the researchers at Google will help me identify and implement the best ideas effectively.
-
-Lastly, I know I can be a positive, creative addition to the team because anywhere I go, I bring my drive, positivity, and urge to collaborate with me!
-
-    
-\begin{center}
-\textit{Thank you for your time and consideration.}  
-\end{center}
-
-
-
-\newpage
 
 \subsection*{Checking off boxes}
 
 \begin{enumerate}
 
-\item Research Blog: \href{http://jrmeyer.github.io}{jrmeyer.github.io}
-
 \item GitHub: \href{https://github.com/JRMeyer}{JRMeyer}
+    
+\item Speech Technology Blog: \href{http://jrmeyer.github.io}{jrmeyer.github.io}
+
+\item Graduate Coursework: Applied NLP // Statistical NLP // Intro to Machine Learning // Speech Language Technology // Regression Analysis (A + B)
   
-\item TensorFlow skills: \href{http://jrmeyer.github.io/machinelearning/2016/02/01/TensorFlow-Tutorial.html}{The Flow of TensorFlow} \& \href{http://jrmeyer.github.io/machinelearning/2019/05/29/tensorflow-dataset-estimator-api.html}{The Joy of the TensorFlow Dataset \& Estimator APIs}
+\item Multi-Task ASR Research: \href{https://github.com/JRMeyer/multi-task-kaldi}{Multi-Task Kaldi}
+  
+\item DeepSpeech + Transfer Learning: \href{https://github.com/mozilla/DeepSpeech/tree/transfer-learning}{Transfer Learning branch of DeepSpeech}
+  
+\item TensorFlow skills: \href{http://jrmeyer.github.io/machinelearning/2016/02/01/TensorFlow-Tutorial.html}{The Flow of TensorFlow}
   
 \item Math skills: \href{http://jrmeyer.github.io/machinelearning/2017/08/18/mle.html}{MLE for Gaussians tutorial}
-
-\item Speech Synthesis tutorial: \href{http://jrmeyer.github.io/tts/2017/02/14/Installing-Merlin.html}{Getting started with Merlin}
-
-\item Multi-Task PhD Research: \href{https://github.com/JRMeyer/multi-task-kaldi}{Multi-Task Kaldi}
   
-\item Graduate Coursework: Applied NLP // Statistical NLP // Intro to Machine Learning // Speech Language Technology // Regression Analysis (A + B)
-
 \end{enumerate}
+
+\vspace{1cm}
+
+\begin{center}
+\textit{Thank you for your time and consideration.}  
+\end{center}
 
 \end{document}
 
